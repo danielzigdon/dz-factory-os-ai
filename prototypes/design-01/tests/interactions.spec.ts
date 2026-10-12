@@ -124,7 +124,8 @@ test.describe("S02 inquiries", () => {
 
   test("scenario selector switches state", async ({ page }) => {
     await open(page, "/s02");
-    await page.getByLabel("תרחיש תצוגה (הדגמה)").selectOption("empty");
+    await page.getByRole("button", { name: /נתוני הדגמה/ }).click();
+    await page.getByRole("dialog", { name: "אזור הדגמה" }).getByLabel("תרחיש תצוגה").selectOption("empty");
     await expect(page.getByText("אין פניות בתיבה")).toBeVisible();
   });
 });

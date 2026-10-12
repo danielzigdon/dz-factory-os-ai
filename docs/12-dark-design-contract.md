@@ -1,4 +1,4 @@
-> **סטטוס: ממתין לאישור** (בעל המפעל + ביקורת ChatGPT). הועתק ללא שינוי מ-`Yuval_Control_Design_03_Claude.md`. **הערה:** בסעיף 8.1 הנתיב הוא `docs/12-design-03-contract.md`, אך לפי הנחיית המשתמש מ-12.10.2026 הקובץ נשמר כ-`docs/12-dark-design-contract.md`.
+> **סטטוס: ממתין לאישור** · **תיקוני טוקנים מאושרים (D-18, D-19):** נוסף `border-strong #557A98` לגבולות פקדים, ו-`primary-hover` שונה ל-`#1A84DB`. הטבלה בסעיף 2 למטה היא הנוסח המקורי, ולא עודכנה. (בעל המפעל + ביקורת ChatGPT). הועתק ללא שינוי מ-`Yuval_Control_Design_03_Claude.md`. **הערה:** בסעיף 8.1 הנתיב הוא `docs/12-design-03-contract.md`, אך לפי הנחיית המשתמש מ-12.10.2026 הקובץ נשמר כ-`docs/12-dark-design-contract.md`.
 
 # Yuval Control — Design Contract 03
 **Status:** DESIGN-01 only. Sprint 1 is NOT authorized.

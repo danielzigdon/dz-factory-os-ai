@@ -7,10 +7,11 @@
   --color-surface: #111f2d;
   --color-surface-raised: #172a3b;
   --color-border: #294154;
+  --color-border-strong: #557a98; /* DESIGN-01-FIX: interactive control boundaries (>=3:1) */
   --color-text-primary: #f1f6fc;
   --color-text-secondary: #a8bdd0;
   --color-primary: #2297f5;
-  --color-primary-hover: #177dd1;
+  --color-primary-hover: #1a84db; /* DESIGN-01-FIX: was #177DD1 (4.48:1 with dark label) */
   --color-success: #27b78b;
   --color-warning: #e7a849;
   --color-danger: #f06d72;

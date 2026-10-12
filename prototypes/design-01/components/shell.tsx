@@ -1,5 +1,5 @@
 "use client";
-import { Bell, Database, Inbox, LayoutDashboard, Menu, PlugZap, Search, UserRound, X, type LucideIcon } from "lucide-react";
+import { AlarmClock, Bell, FlaskConical, Inbox, LayoutDashboard, Menu, PlugZap, Search, UserRound, UserX, X, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
@@ -85,7 +85,7 @@ function NavDrawer() {
   return (
     <>
       <button type="button" onClick={() => setOpen(true)} aria-label="פתיחת תפריט ניווט" aria-haspopup="dialog"
-        className="hidden min-h-11 min-w-11 place-items-center rounded-input border border-border md:max-desk:grid">
+        className="hidden min-h-11 min-w-11 place-items-center rounded-input border border-border-strong md:max-desk:grid">
         <Menu aria-hidden size={20} />
       </button>
       <dialog ref={ref} onClose={() => setOpen(false)} aria-label="תפריט ניווט"
@@ -104,61 +104,130 @@ function RoleSwitcher() {
   const { role, setRole, toast } = useStore();
   const router = useRouter();
   return (
-    <label className="flex items-center gap-2 text-sm">
-      <span className="hidden text-text-secondary lg:inline">תפקיד (הדמיה)</span>
-      <select aria-label="תפקיד מדומה" value={role}
+    <label className="flex flex-col gap-1 text-sm">
+      <span className="text-text-secondary">תפקיד מדומה</span>
+      <select value={role}
         onChange={(e) => { setRole(e.target.value as Role); router.refresh(); toast("info", `התצוגה עודכנה להרשאות: ${ROLE_LABEL[e.target.value as Role]}`); }}
-        className="min-h-11 rounded-input border border-border bg-bg px-2 text-text-primary">
+        className="min-h-11 rounded-input border border-border-strong bg-bg px-3 text-text-primary">
         {(Object.keys(ROLE_LABEL) as Role[]).map((r) => <option key={r} value={r}>{ROLE_LABEL[r]}</option>)}
       </select>
     </label>
   );
 }
 
-function ScenarioSelect() {
+function ScenarioSelect({ onChanged }: { onChanged: () => void }) {
   const router = useRouter();
   const path = usePathname();
   const params = useSearchParams();
   const value = params.get("state") ?? "";
   return (
-    <select aria-label="תרחיש תצוגה (הדגמה)" value={value}
-      onChange={(e) => {
-        const p = new URLSearchParams(params.toString());
-        if (e.target.value) p.set("state", e.target.value); else p.delete("state");
-        router.push(`${path}${p.size ? `?${p}` : ""}`);
-      }}
-      className="min-h-11 rounded-input border border-border bg-bg px-2 text-sm text-text-primary">
-      <option value="">תרחיש: רגיל</option>
-      <option value="loading">תרחיש: טעינה</option>
-      <option value="empty">תרחיש: ריק</option>
-      <option value="error">תרחיש: שגיאה</option>
-    </select>
+    <label className="flex flex-col gap-1 text-sm">
+      <span className="text-text-secondary">תרחיש תצוגה</span>
+      <select value={value}
+        onChange={(e) => {
+          const p = new URLSearchParams(params.toString());
+          if (e.target.value) p.set("state", e.target.value); else p.delete("state");
+          router.push(`${path}${p.size ? `?${p}` : ""}`);
+          onChanged();
+        }}
+        className="min-h-11 rounded-input border border-border-strong bg-bg px-3 text-text-primary">
+        <option value="">רגיל</option>
+        <option value="loading">טעינה</option>
+        <option value="empty">ריק</option>
+        <option value="error">שגיאה</option>
+      </select>
+    </label>
   );
 }
 
+/** Demo-only controls live in their own panel, opened from the "נתוני הדגמה" marker — not in the staff UI. */
+function DemoPanel() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDialogElement>(null);
+  const { role } = useStore();
+  const scenario = useSearchParams().get("state");
+  useEffect(() => {
+    const d = ref.current;
+    if (!d) return;
+    if (open && !d.open) d.showModal();
+    if (!open && d.open) d.close();
+  }, [open]);
+  const active = role !== "manager" || !!scenario;
+  return (
+    <>
+      <button type="button" onClick={() => setOpen(true)} aria-haspopup="dialog"
+        className="relative inline-flex min-h-11 items-center gap-1 whitespace-nowrap rounded-full border border-warning/70 px-3 text-xs text-warning hover:bg-warning/10">
+        <FlaskConical aria-hidden size={14} /> נתוני הדגמה
+        {active && <span aria-hidden className="size-1.5 rounded-full bg-warning" />}
+        <span className="sr-only">{active ? " — פתיחת אזור ההדגמה (הגדרות שונו מברירת המחדל)" : " — פתיחת אזור ההדגמה"}</span>
+      </button>
+      <dialog ref={ref} onClose={() => setOpen(false)} aria-labelledby="demo-title"
+        className="m-auto w-[min(92vw,420px)] rounded-panel border border-warning/50 bg-surface p-0 text-text-primary">
+        {open && <>
+        <div className="flex items-center justify-between border-b border-border px-5 py-3">
+          <h2 id="demo-title" className="flex items-center gap-2 text-lg font-semibold"><FlaskConical aria-hidden size={18} className="text-warning" /> אזור הדגמה</h2>
+          <button type="button" onClick={() => setOpen(false)} aria-label="סגירת אזור ההדגמה" className="rounded-input p-2 hover:bg-surface-raised"><X aria-hidden size={18} /></button>
+        </div>
+        <div className="space-y-4 px-5 py-4">
+          <p className="text-sm text-text-secondary">כל הנתונים בדויים. הפקדים כאן קיימים רק באבטיפוס לצורך ביקורת, ולא יופיעו במערכת לעובדים.</p>
+          <RoleSwitcher />
+          <ScenarioSelect onChanged={() => setOpen(false)} />
+          <p className="flex items-center gap-2 text-xs text-text-secondary"><PlugZap aria-hidden size={13} /> Priority: טרם חובר · אין שמירה של נתונים</p>
+        </div>
+        </>}
+      </dialog>
+    </>
+  );
+}
+
+/** Disclosure popover: Esc and outside click close it; focus moves in on open and returns to the trigger on close. */
 function Notifications() {
   const { leads } = useStore();
   const [open, setOpen] = useState(false);
+  const wrap = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
   const items = leads.filter((l) => l.status !== "DISQUALIFIED" && (l.ownerId === null || (l.nextTask && isOverdue(l.nextTask.dueAt))));
+
+  useEffect(() => {
+    if (!open) return;
+    panel.current?.querySelector<HTMLElement>("a, button")?.focus();
+    const onKey = (e: globalThis.KeyboardEvent) => {
+      if (e.key === "Escape") { e.preventDefault(); setOpen(false); trigger.current?.focus(); }
+    };
+    const onPointer = (e: PointerEvent) => { if (!wrap.current?.contains(e.target as Node)) setOpen(false); };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onPointer);
+    return () => { document.removeEventListener("keydown", onKey); document.removeEventListener("pointerdown", onPointer); };
+  }, [open]);
+
   return (
-    <div className="relative">
-      <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="notif-panel"
-        aria-label={`התראות: ${items.length} דורשות טיפול`} className="relative grid min-h-11 min-w-11 place-items-center rounded-input border border-border hover:bg-surface-raised">
+    <div ref={wrap} className="relative"
+      onBlur={(e) => { if (open && e.relatedTarget && !wrap.current?.contains(e.relatedTarget as Node)) setOpen(false); }}>
+      <button ref={trigger} type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="notif-panel"
+        aria-label={`התראות: ${items.length} דורשות טיפול`} className="relative grid min-h-11 min-w-11 place-items-center rounded-input border border-border-strong hover:bg-surface-raised">
         <Bell aria-hidden size={18} />
         <span aria-hidden className="tabular absolute -top-1 -left-1 grid size-5 place-items-center rounded-full bg-danger text-[11px] font-bold text-bg">{items.length}</span>
       </button>
       {open && (
-        <div id="notif-panel" className="absolute left-0 top-12 z-50 w-[min(86vw,320px)] rounded-card border border-border bg-surface-raised p-2 shadow-xl">
-          <p className="px-2 py-1 text-xs text-text-secondary">התראות (נתוני הדגמה)</p>
-          <ul>
-            {items.map((l) => (
-              <li key={l.id}>
-                <Link href={`/s03/${l.id}`} onClick={() => setOpen(false)} className="block rounded-input px-2 py-2 text-sm hover:bg-surface">
-                  {l.ownerId === null ? "ללא אחראי: " : "משימה באיחור: "}{l.company}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <div ref={panel} id="notif-panel" role="region" aria-label="התראות"
+          className="absolute left-0 top-12 z-50 w-[min(calc(100vw-2rem),340px)] rounded-card border border-border-strong bg-surface-raised p-2 shadow-xl">
+          <div className="flex items-center justify-between px-2 py-1">
+            <p className="text-xs text-text-secondary">התראות (נתוני הדגמה) · Esc לסגירה</p>
+            <button type="button" onClick={() => { setOpen(false); trigger.current?.focus(); }} aria-label="סגירת התראות" className="rounded p-1 hover:bg-surface"><X aria-hidden size={14} /></button>
+          </div>
+          {items.length === 0 ? <p className="px-2 py-3 text-sm">אין התראות פתוחות.</p> : (
+            <ul>
+              {items.map((l) => (
+                <li key={l.id}>
+                  <Link href={`/s03/${l.id}`} onClick={() => setOpen(false)} className="flex items-start gap-2 rounded-input px-2 py-2 text-sm hover:bg-surface">
+                    {l.ownerId === null ? <UserX aria-hidden size={15} className="mt-0.5 shrink-0 text-warning" /> : <AlarmClock aria-hidden size={15} className="mt-0.5 shrink-0 text-danger" />}
+                    <span>{l.ownerId === null ? "ללא אחראי: " : "משימה באיחור: "}{l.company}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
     </div>
@@ -174,12 +243,13 @@ function GlobalSearch() {
         <span className="sr-only">חיפוש כללי בפניות</span>
         <Search aria-hidden size={16} className="absolute top-1/2 right-3 -translate-y-1/2 text-text-secondary" />
         <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש חברה, איש קשר, טלפון…"
-          className="min-h-10 w-full rounded-input border border-border bg-bg pe-3 ps-9 text-sm placeholder:text-text-secondary" />
+          className="min-h-10 w-full rounded-input border border-border-strong bg-bg pe-3 ps-9 text-sm placeholder:text-text-secondary" />
       </label>
     </form>
   );
 }
 
+/** Single row on every width: brand/menu, search (desktop), demo marker, Priority status, notifications. */
 export function TopBar() {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-bg/95 backdrop-blur">
@@ -188,18 +258,12 @@ export function TopBar() {
         <div className="md:hidden"><span className="sr-only">Yuval Control</span><span aria-hidden className="grid size-9 place-items-center rounded-input bg-primary text-sm font-black text-bg">YC</span></div>
         <GlobalSearch />
         <div className="ms-auto flex items-center gap-2">
-          <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-warning/60 px-2 py-1 text-xs text-warning" title="כל הנתונים במסך הם נתוני הדגמה בדויים">
-            <Database aria-hidden size={13} /> נתוני הדגמה
-          </span>
+          <DemoPanel />
           <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-full border border-border px-2 py-1 text-xs text-text-secondary">
             <PlugZap aria-hidden size={13} /> <span className="ltr">Priority</span><span className="max-sm:hidden">:</span> <span>טרם חובר</span>
           </span>
           <Notifications />
         </div>
-      </div>
-      <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-2 border-t border-border/60 px-4 py-2 md:px-6">
-        <RoleSwitcher />
-        <ScenarioSelect />
       </div>
     </header>
   );

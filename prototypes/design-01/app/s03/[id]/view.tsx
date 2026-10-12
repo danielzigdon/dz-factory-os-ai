@@ -1,7 +1,7 @@
 "use client";
-import { CalendarPlus, FileText, Lock, Mail, MessageSquarePlus, Phone, PlugZap } from "lucide-react";
+import { CalendarPlus, ChevronLeft, ChevronRight, FileText, Lock, Mail, MessageSquarePlus, Phone, PlugZap } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useRef, useState, type KeyboardEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { DuplicateBadge } from "@/components/leads";
 import { Button, DueDate, EmptyState, ErrorState, Panel, PermissionGuard, StatusBadge } from "@/components/ui";
 import { NOW, userName } from "@/lib/fixtures";
@@ -50,7 +50,28 @@ export default function CardView({ card }: { card: CardDTO }) {
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDue, setTaskDue] = useState("2026-10-13T09:00");
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const stripRef = useRef<HTMLDivElement>(null);
+  const [hint, setHint] = useState({ start: false, end: false });
   const lead = leads.find((l) => l.id === card.id);
+
+  // RTL scrollLeft is 0 at the start (right) and negative towards the end (left).
+  const updateHint = useCallback(() => {
+    const el = stripRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    const pos = Math.abs(el.scrollLeft);
+    setHint({ start: pos > 2, end: max - pos > 2 });
+  }, []);
+  useEffect(() => {
+    updateHint();
+    window.addEventListener("resize", updateHint);
+    return () => window.removeEventListener("resize", updateHint);
+  }, [updateHint]);
+  const scrollStrip = (dir: 1 | -1) => stripRef.current?.scrollBy({ left: dir * 160, behavior: "smooth" });
+  function selectTab(i: number) {
+    setTab(TABS[i].id);
+    tabRefs.current[i]?.scrollIntoView({ block: "nearest", inline: "nearest" });
+  }
 
   if (params.get("state") === "error") return <ErrorState text="לא ניתן לטעון את הכרטיס (הדמיית שגיאה)." retryHref={`/s03/${card.id}`} />;
 
@@ -60,7 +81,7 @@ export default function CardView({ card }: { card: CardDTO }) {
     const next = e.key === "ArrowLeft" ? (i + 1) % n : e.key === "ArrowRight" ? (i - 1 + n) % n : e.key === "Home" ? 0 : e.key === "End" ? n - 1 : -1;
     if (next < 0) return;
     e.preventDefault();
-    setTab(TABS[next].id);
+    selectTab(next);
     tabRefs.current[next]?.focus();
   }
 
@@ -97,6 +118,7 @@ export default function CardView({ card }: { card: CardDTO }) {
               <div className="flex gap-1"><dt className="text-text-secondary">סטטוס:</dt><dd>{statusLabel}</dd></div>
               <div className="flex gap-1"><dt className="text-text-secondary">אחראי:</dt><dd>{userName(card.ownerId)}</dd></div>
               <div className="flex gap-1"><dt className="text-text-secondary">קשר אחרון:</dt><dd className="tabular">{ago(card.lastContactAt)}</dd></div>
+              <div className="flex gap-1"><dt className="text-text-secondary">מקור:</dt><dd>{SOURCE_LABEL[card.source]}</dd></div>
               {card.businessId && <div className="flex gap-1"><dt className="text-text-secondary">ח״פ:</dt><dd className="ltr tabular">{card.businessId}</dd></div>}
             </dl>
             {lead?.duplicate && <div className="mt-2"><DuplicateBadge d={lead.duplicate} /></div>}
@@ -110,28 +132,86 @@ export default function CardView({ card }: { card: CardDTO }) {
         </div>
       </header>
 
-      <div className="grid gap-4 desk:grid-cols-[1fr_320px]">
+      <div className="grid gap-4 desk:grid-cols-[minmax(0,1fr)_300px]">
         <div className="min-w-0 rounded-panel border border-border bg-surface">
-          <div role="tablist" aria-label="מקטעי כרטיס" className="flex overflow-x-auto border-b border-border">
-            {TABS.map((t, i) => (
-              <button key={t.id} ref={(el) => { tabRefs.current[i] = el; }} role="tab" id={`tab-${t.id}`} aria-selected={tab === t.id}
-                aria-controls={`panel-${t.id}`} tabIndex={tab === t.id ? 0 : -1} onClick={() => setTab(t.id)} onKeyDown={(e) => onTabKey(e, i)}
-                className={`relative min-h-12 shrink-0 px-4 text-sm ${tab === t.id ? "font-semibold text-text-primary" : "text-text-secondary hover:text-text-primary"}`}>
-                {t.label}
-                {tab === t.id && <span aria-hidden className="absolute inset-x-2 bottom-0 h-0.5 rounded bg-primary" />}
+          <div className="relative border-b border-border">
+            <div ref={stripRef} role="tablist" aria-label="מקטעי כרטיס" onScroll={updateHint} className="flex overflow-x-auto [scrollbar-width:none]">
+              {TABS.map((t, i) => (
+                <button key={t.id} ref={(el) => { tabRefs.current[i] = el; }} role="tab" id={`tab-${t.id}`} aria-selected={tab === t.id}
+                  aria-controls={`panel-${t.id}`} tabIndex={tab === t.id ? 0 : -1} onClick={() => selectTab(i)} onKeyDown={(e) => onTabKey(e, i)}
+                  className={`relative min-h-12 shrink-0 px-4 text-sm ${tab === t.id ? "font-semibold text-text-primary" : "text-text-secondary hover:text-text-primary"}`}>
+                  {t.label}
+                  {tab === t.id && <span aria-hidden className="absolute inset-x-2 bottom-0 h-0.5 rounded bg-primary" />}
+                </button>
+              ))}
+            </div>
+            {/* Scroll affordance (mobile): fade + chevron on the side that still has tabs. Keyboard users move with arrow keys. */}
+            {hint.end && (
+              <button type="button" tabIndex={-1} aria-hidden onClick={() => scrollStrip(-1)} data-testid="tabs-more-end"
+                className="absolute inset-y-0 left-0 flex w-14 items-center justify-start bg-gradient-to-r from-surface via-surface/90 to-transparent ps-1 text-focus">
+                <span className="grid size-7 place-items-center rounded-full border border-border-strong bg-surface-raised"><ChevronLeft size={16} /></span>
               </button>
-            ))}
+            )}
+            {hint.start && (
+              <button type="button" tabIndex={-1} aria-hidden onClick={() => scrollStrip(1)} data-testid="tabs-more-start"
+                className="absolute inset-y-0 right-0 flex w-14 items-center justify-end bg-gradient-to-l from-surface via-surface/90 to-transparent pe-1 text-focus">
+                <span className="grid size-7 place-items-center rounded-full border border-border-strong bg-surface-raised"><ChevronRight size={16} /></span>
+              </button>
+            )}
           </div>
+          {hint.end && <p className="sr-only">יש טאבים נוספים. אפשר לעבור ביניהם עם מקשי החיצים.</p>}
           <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`} tabIndex={0} className="p-4">
             {tab === "overview" && (
-              <div className="space-y-4">
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-card border border-border p-3"><div className="text-xs text-text-secondary">משימות פתוחות</div><div className="tabular text-2xl font-bold">{tasks.filter((t) => !t.done).length}</div></div>
-                  <div className="rounded-card border border-border p-3"><div className="text-xs text-text-secondary">הצעות</div><div className="tabular text-2xl font-bold">{card.quotes.length}</div></div>
-                  <div className="rounded-card border border-border p-3"><div className="text-xs text-text-secondary">אנשי קשר</div><div className="tabular text-2xl font-bold">{card.contacts.length}</div></div>
+              <div className="grid gap-5 desk:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+                <div className="min-w-0 space-y-4">
+                  <dl className="grid grid-cols-3 gap-2">
+                    {[["משימות פתוחות", tasks.filter((t) => !t.done).length], ["הצעות", card.quotes.length], ["אנשי קשר", card.contacts.length]].map(([k, v]) => (
+                      <div key={k} className="rounded-card border border-border px-3 py-2">
+                        <dt className="text-xs text-text-secondary">{k}</dt><dd className="tabular text-xl font-bold">{v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <section aria-labelledby="ov-act">
+                    <div className="mb-2 flex items-center justify-between">
+                      <h2 id="ov-act" className="text-sm font-semibold">פעילות אחרונה</h2>
+                      <button type="button" onClick={() => selectTab(2)} className="text-xs text-focus underline-offset-4 hover:underline">לכל הפעילות</button>
+                    </div>
+                    <ActivityTimeline items={activities.slice(0, 4)} />
+                  </section>
                 </div>
-                <h2 className="text-sm font-semibold">פעילות אחרונה</h2>
-                <ActivityTimeline items={activities.slice(0, 3)} />
+                <div className="min-w-0 space-y-4">
+                  <section aria-labelledby="ov-contacts" className="rounded-card border border-border p-3">
+                    <h2 id="ov-contacts" className="mb-2 text-sm font-semibold">אנשי קשר</h2>
+                    <ul className="space-y-2 text-sm">
+                      {card.contacts.map((c) => (
+                        <li key={c.email} className="flex flex-wrap items-baseline justify-between gap-x-3">
+                          <span><span className="font-medium">{c.name}</span> <span className="text-text-secondary">· {c.role}</span></span>
+                          <span className="ltr tabular text-text-secondary">{fmtPhone(c.phone)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                  <section aria-labelledby="ov-tasks" className="rounded-card border border-border p-3">
+                    <h2 id="ov-tasks" className="mb-2 text-sm font-semibold">משימות פתוחות</h2>
+                    {tasks.filter((t) => !t.done).length === 0 ? <p className="text-sm text-text-secondary">אין משימות פתוחות.</p> : (
+                      <ul className="space-y-2 text-sm">
+                        {tasks.filter((t) => !t.done).map((t) => <li key={t.id}><div>{t.title}</div><DueDate iso={t.dueAt} /></li>)}
+                      </ul>
+                    )}
+                  </section>
+                  <section aria-labelledby="ov-quotes" className="rounded-card border border-border p-3">
+                    <h2 id="ov-quotes" className="mb-2 text-sm font-semibold">הצעות</h2>
+                    {card.quotes.length === 0 ? <p className="text-sm text-text-secondary">אין הצעות.</p> : (
+                      <ul className="space-y-1 text-sm">
+                        {card.quotes.map((q) => (
+                          <li key={q.id} className="flex flex-wrap items-center justify-between gap-2">
+                            <span>{q.title}</span><StatusBadge tone={q.status === "SENT" ? "primary" : "neutral"}>{QUOTE_STATUS[q.status]}</StatusBadge>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </section>
+                </div>
               </div>
             )}
             {tab === "contacts" && (
@@ -151,7 +231,7 @@ export default function CardView({ card }: { card: CardDTO }) {
                 <div className="space-y-2">
                   <label htmlFor="note" className="text-sm font-semibold">הוספת הערה</label>
                   <textarea id="note" value={note} onChange={(e) => setNote(e.target.value)} rows={3} placeholder="תיעוד שיחה, בקשה או החלטה…"
-                    className="w-full rounded-input border border-border bg-bg p-3 text-sm placeholder:text-text-secondary" />
+                    className="w-full rounded-input border border-border-strong bg-bg p-3 text-sm placeholder:text-text-secondary" />
                   <Button variant="primary" onClick={addNote}><MessageSquarePlus aria-hidden size={16} /> הוספת הערה</Button>
                 </div>
                 <ActivityTimeline items={activities} />
@@ -162,9 +242,9 @@ export default function CardView({ card }: { card: CardDTO }) {
                 <fieldset className="grid gap-2 sm:grid-cols-[1fr_auto_auto] sm:items-end">
                   <legend className="mb-2 text-sm font-semibold">קביעת מעקב</legend>
                   <label className="flex flex-col gap-1 text-sm"><span className="text-text-secondary">תיאור</span>
-                    <input value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} className="min-h-11 rounded-input border border-border bg-bg px-3" placeholder="לדוגמה: חזרה ללקוח" /></label>
+                    <input value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} className="min-h-11 rounded-input border border-border-strong bg-bg px-3" placeholder="לדוגמה: חזרה ללקוח" /></label>
                   <label className="flex flex-col gap-1 text-sm"><span className="text-text-secondary">מועד</span>
-                    <input type="datetime-local" value={taskDue} onChange={(e) => setTaskDue(e.target.value)} className="min-h-11 rounded-input border border-border bg-bg px-3 [color-scheme:dark]" /></label>
+                    <input type="datetime-local" value={taskDue} onChange={(e) => setTaskDue(e.target.value)} className="min-h-11 rounded-input border border-border-strong bg-bg px-3 [color-scheme:dark]" /></label>
                   <Button variant="primary" onClick={addTask}><CalendarPlus aria-hidden size={16} /> קביעה</Button>
                 </fieldset>
                 {tasks.length === 0 ? <EmptyState title="אין משימות" text="קבע/י משימת מעקב ראשונה." /> : (
@@ -200,7 +280,7 @@ export default function CardView({ card }: { card: CardDTO }) {
                 {card.files.map((f) => (
                   <li key={f.id}>
                     <button type="button" onClick={() => toast("info", "בגרסת ההדגמה אין קבצים אמיתיים להורדה.")}
-                      className="flex w-full items-center gap-3 rounded-card border border-border p-3 text-right text-sm hover:bg-surface-raised">
+                      className="flex w-full items-center gap-3 rounded-card border border-border-strong p-3 text-right text-sm hover:bg-surface-raised">
                       <FileText aria-hidden size={18} className="text-primary" /><span className="flex-1 break-all">{f.name}</span><span className="text-text-secondary">{f.size}</span>
                     </button>
                   </li>

@@ -70,14 +70,14 @@ export function FilterBar({ f, count }: { f: Filters; count: number }) {
     <>
       <label className="flex flex-col gap-1 text-sm">
         <span className="text-text-secondary">סטטוס</span>
-        <select value={f.status} onChange={(e) => f.setStatus(e.target.value as LeadStatus | "")} className="min-h-11 rounded-input border border-border bg-bg px-3">
+        <select value={f.status} onChange={(e) => f.setStatus(e.target.value as LeadStatus | "")} className="min-h-11 rounded-input border border-border-strong bg-bg px-3">
           <option value="">הכול</option>
           {(Object.keys(STATUS_LABEL) as LeadStatus[]).map((s) => <option key={s} value={s}>{STATUS_LABEL[s]}</option>)}
         </select>
       </label>
       <label className="flex flex-col gap-1 text-sm">
         <span className="text-text-secondary">מקור</span>
-        <select value={f.source} onChange={(e) => f.setSource(e.target.value as Source | "")} className="min-h-11 rounded-input border border-border bg-bg px-3">
+        <select value={f.source} onChange={(e) => f.setSource(e.target.value as Source | "")} className="min-h-11 rounded-input border border-border-strong bg-bg px-3">
           <option value="">הכול</option>
           {(Object.keys(SOURCE_LABEL) as Source[]).map((s) => <option key={s} value={s}>{SOURCE_LABEL[s]}</option>)}
         </select>
@@ -91,7 +91,7 @@ export function FilterBar({ f, count }: { f: Filters; count: number }) {
           <span className="sr-only">חיפוש פניות</span>
           <Search aria-hidden size={16} className="absolute top-1/2 right-3 -translate-y-1/2 text-text-secondary" />
           <input type="search" value={f.q} onChange={(e) => f.setQ(e.target.value)} placeholder="חיפוש לפי חברה, איש קשר, טלפון או אימייל"
-            className="min-h-11 w-full rounded-input border border-border bg-bg pe-3 ps-9 text-sm placeholder:text-text-secondary" />
+            className="min-h-11 w-full rounded-input border border-border-strong bg-bg pe-3 ps-9 text-sm placeholder:text-text-secondary" />
         </label>
         <Button className="md:hidden" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="mobile-filters">
           <Filter aria-hidden size={16} /> סינון{f.active ? " (פעיל)" : ""}
@@ -102,7 +102,7 @@ export function FilterBar({ f, count }: { f: Filters; count: number }) {
       <div className="flex flex-wrap items-center gap-2" role="group" aria-label="סינון מהיר">
         {(Object.keys(QUICK_LABEL) as QuickFilter[]).map((k) => (
           <button key={k} type="button" aria-pressed={f.quick.has(k)} onClick={() => f.toggleQuick(k)}
-            className={`min-h-11 rounded-full border px-3 text-sm desk:min-h-9 ${f.quick.has(k) ? "border-primary bg-primary/15 text-text-primary" : "border-border text-text-secondary hover:border-primary"}`}>
+            className={`min-h-11 rounded-full border px-3 text-sm desk:min-h-9 ${f.quick.has(k) ? "border-primary bg-primary/15 text-text-primary" : "border-border-strong text-text-secondary hover:border-primary"}`}>
             {QUICK_LABEL[k]}
           </button>
         ))}
@@ -231,7 +231,7 @@ export function LeadCard({ l, onAssign }: { l: Lead; onAssign: (ids: string[]) =
       </dl>
       <div className="mt-3 flex gap-2">
         <Button onClick={() => onAssign([l.id])} aria-label={`שיוך ${l.company}`} className="flex-1"><UserPlus aria-hidden size={16} /> שייך</Button>
-        <Link href={`/s03/${l.id}`} className="inline-flex min-h-11 flex-1 items-center justify-center rounded-input border border-border text-sm hover:border-primary">פרטים</Link>
+        <Link href={`/s03/${l.id}`} className="inline-flex min-h-11 flex-1 items-center justify-center rounded-input border border-border-strong text-sm hover:border-primary">פרטים</Link>
       </div>
     </li>
   );

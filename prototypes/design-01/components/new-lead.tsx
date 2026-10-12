@@ -62,7 +62,7 @@ export function NewLeadButton() {
     <div className="flex flex-col gap-1 text-sm">
       <label htmlFor={`f-${k}`}>{label}</label>
       <input id={`f-${k}`} value={form[k]} onChange={set(k)} aria-invalid={!!errors[k]} aria-describedby={errors[k] ? `err-${k}` : undefined} {...props}
-        className={`min-h-11 rounded-input border bg-bg px-3 ${errors[k] ? "border-danger" : "border-border"}`} />
+        className={`min-h-11 rounded-input border bg-bg px-3 ${errors[k] ? "border-danger" : "border-border-strong"}`} />
       {errors[k] && <span id={`err-${k}`} className="text-xs text-danger">{errors[k]}</span>}
     </div>
   );
@@ -80,7 +80,7 @@ export function NewLeadButton() {
         {field("businessId", "ח״פ / ע״מ (אם ידוע)", { dir: "ltr", inputMode: "numeric" })}
         <label className="flex flex-col gap-1 text-sm">
           <span>מקור</span>
-          <select value={form.source} onChange={set("source")} className="min-h-11 rounded-input border border-border bg-bg px-3">
+          <select value={form.source} onChange={set("source")} className="min-h-11 rounded-input border border-border-strong bg-bg px-3">
             {(Object.keys(SOURCE_LABEL) as Source[]).map((s) => <option key={s} value={s}>{SOURCE_LABEL[s]}</option>)}
           </select>
         </label>

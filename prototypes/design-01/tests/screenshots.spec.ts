@@ -99,3 +99,37 @@ test("tablet 768 navigation drawer", async ({ page }) => {
   await page.getByRole("button", { name: "פתיחת תפריט ניווט" }).click();
   await shot(page, "tablet-768-drawer");
 });
+
+test("fix: S03 mobile tabs scroll hint", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await open(page, "/s03/C-101");
+  await page.getByRole("tab", { name: "סקירה" }).scrollIntoViewIfNeeded();
+  await shot(page, "fix-s03-mobile-tabs-hint");
+  await page.getByRole("tab", { name: "סקירה" }).focus();
+  await page.keyboard.press("End");
+  await page.getByTestId("tabs-more-start").waitFor();
+  await shot(page, "fix-s03-mobile-tabs-end");
+});
+test("fix: notifications popover open (desktop + mobile)", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await open(page, "/s01");
+  await page.getByRole("button", { name: /^התראות:/ }).click();
+  await page.getByRole("region", { name: "התראות" }).waitFor();
+  await shot(page, "fix-notifications-desktop");
+  await page.setViewportSize({ width: 390, height: 844 });
+  await shot(page, "fix-notifications-mobile");
+});
+test("fix: demo area dialog (mobile)", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await open(page, "/s01");
+  await page.getByRole("button", { name: /נתוני הדגמה/ }).click();
+  await page.getByRole("dialog", { name: "אזור הדגמה" }).waitFor();
+  await shot(page, "fix-demo-area-mobile");
+});
+test("fix: control borders (S02 filters, desktop)", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await open(page, "/s02");
+  await page.getByRole("button", { name: "פנייה חדשה" }).click();
+  await page.getByRole("dialog").waitFor();
+  await shot(page, "fix-control-borders-dialog");
+});

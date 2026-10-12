@@ -57,7 +57,7 @@ export function Panel({ title, action, children, className = "", id }: { title: 
 export function Button({ variant = "secondary", className = "", ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: "primary" | "secondary" | "ghost" | "danger" }) {
   const v = {
     primary: "bg-primary text-bg hover:bg-primary-hover font-semibold",
-    secondary: "border border-border bg-surface-raised text-text-primary hover:border-primary",
+    secondary: "border border-border-strong bg-surface-raised text-text-primary hover:border-primary",
     ghost: "text-text-primary hover:bg-surface-raised",
     danger: "bg-danger text-bg font-semibold",
   }[variant];
@@ -128,7 +128,7 @@ export function OwnerSelect({ value, onChange, id, label = "אחראי" }: { val
     <label htmlFor={id} className="flex flex-col gap-1 text-sm">
       <span className="text-text-secondary">{label}</span>
       <select id={id} value={value} onChange={(e) => onChange(e.target.value)}
-        className="min-h-11 rounded-input border border-border bg-bg px-3 text-text-primary">
+        className="min-h-11 rounded-input border border-border-strong bg-bg px-3 text-text-primary">
         <option value="">בחר/י אחראי</option>
         {USERS.map((u) => <option key={u.id} value={u.id}>{u.name}</option>)}
       </select>
