@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+/* Design Contract 03 §2 — single source of truth for colors and scale. */
+@theme {
+  --color-bg: #080f18;
+  --color-sidebar: #0d1723;
+  --color-surface: #111f2d;
+  --color-surface-raised: #172a3b;
+  --color-border: #294154;
+  --color-text-primary: #f1f6fc;
+  --color-text-secondary: #a8bdd0;
+  --color-primary: #2297f5;
+  --color-primary-hover: #177dd1;
+  --color-success: #27b78b;
+  --color-warning: #e7a849;
+  --color-danger: #f06d72;
+  --color-focus: #85c9ff;
+
+  --radius-input: 8px;
+  --radius-card: 12px;
+  --radius-panel: 16px;
+
+  --breakpoint-desk: 1200px;
+
+  --font-sans: "Segoe UI", "Noto Sans Hebrew", Arial, "Liberation Sans", "DejaVu Sans", system-ui, sans-serif;
+}
+
+html {
+  color-scheme: dark;
+  background: var(--color-bg);
+}
+body {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Visible 2px focus ring on every interactive element. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* LTR tokens (phone, email, IDs, currency) isolated inside RTL text. */
+.ltr { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+
+dialog::backdrop { background: rgb(8 15 24 / 0.75); }
+
+@keyframes pulse-skel { 50% { opacity: 0.45; } }
+.skeleton { background: var(--color-surface-raised); border-radius: 6px; animation: pulse-skel 1.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
