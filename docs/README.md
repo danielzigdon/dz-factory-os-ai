@@ -16,6 +16,7 @@
 | [11-later-sprint-blockers.md](11-later-sprint-blockers.md) | חוסמי ספרינטים מאוחרים |
 | [12-dark-design-contract.md](12-dark-design-contract.md) | חוזה עיצוב 03 (סקיצה 3) — **ממתין לאישור** |
 | [13-design-01-qa-report.md](13-design-01-qa-report.md) | DESIGN-01: דוח QA, צילומי מסך ב-`design-01/screenshots/` |
+| [14-design-01-preview.md](14-design-01-preview.md) | הפעלת האבטיפוס (Windows) ומה לנסות |
 
 **סדר עדיפות במקרה של סתירה:** 08 גובר על 03/05, ואלה גוברים על 00.
 

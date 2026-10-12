@@ -17,7 +17,7 @@ npm run start          # http://localhost:3100  (/s01, /s02, /s03/C-101)
 ```bash
 npm run typecheck && npm run lint
 npm run contrast       # שער ניגודיות לפי שימוש אמיתי בטוקנים (55 בדיקות מחייבות)
-npx playwright test    # 103 בדיקות: פריסה, נגישות, אינטראקציות, הרשאות, תיקונים, ליטוש, צילומי מסך
+npx playwright test    # 105 בדיקות: פריסה, נגישות, אינטראקציות, הרשאות, תיקונים, ליטוש, צילומי מסך
 ```
 
 Playwright מפעיל את השרת בעצמו (`npm run start`). הדפדפן הוא Chromium המותקן בסביבה (`/opt/pw-browsers/chromium`). אפשר להחליף אותו באמצעות `PW_CHROMIUM=/path/to/chrome`.
