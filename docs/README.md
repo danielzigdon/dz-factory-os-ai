@@ -2,15 +2,21 @@
 
 | קובץ | תוכן |
 |---|---|
-| [00-spec-v11.md](00-spec-v11.md) | האפיון המחייב, v11 (המרה מ-docx ללא שינוי) |
-| [01-spec-review.md](01-spec-review.md) | ביקורת אפיון: חוסרים, סתירות, אבטחה, Priority, זרימות |
+| [00-spec-v11.md](00-spec-v11.md) | האפיון v11 — **היסטורי, לא לעריכה** |
+| [01-spec-review.md](01-spec-review.md) | ביקורת אפיון וסטטוס כל ממצא |
 | [02-architecture.md](02-architecture.md) | ארכיטקטורה, תרשימים, מבנה תיקיות, סביבות |
-| [03-data-model.md](03-data-model.md) | מודל נתונים מוצע, ERD, מכונות מצב |
+| [03-data-model.md](03-data-model.md) | מודל נתונים, ERD, מכונות מצב, זרימת SLA |
 | [04-technical-decisions.md](04-technical-decisions.md) | ADRs וגרסאות נעולות |
-| [05-sprint-plan.md](05-sprint-plan.md) | משימות ותנאי קבלה מדידים לכל ספרינט |
-| [06-open-questions-risks.md](06-open-questions-risks.md) | שאלות פתוחות וסיכונים |
+| [05-sprint-plan.md](05-sprint-plan.md) | ספרינטים, תלויות, תנאי קבלה |
+| [06-open-questions-risks.md](06-open-questions-risks.md) | שאלות וסיכונים, עם בעלים ויעד |
 | [07-phase0-verification.md](07-phase0-verification.md) | מה נבדק ומה עוד לא |
+| [08-approved-amendments.md](08-approved-amendments.md) | **תיקונים מאושרים — גוברים על 00** |
+| [09-decision-log.md](09-decision-log.md) | Decision Log |
+| [10-test-cases.md](10-test-cases.md) | מקרי בדיקה: כפילויות, הרשאות, ממלא מקום |
+| [11-later-sprint-blockers.md](11-later-sprint-blockers.md) | חוסמי ספרינטים מאוחרים |
+
+**סדר עדיפות במקרה של סתירה:** 08 גובר על 03/05, ואלה גוברים על 00.
 
 בדיקת עקביות: `node scripts/check-docs.mjs`
 
-**סטטוס שלב 0:** המסמכים הושלמו. השלב **לא סגור** עד שיתקבל אישור ויוכרעו ממצאים R-04 ו-S-01 (ראו AC0.2 ו-AC0.3).
+**סטטוס שלב 0:** כל החסימות של Sprint 1 נסגרו בהחלטות מתועדות. השלב **ממתין לאישור מפורש** של בעל המפעל (AC0.3). Sprint 1 לא התחיל.

@@ -1,4 +1,4 @@
-> **מקור:** `Yuval_Control_Development_Spec_v11.docx` — הומר אוטומטית (pandoc) ללא שינוי תוכן. זהו המסמך המחייב; ממצאי הביקורת נמצאים ב-[01-spec-review.md](01-spec-review.md) ואינם משנים אותו עד לאישור.
+> **מקור:** `Yuval_Control_Development_Spec_v11.docx` — הומר אוטומטית (pandoc) ללא שינוי תוכן. **מסמך היסטורי (D-17), אין לערוך אותו.** התיקונים המאושרים ב-[08-approved-amendments.md](08-approved-amendments.md) גוברים עליו בכל מקום שבו יש סתירה.
 
 # אפיון Yuval Control — גרסה 11
 
