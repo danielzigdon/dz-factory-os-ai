@@ -56,7 +56,7 @@ export function SideNav() {
     <nav aria-label="ניווט ראשי" className="fixed inset-y-0 right-0 hidden w-[240px] flex-col gap-6 border-l border-border bg-sidebar py-5 desk:flex">
       <Brand />
       <div className="px-3"><NavLinks /></div>
-      <div className="mt-auto space-y-2 px-6 text-xs text-text-secondary">
+      <div className="space-y-2 px-6 text-xs text-text-secondary">
         <p>מסכים נוספים (S04–S12) יתווספו בשלבים הבאים.</p>
       </div>
     </nav>
@@ -100,14 +100,14 @@ function NavDrawer() {
   );
 }
 
-function RoleSwitcher() {
+function RoleSwitcher({ onChanged }: { onChanged: () => void }) {
   const { role, setRole, toast } = useStore();
   const router = useRouter();
   return (
     <label className="flex flex-col gap-1 text-sm">
       <span className="text-text-secondary">תפקיד מדומה</span>
       <select value={role}
-        onChange={(e) => { setRole(e.target.value as Role); router.refresh(); toast("info", `התצוגה עודכנה להרשאות: ${ROLE_LABEL[e.target.value as Role]}`); }}
+        onChange={(e) => { setRole(e.target.value as Role); router.refresh(); onChanged(); toast("info", `התצוגה עודכנה להרשאות: ${ROLE_LABEL[e.target.value as Role]}`); }}
         className="min-h-11 rounded-input border border-border-strong bg-bg px-3 text-text-primary">
         {(Object.keys(ROLE_LABEL) as Role[]).map((r) => <option key={r} value={r}>{ROLE_LABEL[r]}</option>)}
       </select>
@@ -170,7 +170,7 @@ function DemoPanel() {
         </div>
         <div className="space-y-4 px-5 py-4">
           <p className="text-sm text-text-secondary">כל הנתונים בדויים. הפקדים כאן קיימים רק באבטיפוס לצורך ביקורת, ולא יופיעו במערכת לעובדים.</p>
-          <RoleSwitcher />
+          <RoleSwitcher onChanged={() => setOpen(false)} />
           <ScenarioSelect onChanged={() => setOpen(false)} />
           <p className="flex items-center gap-2 text-xs text-text-secondary"><PlugZap aria-hidden size={13} /> Priority: טרם חובר · אין שמירה של נתונים</p>
         </div>
@@ -243,7 +243,7 @@ function GlobalSearch() {
         <span className="sr-only">חיפוש כללי בפניות</span>
         <Search aria-hidden size={16} className="absolute top-1/2 right-3 -translate-y-1/2 text-text-secondary" />
         <input type="search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש חברה, איש קשר, טלפון…"
-          className="min-h-10 w-full rounded-input border border-border-strong bg-bg pe-3 ps-9 text-sm placeholder:text-text-secondary" />
+          className="min-h-10 w-full rounded-input border border-border-strong bg-bg pe-3 ps-9 text-sm" />
       </label>
     </form>
   );
@@ -276,7 +276,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <SideNav />
       <div className="desk:pr-[240px]">
         <TopBar />
-        <main id="main" tabIndex={-1} className="mx-auto max-w-[1600px] px-4 pt-4 pb-24 md:px-6 md:pb-10 desk:pt-6">{children}</main>
+        <main id="main" tabIndex={-1} className="mx-auto max-w-[1600px] px-4 pt-4 pb-[calc(6rem+var(--toast-h,0px))] md:px-6 md:pb-[calc(2.5rem+var(--toast-h,0px))] desk:pt-6 desk:pb-10">{children}</main>
       </div>
       <MobileNav />
       <Toasts />

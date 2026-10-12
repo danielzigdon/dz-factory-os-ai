@@ -51,29 +51,50 @@ export default function CardView({ card }: { card: CardDTO }) {
   const [taskDue, setTaskDue] = useState("2026-10-13T09:00");
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const stripRef = useRef<HTMLDivElement>(null);
-  const [hint, setHint] = useState({ start: false, end: false });
+  const rowRef = useRef<HTMLDivElement>(null);
+  // overflow: tabs don't fit → both scroll buttons are rendered (fixed width, no layout shift); start/end: enabled state.
+  const [hint, setHint] = useState({ overflow: false, start: false, end: false });
   const lead = leads.find((l) => l.id === card.id);
 
   // RTL scrollLeft is 0 at the start (right) and negative towards the end (left).
   const updateHint = useCallback(() => {
     const el = stripRef.current;
     if (!el) return;
+    const row = rowRef.current;
     const max = el.scrollWidth - el.clientWidth;
     const pos = Math.abs(el.scrollLeft);
-    setHint({ start: pos > 2, end: max - pos > 2 });
+    const overflow = row ? el.scrollWidth > row.clientWidth : max > 0;
+    setHint({ overflow, start: overflow && pos > 2, end: overflow && max - pos > 2 });
   }, []);
   useEffect(() => {
     updateHint();
-    window.addEventListener("resize", updateHint);
-    return () => window.removeEventListener("resize", updateHint);
+    const ro = new ResizeObserver(updateHint);
+    if (rowRef.current) ro.observe(rowRef.current);
+    return () => ro.disconnect();
   }, [updateHint]);
-  const scrollStrip = (dir: 1 | -1) => stripRef.current?.scrollBy({ left: dir * 160, behavior: "smooth" });
+  // Page the strip by ~70% of its width, clamped to the edges (RTL: 0 = start, -max = end).
+  const scrollStrip = (dir: 1 | -1) => {
+    const el = stripRef.current;
+    if (!el) return;
+    const max = el.scrollWidth - el.clientWidth;
+    const target = Math.min(0, Math.max(-max, el.scrollLeft + dir * Math.round(el.clientWidth * 0.7)));
+    el.scrollTo({ left: Math.abs(target) < 24 ? 0 : max + target < 24 ? -max : target, behavior: "smooth" });
+  };
   function selectTab(i: number) {
     setTab(TABS[i].id);
-    tabRefs.current[i]?.scrollIntoView({ block: "nearest", inline: "nearest" });
   }
-
-  if (params.get("state") === "error") return <ErrorState text="לא ניתן לטעון את הכרטיס (הדמיית שגיאה)." retryHref={`/s03/${card.id}`} />;
+  // Runs after the selected tab has re-rendered (it becomes bold and slightly wider), then brings it fully into view;
+  // the first/last tab snap to the strip edge so no sliver remains.
+  useEffect(() => {
+    const el = stripRef.current;
+    const i = TABS.findIndex((t) => t.id === tab);
+    const t = tabRefs.current[i];
+    if (!el || !t) return;
+    if (i === 0) el.scrollTo({ left: 0 });
+    else if (i === TABS.length - 1) el.scrollTo({ left: -(el.scrollWidth - el.clientWidth) });
+    else t.scrollIntoView({ block: "nearest", inline: "nearest" });
+    updateHint();
+  }, [tab, updateHint]);
 
   // RTL tab keyboard support: ArrowLeft = next, ArrowRight = previous (WAI-ARIA tabs pattern, mirrored).
   function onTabKey(e: KeyboardEvent, i: number) {
@@ -134,28 +155,31 @@ export default function CardView({ card }: { card: CardDTO }) {
 
       <div className="grid gap-4 desk:grid-cols-[minmax(0,1fr)_300px]">
         <div className="min-w-0 rounded-panel border border-border bg-surface">
-          <div className="relative border-b border-border">
-            <div ref={stripRef} role="tablist" aria-label="מקטעי כרטיס" onScroll={updateHint} className="flex overflow-x-auto [scrollbar-width:none]">
+          {/* Tab strip: the scroll buttons sit BESIDE the scroller (own flex cells), so they never cover a tab label.
+              RTL flex order: start button (right) · scroller · end button (left). */}
+          <div ref={rowRef} className="flex items-stretch border-b border-border">
+            {hint.overflow && (
+              <button type="button" tabIndex={-1} aria-hidden onClick={() => scrollStrip(1)} data-testid="tabs-more-start" disabled={!hint.start}
+                className="grid w-11 shrink-0 place-items-center border-l border-border text-focus enabled:hover:bg-surface-raised disabled:cursor-default disabled:opacity-35">
+                <span className="grid size-7 place-items-center rounded-full border border-border-strong bg-surface-raised"><ChevronRight size={16} /></span>
+              </button>
+            )}
+            <div ref={stripRef} role="tablist" aria-label="מקטעי כרטיס" onScroll={updateHint}
+              className="flex min-w-0 flex-1 overflow-x-auto overscroll-x-contain [scrollbar-width:none]">
               {TABS.map((t, i) => (
                 <button key={t.id} ref={(el) => { tabRefs.current[i] = el; }} role="tab" id={`tab-${t.id}`} aria-selected={tab === t.id}
                   aria-controls={`panel-${t.id}`} tabIndex={tab === t.id ? 0 : -1} onClick={() => selectTab(i)} onKeyDown={(e) => onTabKey(e, i)}
-                  className={`relative min-h-12 shrink-0 px-4 text-sm ${tab === t.id ? "font-semibold text-text-primary" : "text-text-secondary hover:text-text-primary"}`}>
+                  className={`relative min-h-12 shrink-0 px-4 text-sm focus-visible:outline-offset-[-3px] ${tab === t.id ? "font-semibold text-text-primary" : "text-text-secondary hover:text-text-primary"}`}>
                   {t.label}
                   {tab === t.id && <span aria-hidden className="absolute inset-x-2 bottom-0 h-0.5 rounded bg-primary" />}
                 </button>
               ))}
             </div>
-            {/* Scroll affordance (mobile): fade + chevron on the side that still has tabs. Keyboard users move with arrow keys. */}
-            {hint.end && (
-              <button type="button" tabIndex={-1} aria-hidden onClick={() => scrollStrip(-1)} data-testid="tabs-more-end"
-                className="absolute inset-y-0 left-0 flex w-14 items-center justify-start bg-gradient-to-r from-surface via-surface/90 to-transparent ps-1 text-focus">
+            {hint.overflow && (
+              <button type="button" tabIndex={-1} aria-hidden onClick={() => scrollStrip(-1)} data-testid="tabs-more-end" disabled={!hint.end}
+                className="flex shrink-0 items-center gap-1 border-r border-border px-2 text-xs text-focus enabled:hover:bg-surface-raised disabled:cursor-default disabled:opacity-35">
+                <span>עוד</span>
                 <span className="grid size-7 place-items-center rounded-full border border-border-strong bg-surface-raised"><ChevronLeft size={16} /></span>
-              </button>
-            )}
-            {hint.start && (
-              <button type="button" tabIndex={-1} aria-hidden onClick={() => scrollStrip(1)} data-testid="tabs-more-start"
-                className="absolute inset-y-0 right-0 flex w-14 items-center justify-end bg-gradient-to-l from-surface via-surface/90 to-transparent pe-1 text-focus">
-                <span className="grid size-7 place-items-center rounded-full border border-border-strong bg-surface-raised"><ChevronRight size={16} /></span>
               </button>
             )}
           </div>
@@ -231,7 +255,7 @@ export default function CardView({ card }: { card: CardDTO }) {
                 <div className="space-y-2">
                   <label htmlFor="note" className="text-sm font-semibold">הוספת הערה</label>
                   <textarea id="note" value={note} onChange={(e) => setNote(e.target.value)} rows={3} placeholder="תיעוד שיחה, בקשה או החלטה…"
-                    className="w-full rounded-input border border-border-strong bg-bg p-3 text-sm placeholder:text-text-secondary" />
+                    className="w-full rounded-input border border-border-strong bg-bg p-3 text-sm" />
                   <Button variant="primary" onClick={addNote}><MessageSquarePlus aria-hidden size={16} /> הוספת הערה</Button>
                 </div>
                 <ActivityTimeline items={activities} />

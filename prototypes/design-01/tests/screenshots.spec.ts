@@ -1,4 +1,4 @@
-import { test, type Page } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { asRole, open } from "./helpers";
 
 // Real screenshots of the running prototype → docs/design-01/screenshots/
@@ -107,7 +107,7 @@ test("fix: S03 mobile tabs scroll hint", async ({ page }) => {
   await shot(page, "fix-s03-mobile-tabs-hint");
   await page.getByRole("tab", { name: "סקירה" }).focus();
   await page.keyboard.press("End");
-  await page.getByTestId("tabs-more-start").waitFor();
+  await expect(page.getByTestId("tabs-more-start")).toBeEnabled();
   await shot(page, "fix-s03-mobile-tabs-end");
 });
 test("fix: notifications popover open (desktop + mobile)", async ({ page }) => {
@@ -132,4 +132,40 @@ test("fix: control borders (S02 filters, desktop)", async ({ page }) => {
   await page.getByRole("button", { name: "פנייה חדשה" }).click();
   await page.getByRole("dialog").waitFor();
   await shot(page, "fix-control-borders-dialog");
+});
+
+test("polish: S03 mobile tabs — start and end states", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await open(page, "/s03/C-101");
+  await shot(page, "polish-s03-tabs-start-390");
+  await page.getByRole("tab", { name: "סקירה" }).focus();
+  await page.keyboard.press("End");
+  await expect(page.getByTestId("tabs-more-start")).toBeEnabled();
+  await shot(page, "polish-s03-tabs-end-390");
+});
+test("polish: toast on mobile (S03 note added)", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await open(page, "/s03/C-101");
+  await page.getByRole("tab", { name: "פעילות" }).click();
+  await page.getByLabel("הוספת הערה").fill("בדיקת מיקום הודעה");
+  await page.getByRole("button", { name: "הוספת הערה" }).click();
+  await page.getByTestId("toast").waitFor();
+  await shot(page, "polish-toast-mobile-390");
+});
+test("polish: toast on tablet and desktop (unauthorized assign)", async ({ page }) => {
+  await asRole(page, "sales");
+  for (const [w, h] of [[768, 1024], [1440, 900]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await open(page, "/s02");
+    await page.getByRole("button", { name: /^שיוך / }).filter({ visible: true }).first().click();
+    await page.getByTestId("toast").first().waitFor();
+    await shot(page, `polish-toast-${w < 1200 ? "tablet" : "desktop"}-${w}`);
+  }
+});
+test("polish: placeholder token in the new-lead dialog (mobile)", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await open(page, "/s02");
+  await page.getByRole("button", { name: "פנייה חדשה" }).click();
+  await page.getByRole("dialog").waitFor();
+  await shot(page, "polish-placeholder-dialog-390");
 });

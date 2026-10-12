@@ -91,7 +91,7 @@ export function FilterBar({ f, count }: { f: Filters; count: number }) {
           <span className="sr-only">חיפוש פניות</span>
           <Search aria-hidden size={16} className="absolute top-1/2 right-3 -translate-y-1/2 text-text-secondary" />
           <input type="search" value={f.q} onChange={(e) => f.setQ(e.target.value)} placeholder="חיפוש לפי חברה, איש קשר, טלפון או אימייל"
-            className="min-h-11 w-full rounded-input border border-border-strong bg-bg pe-3 ps-9 text-sm placeholder:text-text-secondary" />
+            className="min-h-11 w-full rounded-input border border-border-strong bg-bg pe-3 ps-9 text-sm" />
         </label>
         <Button className="md:hidden" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="mobile-filters">
           <Filter aria-hidden size={16} /> סינון{f.active ? " (פעיל)" : ""}

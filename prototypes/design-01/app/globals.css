@@ -10,6 +10,7 @@
   --color-border-strong: #557a98; /* DESIGN-01-FIX: interactive control boundaries (>=3:1) */
   --color-text-primary: #f1f6fc;
   --color-text-secondary: #a8bdd0;
+  --color-placeholder: #879eb3; /* DESIGN-01-POLISH: input placeholder, >=4.5:1 on every surface, dimmer than typed text */
   --color-primary: #2297f5;
   --color-primary-hover: #1a84db; /* DESIGN-01-FIX: was #177DD1 (4.48:1 with dark label) */
   --color-success: #27b78b;
@@ -39,13 +40,19 @@ body {
   overflow-x: hidden;
 }
 
-/* Visible 2px focus ring on every interactive element. */
-:where(a, button, input, select, textarea, [tabindex]):focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
+/* Visible 2px focus ring on every interactive element. In @layer base so component utilities
+   (e.g. an inset ring on tabs inside a scroll container) can override it. */
+@layer base {
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
 }
 
 .tabular { font-variant-numeric: tabular-nums; }
+
+/* DESIGN-01-POLISH: one explicit placeholder color for every text field (browsers otherwise use their own grey). */
+input::placeholder, textarea::placeholder { color: var(--color-placeholder); opacity: 1; }
 
 /* LTR tokens (phone, email, IDs, currency) isolated inside RTL text. */
 .ltr { direction: ltr; unicode-bidi: isolate; display: inline-block; }

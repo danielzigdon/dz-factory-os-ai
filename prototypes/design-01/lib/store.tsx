@@ -31,9 +31,8 @@ export function StoreProvider({ initialRole, children }: { initialRole: Role; ch
   const dismissToast = useCallback((id: number) => setToasts((t) => t.filter((x) => x.id !== id)), []);
   const toast = useCallback((kind: ToastMsg["kind"], text: string) => {
     const id = ++toastSeq;
-    setToasts((t) => [...t.slice(-2), { id, kind, text }]);
-    setTimeout(() => dismissToast(id), 5000);
-  }, [dismissToast]);
+    setToasts((t) => [...t.slice(-2), { id, kind, text }]); // dismissal timing lives in <ToastItem> (pausable)
+  }, []);
 
   const setRole = useCallback((r: Role) => {
     // Demo cookie read by the server to build role-specific DTOs.

@@ -48,6 +48,11 @@ for (const t of translucent) {
   for (const [fg, base] of KNOWN[t]) check(`${fg} on bg-${t} over ${base}`, tok[fg], over(tok[name], +a / 100, tok[base]), 4.5);
 }
 
+// 4a. placeholder text (DESIGN-01-POLISH): token on every surface a field can sit on, and the global rule must exist.
+for (const s of SURFACES) check(`placeholder on ${s}`, tok.placeholder, tok[s], 4.5);
+rows.push({ label: "global ::placeholder rule uses --color-placeholder", r: /::placeholder[^}]*var\(--color-placeholder\)/.test(css) ? Infinity : 0, min: 1, gating: true });
+rows.push({ label: "no per-field placeholder colour overrides", r: /placeholder:text-/.test(src) ? 0 : Infinity, min: 1, gating: true });
+
 // 4. non-text UI
 for (const s of SURFACES) check(`border-strong (control boundary) vs ${s}`, tok["border-strong"], tok[s], 3);
 for (const s of SURFACES) check(`focus ring vs ${s}`, tok.focus, tok[s], 3);

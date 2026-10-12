@@ -1,10 +1,10 @@
 "use client";
 import { AlertTriangle, CheckCircle2, Clock, Info, Lock, RefreshCw, ShieldAlert, X, type LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { fmtDateTime, isOverdue } from "@/lib/format";
 import { USERS } from "@/lib/fixtures";
-import { useStore } from "@/lib/store";
+import { useStore, type ToastMsg } from "@/lib/store";
 
 export type Tone = "neutral" | "primary" | "success" | "warning" | "danger";
 const TONE: Record<Tone, string> = {
@@ -163,21 +163,74 @@ export function ConfirmationDialog({ open, title, children, confirmLabel, onConf
   );
 }
 
+const TOAST_MS = { success: 5000, info: 6000, error: 9000 } as const;
+const TOAST_ICON = { success: CheckCircle2, error: ShieldAlert, info: Info };
+
+/** One toast: auto-dismiss that pauses while hovered or focused (WCAG 2.2.1), manual close, Esc to close. */
+function ToastItem({ t, onClose }: { t: ToastMsg; onClose: (id: number) => void }) {
+  const [paused, setPaused] = useState(false);
+  useEffect(() => {
+    if (paused) return;
+    const h = setTimeout(() => onClose(t.id), TOAST_MS[t.kind]);
+    return () => clearTimeout(h);
+  }, [paused, t.id, t.kind, onClose]);
+  const I = TOAST_ICON[t.kind];
+  const tone = t.kind === "error" ? "border-danger" : t.kind === "success" ? "border-success" : "border-primary";
+  return (
+    <div data-testid="toast" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)} onBlur={() => setPaused(false)}
+      onKeyDown={(e) => { if (e.key === "Escape") { e.stopPropagation(); onClose(t.id); } }}
+      className={`pointer-events-auto flex w-full items-start gap-2 rounded-card border bg-surface-raised px-3 py-2.5 text-sm shadow-lg ${tone}`}>
+      <I aria-hidden size={18} className={`mt-0.5 shrink-0 ${t.kind === "error" ? "text-danger" : t.kind === "success" ? "text-success" : "text-primary"}`} />
+      <p className="min-w-0 flex-1">{t.text}</p>
+      <button type="button" onClick={() => onClose(t.id)} aria-label="סגירת הודעה"
+        className="-m-1 grid size-9 shrink-0 place-items-center rounded-input hover:bg-surface"><X aria-hidden size={16} /></button>
+    </div>
+  );
+}
+
+/**
+ * Toast dock (DESIGN-01-POLISH):
+ *  - mobile: docked just above the bottom navigation, never over it;
+ *  - tablet: bottom of the viewport (there is no bottom nav);
+ *  - desktop: inside the right sidebar column, so it never covers page content.
+ * While visible on mobile/tablet the page reserves the dock's height (--toast-h) as bottom padding, and the focused
+ * control is scrolled clear of the dock. Two always-mounted live regions: polite (success/info) and assertive (errors).
+ */
 export function Toasts() {
   const { toasts, dismissToast } = useStore();
-  const icon = { success: CheckCircle2, error: ShieldAlert, info: Info };
+  const dock = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = dock.current;
+    if (!el) return;
+    const sync = () => {
+      const docked = !window.matchMedia("(min-width: 1200px)").matches && toasts.length > 0;
+      document.documentElement.style.setProperty("--toast-h", docked ? `${el.offsetHeight + 12}px` : "0px");
+      if (!docked) return;
+      const active = document.activeElement as HTMLElement | null;
+      if (!active || active === document.body || el.contains(active) || active.closest("dialog[open]")) return;
+      const overlap = active.getBoundingClientRect().bottom - el.getBoundingClientRect().top + 12;
+      if (overlap > 0) window.scrollBy({ top: overlap });
+    };
+    sync();
+    const ro = new ResizeObserver(sync);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [toasts.length]);
+
+  const polite = toasts.filter((t) => t.kind !== "error");
+  const assertive = toasts.filter((t) => t.kind === "error");
   return (
-    <div aria-live="polite" role="status" className="pointer-events-none fixed inset-x-4 bottom-20 z-50 flex flex-col items-center gap-2 desk:bottom-6">
-      {toasts.map((t) => {
-        const I = icon[t.kind];
-        return (
-          <div key={t.id} className={`pointer-events-auto flex w-full max-w-md items-center gap-2 rounded-card border bg-surface-raised px-4 py-3 text-sm shadow-lg ${t.kind === "error" ? "border-danger" : t.kind === "success" ? "border-success" : "border-primary"}`}>
-            <I aria-hidden size={18} className={t.kind === "error" ? "text-danger" : t.kind === "success" ? "text-success" : "text-primary"} />
-            <span className="flex-1">{t.text}</span>
-            <button onClick={() => dismissToast(t.id)} aria-label="סגירת הודעה" className="rounded p-1 hover:bg-surface"><X aria-hidden size={14} /></button>
-          </div>
-        );
-      })}
+    <div ref={dock} data-testid="toast-dock"
+      className="pointer-events-none fixed inset-x-3 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-50 mx-auto flex max-w-md flex-col gap-2
+                 md:bottom-4 desk:inset-x-auto desk:right-3 desk:bottom-4 desk:mx-0 desk:w-[216px]">
+      <div role="alert" aria-live="assertive" className="flex flex-col gap-2">
+        {assertive.map((t) => <ToastItem key={t.id} t={t} onClose={dismissToast} />)}
+      </div>
+      <div role="status" aria-live="polite" className="flex flex-col gap-2">
+        {polite.map((t) => <ToastItem key={t.id} t={t} onClose={dismissToast} />)}
+      </div>
     </div>
   );
 }

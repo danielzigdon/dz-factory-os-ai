@@ -65,17 +65,17 @@ test.describe("S03 mobile tab scroll hint", () => {
   test("hint at the end, disappears when scrolled to the last tab, start hint appears", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await open(page, "/s03/C-101");
-    await expect(page.getByTestId("tabs-more-end")).toBeVisible();
-    await expect(page.getByTestId("tabs-more-start")).toHaveCount(0);
+    await expect(page.getByTestId("tabs-more-end")).toBeEnabled();
+    await expect(page.getByTestId("tabs-more-start")).toBeDisabled();
     await page.getByTestId("tabs-more-end").click(); // pointer users: the chevron scrolls the strip
-    await expect(page.getByTestId("tabs-more-start")).toBeVisible();
+    await expect(page.getByTestId("tabs-more-start")).toBeEnabled();
     await page.getByRole("tab", { name: "סקירה" }).focus();
     await page.keyboard.press("End");
     await expect(page.getByRole("tab", { name: "קבצים" })).toBeInViewport();
-    await expect(page.getByTestId("tabs-more-end")).toHaveCount(0);
-    await expect(page.getByTestId("tabs-more-start")).toBeVisible();
+    await expect(page.getByTestId("tabs-more-end")).toBeDisabled();
+    await expect(page.getByTestId("tabs-more-start")).toBeEnabled();
     await page.keyboard.press("Home");
-    await expect(page.getByTestId("tabs-more-end")).toBeVisible();
+    await expect(page.getByTestId("tabs-more-end")).toBeEnabled();
   });
 
   test("no hint on desktop where all tabs fit", async ({ page }) => {
