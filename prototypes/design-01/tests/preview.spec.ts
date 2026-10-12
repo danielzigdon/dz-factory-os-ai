@@ -114,3 +114,13 @@ for (const vp of [{ name: "mobile-390", width: 390, height: 844 }, { name: "desk
     expect(external).toEqual([]);
   });
 }
+
+test("online-preview hardening headers on every screen", async ({ request }) => {
+  for (const p of ["/s01", "/s02", "/s03/C-101"]) {
+    const h = (await request.get(p)).headers();
+    expect(h["x-robots-tag"]).toBe("noindex, nofollow, noarchive");
+    expect(h["x-frame-options"]).toBe("DENY");
+    expect(h["referrer-policy"]).toBe("no-referrer");
+    expect(h["x-powered-by"]).toBeUndefined();
+  }
+});

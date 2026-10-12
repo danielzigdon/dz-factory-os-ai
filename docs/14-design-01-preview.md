@@ -78,3 +78,20 @@ npm run start
 - **שינוי סטטוס** אפשרי רק דרך שיוך (חדש או במיון, ל"שובץ"). באבטיפוס שאושר אין בורר סטטוס חופשי, ולא הוספתי אותו כדי לא לשנות את העיצוב. ניתן להוסיף באישור.
 - בחירת תפקיד היא הדמיה דרך cookie. אין התחברות אמיתית.
 - לא נבדק ב-Safari, ב-Firefox, בטלפון אמיתי או בקורא מסך ידני.
+
+## 7. DESIGN-01-ONLINE-PREVIEW — הכנה ל-Vercel (טרם נפרס)
+**הכנות שבוצעו בקוד:**
+- `prototypes/design-01/vercel.json`: Next.js, `npm ci`, `npm run build`. בנייה רק כשהאבטיפוס משתנה. פריסות מענף `main` כבויות (`deploymentEnabled.main=false`), כך שתיווצר רק פריסת **Preview** מהענף.
+- `next.config.ts`: כותרות `X-Robots-Tag: noindex`, `X-Frame-Options: DENY`, `Referrer-Policy: no-referrer`, `nosniff` ו-`Permissions-Policy`. כותרת `X-Powered-By` הוסרה. יש לכך בדיקה אוטומטית.
+- `.vercelignore`: הבדיקות והסקריפטים לא מועלים.
+- Root Directory בפריסה הוא `prototypes/design-01` בלבד. מסמכי האפיון (`docs/`) **לא** נכללים באתר.
+
+**בדיקת סודות:** `git grep` על כל הקבצים במעקב, לתבניות של מפתחות AWS, OpenAI, GitHub ו-Slack, מפתחות פרטיים, ו-`password`, `secret`, `api_key`. **לא נמצא דבר.** אין קובצי `.env`. אין שימוש ב-`process.env` בקוד האבטיפוס (רק בהגדרות Playwright). אין כתובות חיצוניות בקוד. הטלפונים בגוש הדמו 03-555-01xx, האימיילים ב-`example.co.il`, ושמות החברות מסומנים "(דמו)".
+
+**נדרש מבעל החשבון, אחרי אישור:**
+1. נכנסים ל-https://vercel.com ונרשמים או מתחברים **עם GitHub**.
+2. **Add New → Project**, ובוחרים לייבא את `danielzigdon/dz-factory-os-ai`. אם הריפו לא מופיע, מאשרים ל-Vercel גישה אליו.
+3. **Root Directory:** `prototypes/design-01`. **Framework:** Next.js. לא מוסיפים משתני סביבה.
+4. **Deploy.** הפריסה הראשונה מענף `main` תיכשל או תדלג, כי שם אין אבטיפוס. זה תקין.
+5. **Settings → Deployment Protection:** מוודאים ש-**Vercel Authentication** פעיל ל-Preview (ברירת המחדל). כך רק מי שמחובר לחשבון Vercel של הצוות יכול לצפות.
+6. **Deployments → Create Deployment** (או push הבא לענף), לענף `claude/new-session-31hftf`. מתקבל קישור `https://…vercel.app`.
