@@ -62,7 +62,7 @@ Write access must work for both agents for this protocol to function. This file 
 | PREVIEW-01 | Verify existing project Git integration, root directory, and future branch deployments | ChatGPT | VERIFIED | Record observed settings; no extra project or Production deployment |
 | WEBSITE-SPEC-01 | Specify the public Yuval Gvanim website requested by Daniel | ChatGPT | READY_FOR_REVIEW | Detailed scope, content evidence, accessibility, security and measurable acceptance; protected Preview only |
 | WEBSITE-PREVIEW-01 | Build a protected public-company website demonstration and verify desktop/mobile behavior | ChatGPT | READY_FOR_REVIEW | Standalone brand-led website preview with synthetic marked content, no real submissions or Priority |
-| WEBSITE-REVIEW-01 | Review docs/19-public-website-spec.md and the update to docs/18 | Claude | READY | Record gaps or approval; no unapproved company claims, no Production |
+| WEBSITE-REVIEW-01 | Review docs/19-public-website-spec.md and the update to docs/18 | Claude | IN_PROGRESS | Record gaps or approval; no unapproved company claims, no Production |
 | SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | READY_FOR_REVIEW | Append acknowledgement or concrete gaps with evidence; no feature implementation |
 | QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | IN_PROGRESS | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
 | SEC-01 | Upgrade Next.js 16.4.0 → 16.4.3 (critical advisories; `next build` now exits 1) and re-verify the prototype | Claude | READY_FOR_REVIEW | Build exits 0; npm audit has no critical/high; full Playwright + contrast pass; Preview redeploys READY |
