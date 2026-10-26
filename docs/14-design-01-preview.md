@@ -95,3 +95,10 @@ npm run start
 4. **Deploy.** הפריסה הראשונה מענף `main` תיכשל או תדלג, כי שם אין אבטיפוס. זה תקין.
 5. **Settings → Deployment Protection:** מוודאים ש-**Vercel Authentication** פעיל ל-Preview (ברירת המחדל). כך רק מי שמחובר לחשבון Vercel של הצוות יכול לצפות.
 6. **Deployments → Create Deployment** (או push הבא לענף), לענף `claude/new-session-31hftf`. מתקבל קישור `https://…vercel.app`.
+
+## 8. מצב Preview בפועל (עדכון 26.10.2026)
+- **פרויקט Vercel קיים:** `yuval-control-preview`, Preview מוגן. נבדק על ידי ChatGPT ובעל החשבון, ושלושת המסכים S01–S03 עובדים. **אין ליצור פרויקט נוסף.**
+- **קישור:** https://yuval-control-preview-ccuw0edb6-danielzigdon11-7703.vercel.app/s01. זו כתובת של פריסה מסוימת. פריסות חדשות יקבלו כתובת אחרת, או כתובת קבועה לענף אם הפרויקט מחובר ל-Git.
+- **לא אומת מסביבת Claude:** מדיניות הרשת של הסביבה חוסמת את `vercel.app` (proxy 403). לכן Claude לא בדק את הקישור בעצמו.
+- **פתוח לבדיקה בהגדרות Vercel (Settings → Git):** האם הפרויקט מחובר ל-`danielzigdon/dz-factory-os-ai` עם Root Directory `prototypes/design-01`, כך שדחיפה לענף `claude/new-session-31hftf` תיצור Preview חדש.
+- **"גרסת 12 המסכים":** לא קיימת בריפו ולא נבנתה בסביבת Claude. בענף יש רק S01, S02 ו-S03 (`prototypes/design-01/app/s01..s03`). עותק שנוצר בסביבת ChatGPT ולא הגיע ל-GitHub לא נמצא כאן.
