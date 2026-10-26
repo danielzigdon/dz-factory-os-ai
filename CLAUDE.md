@@ -63,8 +63,9 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-SPEC-01 | Specify the public Yuval Gvanim website requested by Daniel | ChatGPT | READY_FOR_REVIEW | Detailed scope, content evidence, accessibility, security and measurable acceptance; protected Preview only |
 | WEBSITE-PREVIEW-01 | Build a protected public-company website demonstration and verify desktop/mobile behavior | ChatGPT | IN_PROGRESS | Standalone brand-led website preview with synthetic marked content, no real submissions or Priority |
 | WEBSITE-REVIEW-01 | Review docs/19-public-website-spec.md and the update to docs/18 | Claude | READY | Record gaps or approval; no unapproved company claims, no Production |
-| SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | IN_PROGRESS | Append acknowledgement or concrete gaps with evidence; no feature implementation |
+| SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | READY_FOR_REVIEW | Append acknowledgement or concrete gaps with evidence; no feature implementation |
 | QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | IN_PROGRESS | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
+| SEC-01 | Upgrade Next.js 16.4.0 → 16.4.3 (critical advisories; `next build` now exits 1) and re-verify the prototype | Claude | IN_PROGRESS | Build exits 0; npm audit has no critical/high; full Playwright + contrast pass; Preview redeploys READY |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
 
 ## Handoff log
@@ -123,3 +124,16 @@ QA-PREVIEW-01 remains active. During live demo review, unassigned filter showed 
 
 ### 2026-10-26 — ChatGPT (website Preview implementation)
 Daniel explicitly instructed continued execution of the website work sequence. Claimed WEBSITE-PREVIEW-01: build a standalone static website demonstration under prototypes/design-01/public/company-preview, within the existing Vercel-protected prototype. This does not start internal Sprint 1. Use supplied logo, no unapproved real factory/customer content, no actual messages or uploads, no Production. Claude review tasks remain pending; do not claim automatic collaboration occurred.
+
+### 2026-10-26 — Claude (SPEC-REVIEW-01)
+- Base: `e61c520`. Reviewed `docs/18-shared-spec-and-work-plan.md` against 00, 05, 06, 08, 09, 10, 12–14.
+- **Accepted:** the scope gates, screen list S01–S12, lead/opportunity split (A-05), dedupe rules (A-01), "handled" definition and SLA timing from event start (A-09 supersedes v11's "60 more minutes"), quote versioning/lock (A-03), quote origin + verified sync (A-06), Priority mirrors (A-04), sprint order, and the PREVIEW-01 record.
+- **Gaps to fix in doc 18** (documentation only):
+  1. Auth decisions D-02/D-03 (A-02) are absent from the "product rules": invitation-only, no public sign-up, MFA (TOTP) for every admin-capable role, including a deputy with `leads:assign` scope=all, server-side checks, offboarding revokes sessions.
+  2. Deputy exclusions are incomplete versus A-07: also `supplier_prices:write`, `price_lists:write` and `settings:*`, not only cost/margin/approvals/users.
+  3. Open decisions omit Q-15 (does S07 planning write back to Priority) and Q-17 (security default values, pending approval). Q-01 is listed.
+  4. PREVIEW-01 records **Node 24.x** on Vercel. The stack was tested on Node 22 LTS (ADR / 04, local 22.22). Either pin Vercel to 22.x or record a Node-24 build verification.
+  5. Prototype limitation from 14 §6 is not carried over: a status change exists only through assignment (no free status selector), pending Daniel's decision.
+- **New blocking finding (outside doc 18) → SEC-01:** `next@16.4.0` is in range for GHSA-2464-fhr4-w9xw (unauthenticated RCE, image optimizer + SVG), GHSA-673q-mjm6-r5xr (RCE, `use cache` typed arrays) and GHSA-p3m5-59mp-jv5r (DoS, Server Actions). Fixed in 16.4.3. `next build` now ends with `SecurityFatalError`, exit 1, so any new Vercel Preview build will fail. The current protected Preview still serves 16.4.0.
+- Checks: `node scripts/check-docs.mjs` 13/13. `tsc` + `eslint` clean. `next build` **exit 1** (above). Playwright 106/106 ran against a previously built `.next`, so it does **not** validate the current tree; re-run under SEC-01. Contrast 55/55.
+- Next: ChatGPT applies gaps 1–5 to doc 18 (or disputes them with evidence). Claude performs SEC-01 now. Then WEBSITE-REVIEW-01.
