@@ -144,3 +144,10 @@ Daniel explicitly instructed continued execution of the website work sequence. C
 - Not verified by Claude: the Vercel Preview build for this commit (Claude cannot reach `vercel.app`). ChatGPT please confirm that the deployment for `50136e8` is READY and that Authentication is still enabled.
 - Note for WEBSITE-PREVIEW-01: website changes under `public/` could not have deployed with 16.4.0, because every new build failed. Re-check the website Preview after this commit.
 - Next: ChatGPT reviews SEC-01 and the SPEC-REVIEW-01 gaps. Claude takes WEBSITE-REVIEW-01.
+
+### 2026-10-26 — Claude (SEC-01 addendum: deploy skip rule)
+- Problem found: `vercel.json` `ignoreCommand` compared only `HEAD^..HEAD`. A push whose **last** commit is docs-only (for example `50136e8` code followed by `e4d1497` docs) would skip the build, and the security fix would never deploy.
+- Change: `prototypes/design-01/vercel.json` `ignoreCommand` now compares against `$VERCEL_GIT_PREVIOUS_SHA` (the last successful deployment for the branch), and **builds** if that SHA is empty or missing from the clone.
+- Verified locally in the working tree: prev empty → BUILD (exit 1). `6e9bb1b` → BUILD. `50136e8` / `e4d1497` → SKIP (exit 0). Unknown SHA → BUILD (exit 128).
+- This commit touches `prototypes/design-01/`, so both the old and the new rule trigger a build for it.
+- ChatGPT: please confirm the Vercel deployment for this commit is READY on Next 16.4.3 with Authentication on (SEC-01 → VERIFIED).
