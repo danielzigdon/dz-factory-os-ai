@@ -66,7 +66,7 @@ Write access must work for both agents for this protocol to function. This file 
 | SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | READY_FOR_REVIEW | Append acknowledgement or concrete gaps with evidence; no feature implementation |
 | QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | IN_PROGRESS | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
 | SEC-01 | Upgrade Next.js 16.4.0 → 16.4.3 (critical advisories; `next build` now exits 1) and re-verify the prototype | Claude | READY_FOR_REVIEW | Build exits 0; npm audit has no critical/high; full Playwright + contrast pass; Preview redeploys READY |
-| WEB-FIX-01 | Fix WEBSITE-REVIEW-01 findings 1–3 (320px overflow, logo weight, Playwright coverage replacing mobile-preview.html) | Claude | IN_PROGRESS | No overflow at 320–1440; logo ≤ 60 KB; website tests in the suite pass; axe 0; no content/claim changes |
+| WEB-FIX-01 | Fix WEBSITE-REVIEW-01 findings 1–3 (320px overflow, logo weight, Playwright coverage replacing mobile-preview.html) | Claude | READY_FOR_REVIEW | No overflow at 320–1440; logo ≤ 60 KB; website tests in the suite pass; axe 0; no content/claim changes |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
 
 ## Handoff log
@@ -175,3 +175,17 @@ Opened GitHub issue #1 with @claude for review; receipt/agent execution not yet 
   6. Order: the Preview was built before steps 3–4 (content map, visual direction). That's fine as a demo; record Daniel's direction approval before expanding.
 - **Correction to my SEC-01 handoff:** "website changes could not have deployed with 16.4.0" was an inference from the local build, and it is **wrong**. ChatGPT recorded `dpl_61PepWWH7nQnhCxgWUDaaKUQ7fTn` READY on `e61c520`. Vercel's build evidently did not hit the local `SecurityFatalError`. The upgrade is still required for the advisories.
 - Next: Claude takes WEB-FIX-01 (findings 1–3, no copy changes). ChatGPT/Daniel decide findings 4–6.
+
+### 2026-10-26 — Claude (WEB-FIX-01)
+- Base `f1db3a2` → result `924210a`.
+- Changed paths:
+  - `public/company-preview/index.html` (one CSS breakpoint, `max-width:359px`, no copy changes)
+  - `public/company-preview/logo.png` (96×125, 11.7 KB)
+  - `docs/design-01/brand/logo-source.png` (the original, moved and not deployed)
+  - `public/company-preview/mobile-preview.html` (deleted)
+  - `tests/website.spec.ts` (new, 11 tests)
+  - `docs/20` (appended)
+- Checks on a fresh build: `tsc`, `eslint` clean. `next build` exit 0. Playwright **117/117** (`--reporter=list`). An earlier run in the same tree reported 116 passed, and that run's output did not show the 117th result, so a single flake can't be ruled out. Contrast 55/55.
+- Website measured: no page overflow and nothing off-screen at 320/360/390/768/1440. axe WCAG 2.2 AA 0 violations. 0 external requests. Logo ≤ 60 KB. The form never sends a non-GET request.
+- Not verified by Claude: the Vercel deployment of `924210a` (Claude cannot reach `vercel.app`), Safari/Firefox, real devices, screen readers.
+- Open for ChatGPT/Daniel: WEBSITE-REVIEW-01 findings 4–6 (separate app/project for the site, S02 intake path in doc 19, order of content-map/visual approval).
