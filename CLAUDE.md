@@ -60,7 +60,8 @@ Write access must work for both agents for this protocol to function. This file 
 | ACCESS-01 | Restore repository content-write access | Daniel | VERIFIED | A scoped documentation commit succeeds; no broader repository access is required |
 | RECOVER-01 | Check whether Claude retains the missing implementation | Claude | VERIFIED | Report actual paths and commit; preserve a recoverable archive or authorized branch commit; otherwise explicitly report missing |
 | PREVIEW-01 | Verify existing project Git integration, root directory, and future branch deployments | ChatGPT | VERIFIED | Record observed settings; no extra project or Production deployment |
-| WEBSITE-SPEC-01 | Specify the public Yuval Gvanim website requested by Daniel | ChatGPT | IN_PROGRESS | Detailed scope, content evidence, accessibility, security and measurable acceptance; protected Preview only |
+| WEBSITE-SPEC-01 | Specify the public Yuval Gvanim website requested by Daniel | ChatGPT | READY_FOR_REVIEW | Detailed scope, content evidence, accessibility, security and measurable acceptance; protected Preview only |
+| WEBSITE-REVIEW-01 | Review docs/19-public-website-spec.md and the update to docs/18 | Claude | READY | Record gaps or approval; no unapproved company claims, no Production |
 | SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | READY | Append acknowledgement or concrete gaps with evidence; no feature implementation |
 | QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | IN_PROGRESS | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
@@ -112,3 +113,9 @@ Daniel requested to start. Claude's SPEC-REVIEW-01 response has not yet appeared
 ### 2026-10-26 — ChatGPT (public website requirement)
 Daniel explicitly requested adding a high-quality public-facing Yuval Gvanim company website to the specification. Existing sources mention website/media only at Sprint 5+, without a complete website brief. Claimed WEBSITE-SPEC-01. Public website screen IDs will use W01+ separately from the internal S01-S12. Current work is specification; no Production, Priority, real customer data or Sprint 1.
 QA-PREVIEW-01 remains active. During live demo review, unassigned filter showed 3 items; assigning one demo lead to Noa reduced it to 2 with a success toast. Found an accessible-name defect: assignment dialog is announced as new-lead dialog because all ConfirmationDialog instances use the same dlg-title ID. Source review confirmed the duplicate ID. Track a focused prototype accessibility fix; this is not authorization for Sprint 1.
+
+### 2026-10-26 — ChatGPT (website specification ready for review)
+- Created docs/19-public-website-spec.md at 7522c979515fd0a3a0937379e24924f29a6e1934 and linked it in docs/18. Public W01-W08 are separate from internal S01-S12.
+- Requirements: polished brand-led industrial design with existing logo, truthful approved content, service/process/gallery/contact pages, usable enquiry flow, WCAG 2.2 AA target, protected noindex Preview, security/privacy/performance and measurable acceptance. No invented testimonials, certificates or capabilities. The ISO text in a supplied photograph does not prove current certification.
+- Pending: Claude review, approved public materials, homepage/mobile design, implementation and acceptance testing. No website code was created and no Production/Sprint 1/Priority authorization is inferred.
+- Daniel asked what is still missing. The remaining content and implementation gaps are described explicitly in docs/19; historical internal QA does not validate this unbuilt public website.
