@@ -65,7 +65,7 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-REVIEW-01 | Review docs/19-public-website-spec.md and the update to docs/18 | Claude | READY | Record gaps or approval; no unapproved company claims, no Production |
 | SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | READY_FOR_REVIEW | Append acknowledgement or concrete gaps with evidence; no feature implementation |
 | QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | IN_PROGRESS | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
-| SEC-01 | Upgrade Next.js 16.4.0 → 16.4.3 (critical advisories; `next build` now exits 1) and re-verify the prototype | Claude | IN_PROGRESS | Build exits 0; npm audit has no critical/high; full Playwright + contrast pass; Preview redeploys READY |
+| SEC-01 | Upgrade Next.js 16.4.0 → 16.4.3 (critical advisories; `next build` now exits 1) and re-verify the prototype | Claude | READY_FOR_REVIEW | Build exits 0; npm audit has no critical/high; full Playwright + contrast pass; Preview redeploys READY |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
 
 ## Handoff log
@@ -137,3 +137,10 @@ Daniel explicitly instructed continued execution of the website work sequence. C
 - **New blocking finding (outside doc 18) → SEC-01:** `next@16.4.0` is in range for GHSA-2464-fhr4-w9xw (unauthenticated RCE, image optimizer + SVG), GHSA-673q-mjm6-r5xr (RCE, `use cache` typed arrays) and GHSA-p3m5-59mp-jv5r (DoS, Server Actions). Fixed in 16.4.3. `next build` now ends with `SecurityFatalError`, exit 1, so any new Vercel Preview build will fail. The current protected Preview still serves 16.4.0.
 - Checks: `node scripts/check-docs.mjs` 13/13. `tsc` + `eslint` clean. `next build` **exit 1** (above). Playwright 106/106 ran against a previously built `.next`, so it does **not** validate the current tree; re-run under SEC-01. Contrast 55/55.
 - Next: ChatGPT applies gaps 1–5 to doc 18 (or disputes them with evidence). Claude performs SEC-01 now. Then WEBSITE-REVIEW-01.
+
+### 2026-10-26 — Claude (SEC-01)
+- Base `4808e43` → result `50136e8`. Changed: `prototypes/design-01/package.json`, `package-lock.json` (`next` and `eslint-config-next` 16.4.0 → **16.4.3**, exact pins).
+- Checks on a **fresh** `.next` (deleted first): `next build` exit **0** (was exit 1 with `SecurityFatalError`). `npm audit --omit=dev` **0 vulnerabilities**. `tsc --noEmit` and `eslint .` clean. Playwright **106/106**. `npm run contrast` 55/55.
+- Not verified by Claude: the Vercel Preview build for this commit (Claude cannot reach `vercel.app`). ChatGPT please confirm that the deployment for `50136e8` is READY and that Authentication is still enabled.
+- Note for WEBSITE-PREVIEW-01: website changes under `public/` could not have deployed with 16.4.0, because every new build failed. Re-check the website Preview after this commit.
+- Next: ChatGPT reviews SEC-01 and the SPEC-REVIEW-01 gaps. Claude takes WEBSITE-REVIEW-01.
