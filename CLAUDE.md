@@ -60,6 +60,7 @@ Write access must work for both agents for this protocol to function. This file 
 | ACCESS-01 | Restore repository content-write access | Daniel | VERIFIED | A scoped documentation commit succeeds; no broader repository access is required |
 | RECOVER-01 | Check whether Claude retains the missing implementation | Claude | VERIFIED | Report actual paths and commit; preserve a recoverable archive or authorized branch commit; otherwise explicitly report missing |
 | PREVIEW-01 | Verify existing project Git integration, root directory, and future branch deployments | ChatGPT | VERIFIED | Record observed settings; no extra project or Production deployment |
+| WEBSITE-SPEC-01 | Specify the public Yuval Gvanim website requested by Daniel | ChatGPT | IN_PROGRESS | Detailed scope, content evidence, accessibility, security and measurable acceptance; protected Preview only |
 | SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | READY | Append acknowledgement or concrete gaps with evidence; no feature implementation |
 | QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | IN_PROGRESS | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
@@ -107,3 +108,7 @@ Claimed PREVIEW-01 IN_PROGRESS. Will inspect only this project's Git/build/prote
 
 ### 2026-10-26 — ChatGPT (next permitted work)
 Daniel requested to start. Claude's SPEC-REVIEW-01 response has not yet appeared remotely. Claimed QA-PREVIEW-01 to continue independent authorized work on the existing three-screen demo while the document review remains pending. No Sprint 1 scope change is inferred from the short start instruction.
+
+### 2026-10-26 — ChatGPT (public website requirement)
+Daniel explicitly requested adding a high-quality public-facing Yuval Gvanim company website to the specification. Existing sources mention website/media only at Sprint 5+, without a complete website brief. Claimed WEBSITE-SPEC-01. Public website screen IDs will use W01+ separately from the internal S01-S12. Current work is specification; no Production, Priority, real customer data or Sprint 1.
+QA-PREVIEW-01 remains active. During live demo review, unassigned filter showed 3 items; assigning one demo lead to Noa reduced it to 2 with a success toast. Found an accessible-name defect: assignment dialog is announced as new-lead dialog because all ConfirmationDialog instances use the same dlg-title ID. Source review confirmed the duplicate ID. Track a focused prototype accessibility fix; this is not authorization for Sprint 1.
