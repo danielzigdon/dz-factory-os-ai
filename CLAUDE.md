@@ -62,10 +62,11 @@ Write access must work for both agents for this protocol to function. This file 
 | PREVIEW-01 | Verify existing project Git integration, root directory, and future branch deployments | ChatGPT | VERIFIED | Record observed settings; no extra project or Production deployment |
 | WEBSITE-SPEC-01 | Specify the public Yuval Gvanim website requested by Daniel | ChatGPT | READY_FOR_REVIEW | Detailed scope, content evidence, accessibility, security and measurable acceptance; protected Preview only |
 | WEBSITE-PREVIEW-01 | Build a protected public-company website demonstration and verify desktop/mobile behavior | ChatGPT | READY_FOR_REVIEW | Standalone brand-led website preview with synthetic marked content, no real submissions or Priority |
-| WEBSITE-REVIEW-01 | Review docs/19-public-website-spec.md and the update to docs/18 | Claude | IN_PROGRESS | Record gaps or approval; no unapproved company claims, no Production |
+| WEBSITE-REVIEW-01 | Review docs/19-public-website-spec.md and the update to docs/18 | Claude | READY_FOR_REVIEW | Record gaps or approval; no unapproved company claims, no Production |
 | SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | READY_FOR_REVIEW | Append acknowledgement or concrete gaps with evidence; no feature implementation |
 | QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | IN_PROGRESS | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
 | SEC-01 | Upgrade Next.js 16.4.0 → 16.4.3 (critical advisories; `next build` now exits 1) and re-verify the prototype | Claude | READY_FOR_REVIEW | Build exits 0; npm audit has no critical/high; full Playwright + contrast pass; Preview redeploys READY |
+| WEB-FIX-01 | Fix WEBSITE-REVIEW-01 findings 1–3 (320px overflow, logo weight, Playwright coverage replacing mobile-preview.html) | Claude | IN_PROGRESS | No overflow at 320–1440; logo ≤ 60 KB; website tests in the suite pass; axe 0; no content/claim changes |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
 
 ## Handoff log
@@ -155,3 +156,22 @@ Opened GitHub issue #1 with @claude for review; receipt/agent execution not yet 
 - Verified locally in the working tree: prev empty → BUILD (exit 1). `6e9bb1b` → BUILD. `50136e8` / `e4d1497` → SKIP (exit 0). Unknown SHA → BUILD (exit 128).
 - This commit touches `prototypes/design-01/`, so both the old and the new rule trigger a build for it.
 - ChatGPT: please confirm the Vercel deployment for this commit is READY on Next 16.4.3 with Authentication on (SEC-01 → VERIFIED).
+
+### 2026-10-26 — Claude (WEBSITE-REVIEW-01)
+- Base: `88d2de0`. Reviewed `docs/19`, `docs/20`, the website paragraphs in `docs/18`, and `public/company-preview/*`. Checked live with `next start` + Playwright/Chromium + axe (WCAG 2.0/2.1/2.2 A/AA).
+- **Observed:**
+  - `dir=rtl`, `lang=he`, one `h1`, skip link present.
+  - axe **0** violations at 320/360/390/768/1440.
+  - **0** non-localhost requests.
+  - CSP: `connect-src 'none'`, `form-action 'none'`. `noindex` in both meta and header. `X-Frame-Options: DENY`.
+  - Text at 200% (640px) reflows with no overflow.
+  - No unapproved claims found (no ISO/years/client counts/phones/emails). Demo markers present (10× "הדגמה", 3× "המחשה").
+- **Findings:**
+  1. **320px reflow fails** (doc 19 accessibility, WCAG 1.4.10): `button.menu-toggle` sits at L=-20, so the page overflows by 20px. 360+ is clean.
+  2. **Logo weight:** `logo.png` is 704 KB at 1098×1432 but renders at 34–42px. It works against the doc 19 LCP ≤ 2.5s and Lighthouse ≥ 90 targets. Serve a ~96px (2×) asset and keep the original as the source file.
+  3. `mobile-preview.html` is a hand-kept copy that will drift (docs/20 says so). Replace it with Playwright viewport tests in the prototype suite.
+  4. Architecture: the public site lives inside the internal CRM prototype app (same Vercel project and domain as S01–S03). That is acceptable for a protected Preview, but doc 19 "separation" calls for its own app/folder (and later its own project/domain) before W01–W08 grow. Recommend a decision before more pages are added.
+  5. Future quote intake: doc 19 should state that submissions enter S02 via the server intake (A-01 dedupe, HMAC + rate limit per AC1.6, `source=website`), never directly to Priority. WhatsApp depends on Q-10 consent.
+  6. Order: the Preview was built before steps 3–4 (content map, visual direction). That's fine as a demo; record Daniel's direction approval before expanding.
+- **Correction to my SEC-01 handoff:** "website changes could not have deployed with 16.4.0" was an inference from the local build, and it is **wrong**. ChatGPT recorded `dpl_61PepWWH7nQnhCxgWUDaaKUQ7fTn` READY on `e61c520`. Vercel's build evidently did not hit the local `SecurityFatalError`. The upgrade is still required for the advisories.
+- Next: Claude takes WEB-FIX-01 (findings 1–3, no copy changes). ChatGPT/Daniel decide findings 4–6.
