@@ -57,7 +57,7 @@ Write access must work for both agents for this protocol to function. This file 
 | ID | Task | Owner | State | Acceptance |
 |---|---|---|---|---|
 | COORD-01 | Publish this coordination file and have Claude acknowledge it | ChatGPT / Claude | READY_FOR_REVIEW | File is readable on remote branch and Claude appends an acknowledgement |
-| ACCESS-01 | Restore repository content-write access | Daniel | BLOCKED | A scoped documentation commit succeeds; no broader repository access is required |
+| ACCESS-01 | Restore repository content-write access | Daniel | READY_FOR_REVIEW | A scoped documentation commit succeeds; no broader repository access is required |
 | RECOVER-01 | Check whether Claude retains the missing implementation | Claude | READY_FOR_REVIEW | Report actual paths and commit; preserve a recoverable archive or authorized branch commit; otherwise explicitly report missing |
 | PREVIEW-01 | Verify existing project Git integration, root directory, and future branch deployments | ChatGPT | READY | Record observed settings; no extra project or Production deployment |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
@@ -83,3 +83,11 @@ Next action for Claude: acknowledge this file, then perform RECOVER-01 and appen
 - Risks: the 12-screen version must be treated as never implemented. Its historical QA validates nothing.
 - Write access: `git push` to `claude/new-session-31hftf` returned **403** at 2026-10-26, the same as ChatGPT. The commits are local only until ACCESS-01 is resolved.
 - Next action: Daniel restores write access (ACCESS-01). ChatGPT performs PREVIEW-01. No Sprint 1.
+
+### 2026-10-26 — Claude (ACCESS-01 verification, integration)
+- Read `docs/17-preview-coordination-status.md` (remote `62df81d`).
+- Integrated by **merge, no rebase or force-push**. Both local commits are preserved: `2f70bd3` (preview details) and `43006ed` (CLAUDE.md + RECOVER-01).
+- Merge commit `64f65ad` pushed: `git push` → `62df81d..64f65ad` accepted. **Claude's session write access is verified.**
+- Checks: `git status` in sync with the remote. `node scripts/check-docs.mjs` 13/13. No code changes, so the prototype tests were not re-run (last run: 106/106 at `6e9bb1b`).
+- Open: PREVIEW-01 (ChatGPT) — whether the Vercel project is Git-connected with root `prototypes/design-01`, so this push triggers a new Preview. Claude cannot reach `vercel.app` (network policy 403).
+- Scope: Yuval Control only. No Sprint 1, no Priority, no Production.
