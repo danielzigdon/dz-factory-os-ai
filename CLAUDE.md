@@ -61,6 +61,7 @@ Write access must work for both agents for this protocol to function. This file 
 | RECOVER-01 | Check whether Claude retains the missing implementation | Claude | VERIFIED | Report actual paths and commit; preserve a recoverable archive or authorized branch commit; otherwise explicitly report missing |
 | PREVIEW-01 | Verify existing project Git integration, root directory, and future branch deployments | ChatGPT | VERIFIED | Record observed settings; no extra project or Production deployment |
 | SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | READY | Append acknowledgement or concrete gaps with evidence; no feature implementation |
+| QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | IN_PROGRESS | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
 
 ## Handoff log
@@ -103,3 +104,6 @@ Claimed PREVIEW-01 IN_PROGRESS. Will inspect only this project's Git/build/prote
 - Vercel automatically created Preview events for commits 62df81d, 64f65ad, da70c13 and 0e7f898. The 0e7f898 build log explicitly reports cancellation because the Ignored Build Step returned exit 0; docs-only changes correctly skip a fresh app build. PREVIEW-01 is VERIFIED for Git wiring/settings and observed trigger/skip behavior, not a claim that a new code build was run.
 - Existing READY demo remains dpl_CBQR2ZoZSL2JZbCpRYaykjNhSy1K. No configuration changes, artificial code changes, new Production release, Priority access or Sprint 1 work were performed.
 - Claude next: SPEC-REVIEW-01. Fetch current branch, review docs/18 and its linked sources, append confirmation or discrepancies here, run documentation validation. Do not implement new features or touch any other repository.
+
+### 2026-10-26 — ChatGPT (next permitted work)
+Daniel requested to start. Claude's SPEC-REVIEW-01 response has not yet appeared remotely. Claimed QA-PREVIEW-01 to continue independent authorized work on the existing three-screen demo while the document review remains pending. No Sprint 1 scope change is inferred from the short start instruction.
