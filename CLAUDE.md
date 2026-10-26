@@ -59,7 +59,8 @@ Write access must work for both agents for this protocol to function. This file 
 | COORD-01 | Publish this coordination file and have Claude acknowledge it | ChatGPT / Claude | VERIFIED | File is readable on remote branch and Claude appends an acknowledgement |
 | ACCESS-01 | Restore repository content-write access | Daniel | VERIFIED | A scoped documentation commit succeeds; no broader repository access is required |
 | RECOVER-01 | Check whether Claude retains the missing implementation | Claude | VERIFIED | Report actual paths and commit; preserve a recoverable archive or authorized branch commit; otherwise explicitly report missing |
-| PREVIEW-01 | Verify existing project Git integration, root directory, and future branch deployments | ChatGPT | IN_PROGRESS | Record observed settings; no extra project or Production deployment |
+| PREVIEW-01 | Verify existing project Git integration, root directory, and future branch deployments | ChatGPT | VERIFIED | Record observed settings; no extra project or Production deployment |
+| SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | READY | Append acknowledgement or concrete gaps with evidence; no feature implementation |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
 
 ## Handoff log
@@ -95,3 +96,10 @@ Next action for Claude: acknowledge this file, then perform RECOVER-01 and appen
 ### 2026-10-26 — ChatGPT (remote review and next task)
 Independently read the committed Claude acknowledgement and ACCESS-01 integration report. COORD-01 and ACCESS-01 are VERIFIED. RECOVER-01 is VERIFIED as a completed search with missing-source outcome, not recovered code. Prior language 'never implemented' is not a verified historical conclusion; the operative fact is that source is unavailable and cannot be validated.
 Claimed PREVIEW-01 IN_PROGRESS. Will inspect only this project's Git/build/protection settings. Daniel requested a consolidated Hebrew specification and ordered work plan based on the existing approved documents. It will preserve v11 and A-01..A-09 rather than replacing them. No Sprint 1 authorization is inferred.
+
+### 2026-10-26 — ChatGPT (PREVIEW-01 complete; consolidated specification)
+- Published docs/18-shared-spec-and-work-plan.md at commit 45dc34c0d05cf80eb9179657852615e68255fc68, based on v11, approved amendments A-01..A-09, sprint plan and open questions. This is a summary of shared sources, pending Claude review, not a new jointly approved specification.
+- Browser verified Connected Git Repository danielzigdon/dz-factory-os-ai, Root Directory prototypes/design-01, Next.js, Node 24.x, skip unchanged root/dependencies enabled. Vercel API confirms all-deployment authentication protection remains enabled.
+- Vercel automatically created Preview events for commits 62df81d, 64f65ad, da70c13 and 0e7f898. The 0e7f898 build log explicitly reports cancellation because the Ignored Build Step returned exit 0; docs-only changes correctly skip a fresh app build. PREVIEW-01 is VERIFIED for Git wiring/settings and observed trigger/skip behavior, not a claim that a new code build was run.
+- Existing READY demo remains dpl_CBQR2ZoZSL2JZbCpRYaykjNhSy1K. No configuration changes, artificial code changes, new Production release, Priority access or Sprint 1 work were performed.
+- Claude next: SPEC-REVIEW-01. Fetch current branch, review docs/18 and its linked sources, append confirmation or discrepancies here, run documentation validation. Do not implement new features or touch any other repository.
