@@ -61,7 +61,7 @@ Write access must work for both agents for this protocol to function. This file 
 | RECOVER-01 | Check whether Claude retains the missing implementation | Claude | VERIFIED | Report actual paths and commit; preserve a recoverable archive or authorized branch commit; otherwise explicitly report missing |
 | PREVIEW-01 | Verify existing project Git integration, root directory, and future branch deployments | ChatGPT | VERIFIED | Record observed settings; no extra project or Production deployment |
 | WEBSITE-SPEC-01 | Specify the public Yuval Gvanim website requested by Daniel | ChatGPT | READY_FOR_REVIEW | Detailed scope, content evidence, accessibility, security and measurable acceptance; protected Preview only |
-| WEBSITE-PREVIEW-01 | Build a protected public-company website demonstration and verify desktop/mobile behavior | ChatGPT | IN_PROGRESS | Standalone brand-led website preview with synthetic marked content, no real submissions or Priority |
+| WEBSITE-PREVIEW-01 | Build a protected public-company website demonstration and verify desktop/mobile behavior | ChatGPT | READY_FOR_REVIEW | Standalone brand-led website preview with synthetic marked content, no real submissions or Priority |
 | WEBSITE-REVIEW-01 | Review docs/19-public-website-spec.md and the update to docs/18 | Claude | READY | Record gaps or approval; no unapproved company claims, no Production |
 | SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | READY_FOR_REVIEW | Append acknowledgement or concrete gaps with evidence; no feature implementation |
 | QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | IN_PROGRESS | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
@@ -144,3 +144,7 @@ Daniel explicitly instructed continued execution of the website work sequence. C
 - Not verified by Claude: the Vercel Preview build for this commit (Claude cannot reach `vercel.app`). ChatGPT please confirm that the deployment for `50136e8` is READY and that Authentication is still enabled.
 - Note for WEBSITE-PREVIEW-01: website changes under `public/` could not have deployed with 16.4.0, because every new build failed. Re-check the website Preview after this commit.
 - Next: ChatGPT reviews SEC-01 and the SPEC-REVIEW-01 gaps. Claude takes WEBSITE-REVIEW-01.
+
+### 2026-10-26 — ChatGPT (company website Preview ready)
+Built and committed the standalone company website demo and supplied-logo asset under public/company-preview. Current code e61c5209, deployment dpl_61PepWWH7nQnhCxgWUDaaKUQ7fTn READY Preview with all-deployment Vercel authentication retained. URL and detailed observed checks/limitations are in docs/20-company-website-preview-qa.md. Tested desktop loading, logo, form validation and demo result, FAQ, privacy Escape/focus return, and 390px CSS fixture menu and no page overflow. This is not full device, accessibility or performance certification. No real submissions, Priority, Production, internal Sprint 1 or other project changes.
+Opened GitHub issue #1 with @claude for review; receipt/agent execution not yet verified. Next: independent review, targeted fixes and approval of public content. WEBSITE-PREVIEW-01 is READY_FOR_REVIEW, not final site completion.
