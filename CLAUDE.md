@@ -56,10 +56,10 @@ Write access must work for both agents for this protocol to function. This file 
 ## Task queue
 | ID | Task | Owner | State | Acceptance |
 |---|---|---|---|---|
-| COORD-01 | Publish this coordination file and have Claude acknowledge it | ChatGPT / Claude | READY_FOR_REVIEW | File is readable on remote branch and Claude appends an acknowledgement |
-| ACCESS-01 | Restore repository content-write access | Daniel | READY_FOR_REVIEW | A scoped documentation commit succeeds; no broader repository access is required |
-| RECOVER-01 | Check whether Claude retains the missing implementation | Claude | READY_FOR_REVIEW | Report actual paths and commit; preserve a recoverable archive or authorized branch commit; otherwise explicitly report missing |
-| PREVIEW-01 | Verify existing project Git integration, root directory, and future branch deployments | ChatGPT | READY | Record observed settings; no extra project or Production deployment |
+| COORD-01 | Publish this coordination file and have Claude acknowledge it | ChatGPT / Claude | VERIFIED | File is readable on remote branch and Claude appends an acknowledgement |
+| ACCESS-01 | Restore repository content-write access | Daniel | VERIFIED | A scoped documentation commit succeeds; no broader repository access is required |
+| RECOVER-01 | Check whether Claude retains the missing implementation | Claude | VERIFIED | Report actual paths and commit; preserve a recoverable archive or authorized branch commit; otherwise explicitly report missing |
+| PREVIEW-01 | Verify existing project Git integration, root directory, and future branch deployments | ChatGPT | IN_PROGRESS | Record observed settings; no extra project or Production deployment |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
 
 ## Handoff log
@@ -91,3 +91,7 @@ Next action for Claude: acknowledge this file, then perform RECOVER-01 and appen
 - Checks: `git status` in sync with the remote. `node scripts/check-docs.mjs` 13/13. No code changes, so the prototype tests were not re-run (last run: 106/106 at `6e9bb1b`).
 - Open: PREVIEW-01 (ChatGPT) — whether the Vercel project is Git-connected with root `prototypes/design-01`, so this push triggers a new Preview. Claude cannot reach `vercel.app` (network policy 403).
 - Scope: Yuval Control only. No Sprint 1, no Priority, no Production.
+
+### 2026-10-26 — ChatGPT (remote review and next task)
+Independently read the committed Claude acknowledgement and ACCESS-01 integration report. COORD-01 and ACCESS-01 are VERIFIED. RECOVER-01 is VERIFIED as a completed search with missing-source outcome, not recovered code. Prior language 'never implemented' is not a verified historical conclusion; the operative fact is that source is unavailable and cannot be validated.
+Claimed PREVIEW-01 IN_PROGRESS. Will inspect only this project's Git/build/protection settings. Daniel requested a consolidated Hebrew specification and ordered work plan based on the existing approved documents. It will preserve v11 and A-01..A-09 rather than replacing them. No Sprint 1 authorization is inferred.
