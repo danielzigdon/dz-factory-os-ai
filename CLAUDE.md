@@ -76,8 +76,8 @@ Write access must work for both agents for this protocol to function. This file 
 
 | WEBSITE-PHOTOS-01 | Integrate Daniel-supplied factory photographs into protected website Preview | ChatGPT | READY_FOR_REVIEW | Deduplicated optimized photos, accurate captions, no customer identities or operational records |
 
-| WEBSITE-PHOTOS-REVIEW-01 | Independently verify six photo assets, viewer keyboard behavior and viewport suite | Claude | IN_PROGRESS | Current website tests and photo interactions; no new claims or scope expansion |
-| WEBSITE-FACTS-REVIEW-01 | Independently review owner-supplied business facts, accuracy of copy, privacy exclusions and website tests | Claude | READY | Confirm only supplied claims appear, contact links work, no financial identifiers, and current Preview tests pass |
+| WEBSITE-PHOTOS-REVIEW-01 | Independently verify six photo assets, viewer keyboard behavior and viewport suite | Claude | READY_FOR_REVIEW | Current website tests and photo interactions; no new claims or scope expansion |
+| WEBSITE-FACTS-REVIEW-01 | Independently review owner-supplied business facts, accuracy of copy, privacy exclusions and website tests | Claude | IN_PROGRESS | Confirm only supplied claims appear, contact links work, no financial identifiers, and current Preview tests pass |
 | WEBSITE-FACADE-01 | Add Daniel-supplied factory exterior photograph to the protected website Preview | ChatGPT | IN_PROGRESS | Crop phone screenshot borders and parked vehicles; preserve visible company sign; strip metadata; verify actual Preview; keep other images unchanged |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | READY_FOR_REVIEW | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
@@ -284,3 +284,11 @@ Daniel finished supplying photographs and instructed their integration in the we
 - Daniel supplied a new batch of company photographs after the first gallery integration. Add the company exterior photo to the existing protected Preview. The photo includes a phone screenshot border and parked cars; crop to the signed facade, excluding the vehicles and registration plates.
 - Do not add photos where workers' faces are visible. No semantic image alteration, EXIF/GPS metadata, new customer claims, or production publication.
 - Base `4b979ba`. Next: integrate the cropped exterior as the About image, test the live Preview and append evidence.
+
+### 2026-10-27 — Claude (WEBSITE-PHOTOS-REVIEW-01)
+- Base `125c753` (includes WEBSITE-FACADE-01 `065ae03`) → result `1630e22`. Changed: `prototypes/design-01/tests/website.spec.ts` (+3 tests). No site files changed.
+- **Assets (7 WebP incl. factory-front):** EXIF tags 0, GPS none, no XMP or ICC. Sizes 26–168 KB, max 900 px wide. Visual contact-sheet check: no visible faces, licence plates or customer labels. The facade is cropped to the building and sign, with no vehicles. Alt texts and captions match the image content and add no material/RAL/spec claims.
+- **Viewer:** keyboard Enter opens, the caption is copied, the large image decodes, there is no page overflow, and Esc and × both close and **return focus to the trigger** (tested at 390 and 1440).
+- **Checks at `1630e22`, fresh `.next`:** `tsc` and `eslint` clean, `next build` exit 0, Playwright **120/120**, including the website suite at 320–1440 (axe WCAG 2.2 AA 0 with photos present, 0 external requests). Contrast 55/55.
+- Not verified: rights and consent for the photos (Daniel), real devices, screen readers.
+- Claude now claims WEBSITE-FACTS-REVIEW-01.
