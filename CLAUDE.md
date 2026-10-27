@@ -77,7 +77,7 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-PHOTOS-01 | Integrate Daniel-supplied factory photographs into protected website Preview | ChatGPT | READY_FOR_REVIEW | Deduplicated optimized photos, accurate captions, no customer identities or operational records |
 
 | WEBSITE-PHOTOS-REVIEW-01 | Independently verify six photo assets, viewer keyboard behavior and viewport suite | Claude | READY_FOR_REVIEW | Current website tests and photo interactions; no new claims or scope expansion |
-| WEBSITE-FACTS-REVIEW-01 | Independently review owner-supplied business facts, accuracy of copy, privacy exclusions and website tests | Claude | IN_PROGRESS | Confirm only supplied claims appear, contact links work, no financial identifiers, and current Preview tests pass |
+| WEBSITE-FACTS-REVIEW-01 | Independently review owner-supplied business facts, accuracy of copy, privacy exclusions and website tests | Claude | READY_FOR_REVIEW | Confirm only supplied claims appear, contact links work, no financial identifiers, and current Preview tests pass |
 | WEBSITE-FACADE-01 | Add Daniel-supplied factory exterior photograph to the protected website Preview | ChatGPT | IN_PROGRESS | Crop phone screenshot borders and parked vehicles; preserve visible company sign; strip metadata; verify actual Preview; keep other images unchanged |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | READY_FOR_REVIEW | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
@@ -292,3 +292,19 @@ Daniel finished supplying photographs and instructed their integration in the we
 - **Checks at `1630e22`, fresh `.next`:** `tsc` and `eslint` clean, `next build` exit 0, Playwright **120/120**, including the website suite at 320–1440 (axe WCAG 2.2 AA 0 with photos present, 0 external requests). Contrast 55/55.
 - Not verified: rights and consent for the photos (Daniel), real devices, screen readers.
 - Claude now claims WEBSITE-FACTS-REVIEW-01.
+
+### 2026-10-27 — Claude (WEBSITE-FACTS-REVIEW-01)
+- Base `4500908`. Reviewed the rendered text of hero/about/contact against `docs/19` and `docs/21` (the owner-supplied facts table). No files changed by Claude.
+- **Matches doc 21:** founded May 2026 by Ami Didi, subsidiary of Didi Advanced Solutions; iron, metals and aluminum; Wagner and Ideal; curing ovens; checks of dimensions, weight and coating thickness; packing and nationwide pickup/delivery; customer and supplier names as plain text with no logos; address, phone/fax, mobile and two e-mails. Nothing beyond the doc 21 list was found.
+- **Privacy exclusions:**
+  - No bank, branch, account, IBAN or company/tax ID in the page. The pattern scan hits were Hebrew substrings and the phone digits only.
+  - `tel:+97286611769` / `tel:+972543232500` correctly encode 08-6611769 / 054-3232500. Both `mailto:` addresses match.
+  - The form has no action, the CSP has `form-action 'none'`, and the copy warns not to enter real personal data.
+- **Findings — none block the protected Preview; items 1–2 block public release:**
+  1. **Customer names** (ישראלייזר, אלקטרה, א.ד. מירז, Lee Cooper, Golf, רנואר) appear under "בין לקוחות החברה". Doc 19 requires the named customer's approval before a public reference. Obtain written consent per customer, or remove the names before going public.
+  2. "**ניסיון תעשייתי**" (about heading) and "**ניסיון עם חברות ומותגים**", for a company founded in May 2026, can read as Yuval's own track record. Suggest attributing it to the group ("הידע התעשייתי של קבוצת דידי"), or have Daniel confirm the wording.
+  3. Supplier and equipment brands (נירלט, טמבור, IBA, Wagner, Ideal) are factual mentions. Keep them as text only (no logos), as now.
+  4. Puffery ("ציוד צביעה מתקדם", "צוות מקצועי ומיומן") is acceptable marketing tone. Daniel to confirm.
+  5. Plain `mailto:` addresses will be harvested by spam bots once public. Consider a contact form with server intake (finding 5 of WEBSITE-REVIEW-01).
+- **Tests:** same tree as WEBSITE-PHOTOS-REVIEW-01 (`1630e22`, no site change since): Playwright **120/120**, website axe WCAG 2.2 AA 0 at 320–1440, 0 external requests, contrast 55/55.
+- Next: ChatGPT/Daniel decide 1–2 before any public step. No Production, Priority or Sprint 1.
