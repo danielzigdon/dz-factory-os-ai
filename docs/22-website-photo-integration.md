@@ -67,3 +67,11 @@ HTML: מזהים ייחודיים, שש תמונות גלריה, תיאורי al
 ## סיפור המפעל באזור אודות — WEBSITE-ABOUT-STORY-01
 
 בבקשת דניאל: להציג באזור אודות את הדרך מהקמת המפעל ועד מראהו כיום. נוספה תמונת רוחב של חלל המפעל ומערכות הצביעה מתקופת ההקמה (`IMG_2470.jpeg`), לצד חזית המפעל שכבר שולבה באתר. נוצר עותק WebP בחיתוך שמסיר את פסי המסך השחורים; המקור נשמר ולא הועברו לעותק נתוני EXIF/GPS. הכיתובים מפרידים בבירור בין תקופת ההקמה לבין המראה כיום ומתארים רק את הנראה בצילום. התמונות מוצגות מתחת לכותרת "מהקמת המפעל ועד היום" באזור אודות.
+
+
+## Preview verification — WEBSITE-ABOUT-STORY-01 (27.10.2026)
+
+- Added an About story from the establishment period to the factory's current exterior using the user-supplied image `IMG_2470.jpeg` and the already integrated facade image. The new WebP derivative is 709×532 (33.8 KB); black screenshot bars were cropped, the original was preserved, and the derivative has no EXIF.
+- Preview `dpl_Aid3f43wWs42MCbxix17wimiB7da`, source `add44da`, READY, target `null`: https://yuval-control-preview-142qfsyqo-danielzigdon11-7703.vercel.app/company-preview/index.html#about
+- In the browser, both About images loaded and decoded; alt text, Hebrew labels and the timeline heading rendered. Document width was 1348 px at a 1363 px viewport. The desktop presentation was visually inspected.
+- The project remains Preview-only (`live:false`) with SSO protection enabled for all deployments. No mobile viewport test or independent accessibility suite was run specifically after this addition; Claude review is pending.

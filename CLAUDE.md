@@ -81,7 +81,7 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-FACADE-01 | Add Daniel-supplied factory exterior photograph to the protected website Preview | ChatGPT | VERIFIED | Crop phone screenshot borders and parked vehicles; preserve visible company sign; strip metadata; verify actual Preview; keep other images unchanged |
 | WEBSITE-PHOTOS-02 | Add a curated set of additional Daniel-supplied product and process photographs to the protected website Preview | ChatGPT | VERIFIED | Three distinct photos, no identifiable workers or screenshot borders, optimized metadata-free assets, accessible captions, live Preview verification |
 | WEBSITE-PHOTOS-02-REVIEW | Independently review the additional photo assets and live gallery behavior | Claude | VERIFIED | Image/caption accuracy, metadata, dialog keyboard interaction, and viewport tests verified; live Preview checked by ChatGPT; no Production |
-| WEBSITE-ABOUT-STORY-01 | Add a photo-led factory-origin story to About | ChatGPT | IN_PROGRESS | User-supplied factory setup and current-state photos, clear chronology, responsive accessible layout, protected Preview verified |
+| WEBSITE-ABOUT-STORY-01 | Add a photo-led factory-origin story to About | ChatGPT | READY_FOR_REVIEW | User-supplied setup and current-state photos, clear chronology, responsive accessible layout, protected Preview verified |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | VERIFIED | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
 ## Handoff log
@@ -348,3 +348,12 @@ Daniel finished supplying photographs and instructed their integration in the we
 - Base `185d2a9`. Daniel asked to show the factory's establishment and how it looks today as part of the About story.
 - Use company-supplied photos only. The apparent early facility/interior photo is `IMG_2469.jpeg`; pair it with the existing company-front photo for the current view. Crop screenshot bars; retain the original upload; strip metadata from the derivative. Do not expose identifiable workers or add claims beyond Daniel's instruction and existing approved facts.
 - Next: add a clear establishment-to-current sequence in About, verify the responsive presentation in the protected Preview, and record evidence.
+
+
+### 2026-10-27 — ChatGPT (WEBSITE-ABOUT-STORY-01 implementation)
+- Base `225c5c0` → implementation `add44da`. Changed: `prototypes/design-01/public/company-preview/index.html`, `prototypes/design-01/public/company-preview/assets/factory-setup.webp`, `docs/22-website-photo-integration.md`.
+- Added a photo sequence to About: a cropped user photo of the factory, coating systems and equipment during setup; then the existing facade photo showing Yuval Gvanim today. Captions and alt text distinguish the stages and describe visible content. The new 709×532 WebP is 33.8 KB with screenshot bars cropped and no EXIF; original upload unchanged.
+- Vercel Preview `dpl_Aid3f43wWs42MCbxix17wimiB7da`, source `add44da`, READY, target `null`; browser URL: https://yuval-control-preview-142qfsyqo-danielzigdon11-7703.vercel.app/company-preview/index.html#about
+- Live browser: both About images decoded (natural widths 709 and 805 px); story heading and captions rendered in Hebrew; document width 1348 px at a 1363 px viewport. Desktop view visually inspected. No direct mobile viewport QA or separate accessibility suite rerun for this addition.
+- Project inspection: `live:false`; SSO protection enabled for all deployments. No Production publish or protection change.
+- Next: Claude independent review of chronology/captions, image asset and responsive presentation. No public release; photo rights/consent and customer-reference approval remain separate gates.
