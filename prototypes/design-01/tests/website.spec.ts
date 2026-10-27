@@ -134,3 +134,86 @@ for (const w of [390, 1440]) {
     await expect(last).toBeFocused();
   });
 }
+
+// A11Y-CAROUSEL-01: hero photo carousel (WEBSITE-DESIGN-02).
+test.describe("website hero carousel", () => {
+  const img = (p: import("@playwright/test").Page) => p.locator("#hero-slide-image");
+  const current = (p: import("@playwright/test").Page) => p.locator('.slide-dot[aria-current="true"]');
+
+  for (const w of [320, 390, 1440]) {
+    test(`@${w}: every carousel control is a ≥ 24×24 target (WCAG 2.2 2.5.8) and fits on screen`, async ({ page }) => {
+      await page.setViewportSize({ width: w, height: 900 });
+      await page.goto(URL);
+      for (const c of await page.locator(".slide-dot, .slide-control, .slide-toggle").all()) {
+        const b = (await c.boundingBox())!;
+        expect(b.width, await c.getAttribute("aria-label") ?? "").toBeGreaterThanOrEqual(24);
+        expect(b.height).toBeGreaterThanOrEqual(24);
+        expect(b.x).toBeGreaterThanOrEqual(0);
+        expect(b.x + b.width).toBeLessThanOrEqual(w);
+      }
+    });
+  }
+
+  test("next / previous wrap, dots select, live status announces, keyboard works", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" }); // no autoplay interference
+    await page.goto(URL);
+    const first = await img(page).getAttribute("src");
+    await page.getByRole("button", { name: "התמונה הבאה" }).click();
+    await expect(current(page)).toHaveAttribute("aria-label", "תמונה 2 מתוך 5");
+    await expect(img(page)).not.toHaveAttribute("src", first!);
+    await expect(page.locator("#slide-status")).toContainText("תמונה 2 מתוך 5");
+    await page.getByRole("button", { name: "התמונה הקודמת" }).click();
+    await page.getByRole("button", { name: "התמונה הקודמת" }).click();
+    await expect(current(page)).toHaveAttribute("aria-label", "תמונה 5 מתוך 5");
+    await page.getByRole("button", { name: "תמונה 3 מתוך 5" }).click();
+    await expect(current(page)).toHaveAttribute("aria-label", "תמונה 3 מתוך 5");
+    await page.getByRole("button", { name: "התמונה הבאה" }).focus();
+    await page.keyboard.press("Enter");
+    await expect(current(page)).toHaveAttribute("aria-label", "תמונה 4 מתוך 5");
+    await expect.poll(() => img(page).evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0)).toBe(true);
+    expect((await img(page).getAttribute("alt"))?.length ?? 0).toBeGreaterThan(5);
+  });
+
+  test("autoplay advances; pause stops it (aria-pressed); reduced motion never autoplays", async ({ page, browser }) => {
+    await page.clock.install();
+    await page.goto(URL);
+    await page.mouse.move(5, 5);
+    const start = await img(page).getAttribute("src");
+    await page.clock.runFor(20_000);
+    await expect(img(page)).not.toHaveAttribute("src", start!);
+    const toggle = page.locator(".slide-toggle");
+    await toggle.click();
+    await expect(toggle).toHaveAttribute("aria-pressed", "true");
+    await page.mouse.move(5, 5);
+    await page.locator("h1").focus(); // move focus out of the carousel so only the manual pause applies
+    const paused = await img(page).getAttribute("src");
+    await page.clock.runFor(30_000);
+    await expect(img(page)).toHaveAttribute("src", paused!);
+
+    const ctx = await browser.newContext({ reducedMotion: "reduce" });
+    const p2 = await ctx.newPage();
+    await p2.clock.install();
+    await p2.goto("http://localhost:3100" + URL);
+    const s2 = await img(p2).getAttribute("src");
+    await p2.clock.runFor(30_000);
+    await expect(img(p2)).toHaveAttribute("src", s2!);
+    await ctx.close();
+  });
+});
+
+test.describe("website hero carousel — touch", () => {
+  test.use({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 }, reducedMotion: "reduce" });
+  test("finger swipe changes the slide", async ({ page }) => {
+    await page.goto(URL);
+    const b = (await page.locator("#hero-slide-image").boundingBox())!;
+    const cdp = await page.context().newCDPSession(page);
+    const y = b.y + b.height / 3;
+    const swipe = async (x0: number, x1: number) => {
+      await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x: x0, y }] });
+      for (let i = 1; i <= 8; i++) await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x: x0 + ((x1 - x0) * i) / 8, y }] });
+      await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] });
+    };
+    await swipe(b.x + b.width - 30, b.x + 30);
+    await expect(page.locator('.slide-dot[aria-current="true"]')).not.toHaveAttribute("aria-label", "תמונה 1 מתוך 5");
+  });
+});
