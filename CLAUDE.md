@@ -77,6 +77,7 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-PHOTOS-01 | Integrate Daniel-supplied factory photographs into protected website Preview | ChatGPT | READY_FOR_REVIEW | Deduplicated optimized photos, accurate captions, no customer identities or operational records |
 
 | WEBSITE-PHOTOS-REVIEW-01 | Independently verify six photo assets, viewer keyboard behavior and viewport suite | Claude | READY | Current website tests and photo interactions; no new claims or scope expansion |
+| WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | IN_PROGRESS | Use only facts supplied by Daniel; keep bank/ID records private; public facts shown in protected Preview for review; no endorsement language or Production |
 
 ## Handoff log
 ### 2026-10-26 — ChatGPT
@@ -258,3 +259,10 @@ Daniel finished supplying photographs and instructed their integration in the we
 - Desktop document width and scrollWidth both 1348. Gallery visually inspected. No native mobile-device, screen-reader, Safari/Firefox or fresh viewport-suite result claimed here; independent WEBSITE-PHOTOS-REVIEW-01 remains READY for Claude.
 - Verified website URL: https://yuval-control-preview-9kl68x76v-danielzigdon11-7703.vercel.app/company-preview/index.html#finishes
 - Photo integration implementation is ready for review. Public business contact details and final content approval remain separate. Video was not embedded; this handoff covers the selected six photographs only.
+
+
+### 2026-10-27 — ChatGPT (WEBSITE-FACTS-01 claim)
+- Daniel supplied company background, services, equipment, suppliers, customer names and a company-details sheet. This authorizes their use as website content in the existing protected Preview.
+- The screenshot includes tax and bank information. Do not publish company ID, bank, or account details. Use only the business name, address, phone numbers and email relevant to customer contact.
+- No Production deployment or protection change. No Priority or internal factory data. Avoid presenting named customers/suppliers as endorsements or formal partnerships.
+- Base `d83c7a5`. Next: review and integrate verified user-supplied facts into the preview, test and deploy on the authorized branch.
