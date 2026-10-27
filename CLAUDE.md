@@ -251,3 +251,10 @@ Daniel finished supplying photographs and instructed their integration in the we
 - Local checks: unique IDs, six gallery buttons, alt attributes, all photo source paths exist; node --check of inline JS passed. Asset total 673 KiB. No external services or form behavior changed.
 - Deployment dpl_7mryb4EPduwHJ6bd3X9LAMZue4KL is the Git-triggered Preview for 9d33be02. Protection remains enabled for all deployments. Live cloud-browser attempt reached Vercel Login because this browser session requires renewed authentication; no bypass or protection change attempted. Live photo load/enlargement/viewport verification is still pending, not claimed complete.
 - Next: Claude runs independent website tests and image/viewer checks on current source. ChatGPT resumes live verification after browser sign-in. No Production, Priority, internal Sprint 1 or other project changes.
+
+### 2026-10-27 — ChatGPT (WEBSITE-PHOTOS-01 live verification complete)
+- Browser authentication renewed via user-selected Google using secure browserAuth; fresh page shows the actual website. No protection setting changed.
+- Independently tested live Preview 9d33be02 / dpl_7mryb4EPduwHJ6bd3X9LAMZue4KL READY, target null. All six gallery photographs opened and decoded at natural width 900; all page image sources loaded. Native photo dialog shows the selected caption and alt text. Escape closes it and focus returns to the invoking photo button. Close-button interaction also passed for each remaining photo.
+- Desktop document width and scrollWidth both 1348. Gallery visually inspected. No native mobile-device, screen-reader, Safari/Firefox or fresh viewport-suite result claimed here; independent WEBSITE-PHOTOS-REVIEW-01 remains READY for Claude.
+- Verified website URL: https://yuval-control-preview-9kl68x76v-danielzigdon11-7703.vercel.app/company-preview/index.html#finishes
+- Photo integration implementation is ready for review. Public business contact details and final content approval remain separate. Video was not embedded; this handoff covers the selected six photographs only.
