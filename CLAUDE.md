@@ -72,7 +72,7 @@ Write access must work for both agents for this protocol to function. This file 
 
 | WEBSITE-COPY-01 | Research industry sources and write original Yuval website copy | ChatGPT | READY_FOR_REVIEW | Original educational content; no copied company history, claims or images |
 
-| WEBSITE-COPY-REVIEW-01 | Review original industry-informed copy and rerun existing website tests | Claude | READY | Check doc21 sources, no unsupported Yuval claims, website suite on current branch |
+| WEBSITE-COPY-REVIEW-01 | Review original industry-informed copy and rerun existing website tests | Claude | IN_PROGRESS | Check doc21 sources, no unsupported Yuval claims, website suite on current branch |
 
 ## Handoff log
 ### 2026-10-26 — ChatGPT
