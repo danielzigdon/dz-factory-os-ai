@@ -80,7 +80,7 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-FACTS-REVIEW-01 | Independently review owner-supplied business facts, accuracy of copy, privacy exclusions and website tests | Claude | VERIFIED | Confirm only supplied claims appear, contact links work, no financial identifiers, and current Preview tests pass |
 | WEBSITE-FACADE-01 | Add Daniel-supplied factory exterior photograph to the protected website Preview | ChatGPT | VERIFIED | Crop phone screenshot borders and parked vehicles; preserve visible company sign; strip metadata; verify actual Preview; keep other images unchanged |
 | WEBSITE-PHOTOS-02 | Add a curated set of additional Daniel-supplied product and process photographs to the protected website Preview | ChatGPT | IN_PROGRESS | Three distinct photos, no identifiable workers or screenshot borders, optimized metadata-free assets, accessible captions, live Preview verification |
-| WEBSITE-PHOTOS-02-REVIEW | Independently review the additional photo assets and live gallery behavior | Claude | READY | Verify image/caption accuracy, asset metadata, dialog keyboard interaction, and no layout overflow; no Production |
+| WEBSITE-PHOTOS-02-REVIEW | Independently review the additional photo assets and live gallery behavior | Claude | IN_PROGRESS | Verify image/caption accuracy, asset metadata, dialog keyboard interaction, and no layout overflow; no Production |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | VERIFIED | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
 ## Handoff log
