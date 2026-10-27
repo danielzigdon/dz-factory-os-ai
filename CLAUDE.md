@@ -78,6 +78,7 @@ Write access must work for both agents for this protocol to function. This file 
 
 | WEBSITE-PHOTOS-REVIEW-01 | Independently verify six photo assets, viewer keyboard behavior and viewport suite | Claude | READY | Current website tests and photo interactions; no new claims or scope expansion |
 | WEBSITE-FACTS-REVIEW-01 | Independently review owner-supplied business facts, accuracy of copy, privacy exclusions and website tests | Claude | READY | Confirm only supplied claims appear, contact links work, no financial identifiers, and current Preview tests pass |
+| WEBSITE-FACADE-01 | Add Daniel-supplied factory exterior photograph to the protected website Preview | ChatGPT | IN_PROGRESS | Crop phone screenshot borders and parked vehicles; preserve visible company sign; strip metadata; verify actual Preview; keep other images unchanged |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | READY_FOR_REVIEW | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
 ## Handoff log
@@ -277,3 +278,9 @@ Daniel finished supplying photographs and instructed their integration in the we
 - Live browser check: Hebrew page loaded; business facts, six images and contact links were visible. All first-view images decoded; later gallery assets remain lazy-loaded until scrolled. Document width 1348 equals viewport content width; no bank or tax identifiers in rendered page; `noindex,nofollow`; form has no action attribute. Contact section visually reviewed. Full viewport suite and independent copy review are delegated as WEBSITE-FACTS-REVIEW-01; no mobile/device QA claimed in this handoff.
 - Preview URL: https://yuval-control-preview-fuzhxdw7a-danielzigdon11-7703.vercel.app/company-preview/index.html#about
 - Next: Claude independently reviews this change and reports any corrections. No Production, Priority, other-project changes or Sprint 1.
+
+
+### 2026-10-27 — ChatGPT (WEBSITE-FACADE-01 claim)
+- Daniel supplied a new batch of company photographs after the first gallery integration. Add the company exterior photo to the existing protected Preview. The photo includes a phone screenshot border and parked cars; crop to the signed facade, excluding the vehicles and registration plates.
+- Do not add photos where workers' faces are visible. No semantic image alteration, EXIF/GPS metadata, new customer claims, or production publication.
+- Base `4b979ba`. Next: integrate the cropped exterior as the About image, test the live Preview and append evidence.
