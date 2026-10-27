@@ -52,6 +52,9 @@ test.describe("S02 inquiries", () => {
     const row = page.locator("tbody tr", { hasText: "ריהוט גן נוף" });
     await row.getByRole("button", { name: /שיוך/ }).click();
     const dlg = page.getByRole("dialog");
+    await expect(dlg).toHaveAccessibleName("שיוך פנייה");
+    const headingIds = await page.locator("dialog h2[id]").evaluateAll((headings) => headings.map((heading) => heading.id));
+    expect(new Set(headingIds).size).toBe(headingIds.length);
     await expect(dlg.getByRole("button", { name: "אישור שיוך" })).toBeDisabled();
     await dlg.getByLabel("אחראי").selectOption("u3");
     await dlg.getByRole("button", { name: "אישור שיוך" }).click();
