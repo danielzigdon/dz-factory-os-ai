@@ -64,9 +64,9 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-PREVIEW-01 | Build a protected public-company website demonstration and verify desktop/mobile behavior | ChatGPT | READY_FOR_REVIEW | Standalone brand-led website preview with synthetic marked content, no real submissions or Priority |
 | WEBSITE-REVIEW-01 | Review docs/19-public-website-spec.md and the update to docs/18 | Claude | READY_FOR_REVIEW | Record gaps or approval; no unapproved company claims, no Production |
 | SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | READY_FOR_REVIEW | Append acknowledgement or concrete gaps with evidence; no feature implementation |
-| A11Y-DIALOG-01 | Give each prototype dialog a unique accessible heading and verify assignment | ChatGPT | IN_PROGRESS | Correct accessible name with multiple mounted dialogs; protected Preview only |
-| QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | IN_PROGRESS | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
-| SEC-01 | Upgrade Next.js 16.4.0 → 16.4.3 (critical advisories; `next build` now exits 1) and re-verify the prototype | Claude | READY_FOR_REVIEW | Build exits 0; npm audit has no critical/high; full Playwright + contrast pass; Preview redeploys READY |
+| A11Y-DIALOG-01 | Give each prototype dialog a unique accessible heading and verify assignment | ChatGPT | READY_FOR_REVIEW | Correct accessible name with multiple mounted dialogs; protected Preview only |
+| QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | READY_FOR_REVIEW | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
+| SEC-01 | Upgrade Next.js 16.4.0 → 16.4.3 (critical advisories; `next build` now exits 1) and re-verify the prototype | Claude | VERIFIED | Build exits 0; npm audit has no critical/high; full Playwright + contrast pass; Preview redeploys READY |
 | WEB-FIX-01 | Fix WEBSITE-REVIEW-01 findings 1–3 (320px overflow, logo weight, Playwright coverage replacing mobile-preview.html) | Claude | READY_FOR_REVIEW | No overflow at 320–1440; logo ≤ 60 KB; website tests in the suite pass; axe 0; no content/claim changes |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
 
@@ -193,3 +193,12 @@ Opened GitHub issue #1 with @claude for review; receipt/agent execution not yet 
 
 ### 2026-10-27 — ChatGPT (continued execution)
 Read Claude's committed SPEC/SEC/WEB review and fixes. Claude has completed substantive work; issue #1 itself has no comments. Claiming A11Y-DIALOG-01 for the duplicate heading IDs in ConfirmationDialog. Will independently verify latest protected deployment and apply documentation gaps. No Sprint 1, Priority, Production or other repository changes.
+
+### 2026-10-27 — ChatGPT (A11Y-DIALOG-01, specification and live deployment review)
+- Base e866f6a. Fix b00d42e: ConfirmationDialog now uses React useId for its heading and aria-labelledby. Regression coverage 2f18d07 asserts the assignment accessible name and unique mounted dialog heading IDs.
+- Independent cloud-browser verification on dpl_9orJ9GjufdyieorxLcdciAFc1AbU / 2f18d07, READY Preview target null: S02 assignment opens as 'שיוך פנייה'; two heading IDs are distinct. Assigned the synthetic garden-furniture lead to Noa; row became assigned. New-lead dialog then announced its own title. S01 displayed the updated unassigned count; S03/C-101 overview rendered.
+- Website on Claude's dpl_C4p96feUXMNsUjqX5SMTg6LuKneR renders; deployed logo is 96x125, loaded; document width and scrollWidth both 1348; robots noindex,nofollow. Empty form reports three errors and focuses the name field.
+- Vercel project inspection confirms Node 24.x, Next.js and authentication enabled for all deployments. Latest code build is READY. SEC-01 deployment gate is VERIFIED; audit and 117-suite results remain explicitly attributed to Claude, not rerun here.
+- Documentation: b00adb5 resolves SPEC-REVIEW-01 gaps (A-02 MFA/invitation/offboarding, deputy exclusions, Q-15/Q-17, status limitation and Node build evidence). 571178f adds content map, S02 server intake rules, separate-app release boundary and explicit design/content approval status to doc19.
+- Limitations: no local node_modules in this environment, so the new regression assertions/full suite have not been executed here. Live targeted behavior was verified. Safari/Firefox, real devices, screen reader and measured performance remain open. No final public-site acceptance or Production approval is claimed.
+- Next Claude task: independently review b00d42e/2f18d07 and docs18/19; run the focused assignment regression, then the relevant suite on current source. Record results before marking A11Y-DIALOG-01 VERIFIED. No other repository, Priority or Sprint 1 work.
