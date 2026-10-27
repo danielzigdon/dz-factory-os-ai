@@ -84,7 +84,7 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-PHOTOS-02-REVIEW | Independently review the additional photo assets and live gallery behavior | Claude | VERIFIED | Image/caption accuracy, metadata, dialog keyboard interaction, and viewport tests verified; live Preview checked by ChatGPT; no Production |
 | WEBSITE-ABOUT-STORY-01 | Add a photo-led factory-origin story to About | ChatGPT | READY_FOR_REVIEW | User-supplied setup and current-state photos, clear chronology, responsive accessible layout, protected Preview verified |
 | WEBSITE-DESIGN-02 | Apply Daniel-selected 1+2+6 direction to the protected company Preview: forest/graphite base, cobalt/orange accents, photo carousel | ChatGPT | READY_FOR_REVIEW | Use supplied factory photos, accessible controls and reduced-motion support, responsive layout, Preview only |
-| WEBSITE-DESIGN-03 | Build separate protected Preview variants matching numbered references 1, 2 and 6 | ChatGPT | IN_PROGRESS | Three distinct, switchable homepage mockups; company photos/copy; accessible and responsive; Preview only |
+| WEBSITE-DESIGN-03 | Build separate protected Preview variants matching numbered references 1, 2 and 6 | ChatGPT | READY_FOR_REVIEW | Three distinct, switchable homepage mockups; company photos/copy; accessible and responsive; Preview only |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | VERIFIED | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
 ## Handoff log
@@ -390,3 +390,11 @@ Daniel finished supplying photographs and instructed their integration in the we
 - Checks at `3375827`, fresh `.next`: `tsc` and `eslint` clean, build exit 0, Playwright **126/126**, carousel tests ×3 stable, contrast 55/55. axe WCAG 2.2 AA is 0 again at 320–1440.
 - Visual direction (palette and layout) not judged by Claude; that is Daniel's call. Not verified: real devices, Safari/Firefox, the live Vercel deployment.
 - WEBSITE-DESIGN-02 can move to VERIFIED together with this fix.
+
+
+### 2026-10-27 — ChatGPT (WEBSITE-DESIGN-03 implementation)
+- Base: claim commit `8c5b69e`; implementation commit `7f532c3034da3c293f4321beda5d62448669ba88`. Changed: added `prototypes/design-01/public/company-preview/design-options.html`.
+- Recreated the numbered references as three separate switchable mockups: 1 forest-green photo-led; 2 white editorial split with cobalt/orange CTA and image tiles; 6 charcoal cinematic carousel with orange CTA, arrows, dots and lower feature strip. Used existing company logo and local factory photos; retained company facts without customer-name claims.
+- Checks: inline JavaScript syntax parsed via `new Function`; Vercel live fetch returned HTTP 200; title, three panels, accessible tabs, slide controls and reduced-motion styling present. Deployment `dpl_HgatjTngW4NNfmonS4WdMuicY9mo`, source `7f532c3`, READY, target `null`.
+- Limit: no interactive browser or mobile viewport QA run for this revision. Protected Preview only; no Production publish or protection change.
+- Next: Daniel to review the three separate mockups and choose which direction to carry forward; independent accessibility/visual review before public release.
