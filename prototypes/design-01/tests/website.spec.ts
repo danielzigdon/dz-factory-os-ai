@@ -86,3 +86,51 @@ test("website: protected-preview headers and CSP", async ({ request, page }) => 
   expect(csp).toContain("connect-src 'none'");
   expect(csp).toContain("form-action 'none'");
 });
+
+// WEBSITE-PHOTOS-REVIEW-01: supplied photographs and the accessible photo viewer.
+test("website: every photo asset is local, decodes, stays ≤ 200 KB and has alt text", async ({ page, request }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(URL);
+  const srcs = await page.locator("main img[src*='assets/']").evaluateAll((els) => [...new Set(els.map((e) => e.getAttribute("src")!))]);
+  expect(srcs.length).toBeGreaterThanOrEqual(6);
+  for (const s of srcs) {
+    const res = await request.get(`/company-preview/${s}`);
+    expect(res.status(), s).toBe(200);
+    expect((await res.body()).length, s).toBeLessThanOrEqual(200 * 1024);
+  }
+  for (const img of await page.locator("main img[src*='assets/']").all()) {
+    expect((await img.getAttribute("alt"))?.trim().length ?? 0).toBeGreaterThan(5);
+    await img.scrollIntoViewIfNeeded();
+    await expect.poll(() => img.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0)).toBe(true);
+  }
+});
+
+for (const w of [390, 1440]) {
+  test(`website @${w}: photo viewer opens by keyboard, shows the image + caption, Esc and × close it and return focus`, async ({ page }) => {
+    await page.setViewportSize({ width: w, height: 900 });
+    await page.goto(URL);
+    const buttons = page.locator("button.photo-button");
+    expect(await buttons.count()).toBeGreaterThanOrEqual(6);
+    const first = buttons.first();
+    await first.scrollIntoViewIfNeeded();
+    await first.focus();
+    await page.keyboard.press("Enter");
+    const viewer = page.locator("#photo-viewer");
+    await expect(viewer).toBeVisible();
+    const caption = await first.getAttribute("data-caption");
+    await expect(viewer).toContainText(caption!);
+    await expect(page.locator("#photo-large")).toHaveAttribute("src", /assets\/.+\.webp$/);
+    await expect.poll(() => page.locator("#photo-large").evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0)).toBe(true);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
+    await page.keyboard.press("Escape");
+    await expect(viewer).toBeHidden();
+    await expect(first).toBeFocused();
+    const last = buttons.last();
+    await last.scrollIntoViewIfNeeded();
+    await last.click();
+    await expect(viewer).toContainText((await last.getAttribute("data-caption"))!);
+    await viewer.getByRole("button", { name: "סגירת התמונה המוגדלת" }).click();
+    await expect(viewer).toBeHidden();
+    await expect(last).toBeFocused();
+  });
+}
