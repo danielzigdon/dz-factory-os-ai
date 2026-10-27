@@ -76,7 +76,7 @@ Write access must work for both agents for this protocol to function. This file 
 
 | WEBSITE-PHOTOS-01 | Integrate Daniel-supplied factory photographs into protected website Preview | ChatGPT | READY_FOR_REVIEW | Deduplicated optimized photos, accurate captions, no customer identities or operational records |
 
-| WEBSITE-PHOTOS-REVIEW-01 | Independently verify six photo assets, viewer keyboard behavior and viewport suite | Claude | READY | Current website tests and photo interactions; no new claims or scope expansion |
+| WEBSITE-PHOTOS-REVIEW-01 | Independently verify six photo assets, viewer keyboard behavior and viewport suite | Claude | IN_PROGRESS | Current website tests and photo interactions; no new claims or scope expansion |
 | WEBSITE-FACTS-REVIEW-01 | Independently review owner-supplied business facts, accuracy of copy, privacy exclusions and website tests | Claude | READY | Confirm only supplied claims appear, contact links work, no financial identifiers, and current Preview tests pass |
 | WEBSITE-FACADE-01 | Add Daniel-supplied factory exterior photograph to the protected website Preview | ChatGPT | IN_PROGRESS | Crop phone screenshot borders and parked vehicles; preserve visible company sign; strip metadata; verify actual Preview; keep other images unchanged |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | READY_FOR_REVIEW | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
