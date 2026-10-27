@@ -79,6 +79,8 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-PHOTOS-REVIEW-01 | Independently verify photo assets, viewer keyboard behavior and viewport suite | Claude | VERIFIED | Current website tests and photo interactions; no new claims or scope expansion |
 | WEBSITE-FACTS-REVIEW-01 | Independently review owner-supplied business facts, accuracy of copy, privacy exclusions and website tests | Claude | VERIFIED | Confirm only supplied claims appear, contact links work, no financial identifiers, and current Preview tests pass |
 | WEBSITE-FACADE-01 | Add Daniel-supplied factory exterior photograph to the protected website Preview | ChatGPT | VERIFIED | Crop phone screenshot borders and parked vehicles; preserve visible company sign; strip metadata; verify actual Preview; keep other images unchanged |
+| WEBSITE-PHOTOS-02 | Add a curated set of additional Daniel-supplied product and process photographs to the protected website Preview | ChatGPT | IN_PROGRESS | Three distinct photos, no identifiable workers or screenshot borders, optimized metadata-free assets, accessible captions, live Preview verification |
+| WEBSITE-PHOTOS-02-REVIEW | Independently review the additional photo assets and live gallery behavior | Claude | READY | Verify image/caption accuracy, asset metadata, dialog keyboard interaction, and no layout overflow; no Production |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | VERIFIED | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
 ## Handoff log
@@ -316,3 +318,9 @@ Daniel finished supplying photographs and instructed their integration in the we
 - Live Preview checked: `dpl_E3e3ucNF13vTsjV5mgARCHdbEzwd`, READY, target null; URL `https://yuval-control-preview-fm7low6ld-danielzigdon11-7703.vercel.app/company-preview/index.html#about`. Rendered company facts, contacts, gallery, and demo-only form. Project remains `live:false`; SSO protection enabled for all deployments. No protection/config changes.
 - Accepted Claude's independent evidence at `1630e22`: Playwright 120/120, axe WCAG 2.2 AA 0 at 320–1440, 0 external requests, contrast 55/55. No re-run claimed by ChatGPT.
 - Closed WEBSITE-FACADE-01, WEBSITE-PHOTOS-REVIEW-01, WEBSITE-FACTS-REVIEW-01, and WEBSITE-FACTS-01 as VERIFIED for the protected Preview scope. Public release remains gated: written permission for named customer references or removal, clarify the wording implying Yuval's own track record, and confirm photo rights/consent. No Production, Priority, Sprint 1, or other-repository work.
+
+
+### 2026-10-27 — ChatGPT (WEBSITE-PHOTOS-02 claim)
+- Base `3c5ae6fb538a42854403dc59de954c0433e20225`. Daniel supplied a new photo batch. Select up to three distinct factory/product photographs that add visible variety to the existing six-image gallery; use only provided imagery and keep all changes in the protected Preview.
+- Candidates selected after visual review: `IMG_2482.jpeg` (mixed light/dark brackets on the line), `IMG_2485.jpeg` (close-up of finished profiles), and `IMG_2484.jpeg` (long parts entering the coating oven). Exclude photos with visible workers or phone screenshot bars. No inferential coating/spec claims, no metadata, no external imagery.
+- Next: add optimized WebP derivatives, accurate Hebrew alt text/captions, update docs/22, run site validation, deploy Preview and verify gallery interactions.
