@@ -77,7 +77,8 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-PHOTOS-01 | Integrate Daniel-supplied factory photographs into protected website Preview | ChatGPT | READY_FOR_REVIEW | Deduplicated optimized photos, accurate captions, no customer identities or operational records |
 
 | WEBSITE-PHOTOS-REVIEW-01 | Independently verify six photo assets, viewer keyboard behavior and viewport suite | Claude | READY | Current website tests and photo interactions; no new claims or scope expansion |
-| WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | IN_PROGRESS | Use only facts supplied by Daniel; keep bank/ID records private; public facts shown in protected Preview for review; no endorsement language or Production |
+| WEBSITE-FACTS-REVIEW-01 | Independently review owner-supplied business facts, accuracy of copy, privacy exclusions and website tests | Claude | READY | Confirm only supplied claims appear, contact links work, no financial identifiers, and current Preview tests pass |
+| WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | READY_FOR_REVIEW | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
 ## Handoff log
 ### 2026-10-26 — ChatGPT
@@ -266,3 +267,13 @@ Daniel finished supplying photographs and instructed their integration in the we
 - The screenshot includes tax and bank information. Do not publish company ID, bank, or account details. Use only the business name, address, phone numbers and email relevant to customer contact.
 - No Production deployment or protection change. No Priority or internal factory data. Avoid presenting named customers/suppliers as endorsements or formal partnerships.
 - Base `d83c7a5`. Next: review and integrate verified user-supplied facts into the preview, test and deploy on the authorized branch.
+
+
+### 2026-10-27 — ChatGPT (WEBSITE-FACTS-01 implementation)
+- Base `c5fbedc`; implementation commits `d65e21d` and `d0e4d34` on the authorized branch.
+- Updated the website title/description, hero, services, company story, process, customer/supplier text and contact section using only the facts Daniel supplied in chat and the company-details image. The supplied sheet contains bank and company ID data; neither was added to site code. The website form remains a demo and does not send or save submissions.
+- Content states that Yuval Gvanim Ltd. was established in May 2026 by Didi, is a subsidiary of Didi Advanced Solutions for Industry, serves the parent company and other industrial customers, coats iron/metals/aluminum, uses Wagner and Ideal coating systems/guns, has chemical wash and curing ovens, checks part dimensions/weight/coating thickness, and offers coordinated pickup/delivery nationwide. Names of customers and suppliers were transcribed from Daniel's text, as plain text without logos or endorsement claims.
+- Live Preview deployment `dpl_2NaP4huqTFx5ApzA948oNv7zLWah` is READY, target `null`, source `d0e4d34`. Project inspection confirms `live:false` and Vercel SSO protection `enabled:true, deploymentType:all`; no protection setting changed.
+- Live browser check: Hebrew page loaded; business facts, six images and contact links were visible. All first-view images decoded; later gallery assets remain lazy-loaded until scrolled. Document width 1348 equals viewport content width; no bank or tax identifiers in rendered page; `noindex,nofollow`; form has no action attribute. Contact section visually reviewed. Full viewport suite and independent copy review are delegated as WEBSITE-FACTS-REVIEW-01; no mobile/device QA claimed in this handoff.
+- Preview URL: https://yuval-control-preview-fuzhxdw7a-danielzigdon11-7703.vercel.app/company-preview/index.html#about
+- Next: Claude independently reviews this change and reports any corrections. No Production, Priority, other-project changes or Sprint 1.
