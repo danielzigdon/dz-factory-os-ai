@@ -217,3 +217,38 @@ test.describe("website hero carousel — touch", () => {
     await expect(page.locator('.slide-dot[aria-current="true"]')).not.toHaveAttribute("aria-label", "תמונה 1 מתוך 5");
   });
 });
+
+// A11Y-OPTIONS-01: design-options.html (WEBSITE-DESIGN-03). Colour contrast of the orange CTAs is a design decision
+// pending Daniel (see CLAUDE.md), so it is excluded here; everything else must be clean.
+const OPTIONS = "/company-preview/design-options.html";
+for (const w of [320, 390, 1440]) {
+  test(`design options @${w}: each variant has no overflow and no axe violations other than pending design contrast`, async ({ page }) => {
+    const external: string[] = [];
+    page.on("request", (r) => { if (!r.url().startsWith("http://localhost:3100")) external.push(r.url()); });
+    await page.setViewportSize({ width: w, height: 900 });
+    await page.goto(OPTIONS);
+    const tabs = page.getByRole("tab");
+    await expect(tabs).toHaveCount(3);
+    for (let i = 0; i < 3; i++) {
+      await tabs.nth(i).click();
+      await expect(tabs.nth(i)).toHaveAttribute("aria-selected", "true");
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
+      const ax = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).disableRules(["color-contrast"]).analyze();
+      expect(ax.violations.map((v) => `variant ${i}: ${v.id} x${v.nodes.length}`)).toEqual([]);
+      const defaultBlue = await page.evaluate(() => [...document.querySelectorAll("a")].filter((a) => (a as HTMLElement).offsetParent && getComputedStyle(a).color === "rgb(0, 0, 238)").length);
+      expect(defaultBlue, "links rendered in the browser default blue").toBe(0);
+    }
+    expect(external).toEqual([]);
+  });
+}
+
+test("design options: tabs follow the WAI-ARIA tabs pattern (tablist, arrows, one visible panel)", async ({ page }) => {
+  await page.goto(OPTIONS);
+  await expect(page.getByRole("tablist")).toHaveCount(1);
+  await page.getByRole("tab").first().focus();
+  await page.keyboard.press("ArrowLeft");
+  const selected = page.locator('[role="tab"][aria-selected="true"]');
+  await expect(selected).toHaveCount(1);
+  await expect(selected).toBeFocused();
+  await expect(page.locator('[role="tabpanel"]:not([hidden])')).toHaveCount(1);
+});
