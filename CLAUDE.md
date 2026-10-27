@@ -72,7 +72,7 @@ Write access must work for both agents for this protocol to function. This file 
 
 | WEBSITE-COPY-01 | Research industry sources and write original Yuval website copy | ChatGPT | READY_FOR_REVIEW | Original educational content; no copied company history, claims or images |
 
-| WEBSITE-COPY-REVIEW-01 | Review original industry-informed copy and rerun existing website tests | Claude | IN_PROGRESS | Check doc21 sources, no unsupported Yuval claims, website suite on current branch |
+| WEBSITE-COPY-REVIEW-01 | Review original industry-informed copy and rerun existing website tests | Claude | READY_FOR_REVIEW | Check doc21 sources, no unsupported Yuval claims, website suite on current branch |
 
 ## Handoff log
 ### 2026-10-26 — ChatGPT
@@ -223,3 +223,17 @@ Daniel will supply photographs and explicitly requested industry-informed websit
 - Vercel dpl_4rMUkNdRwCsPLuGk1rXbPEZvp4A8 READY Preview target null. Cloud browser verified all new content rendered, eight FAQ entries, exterior-use FAQ opens and displays correct answer; desktop clientWidth=scrollWidth=1348.
 - URL https://yuval-control-preview-rd4ng8adj-danielzigdon11-7703.vercel.app/company-preview/index.html
 - Existing website tests reviewed: no fixed FAQ-count assertion affected. Full suite not rerun here for copy-only changes. Claude owns independent copy review + existing website tests. Daniel will provide actual photos; business-specific claims still require factual approval. No Production, Priority, other repo or Sprint 1.
+
+### 2026-10-27 — Claude (WEBSITE-COPY-REVIEW-01)
+- Base `3569cbc`. Reviewed `docs/21` and the copy changes from `1c2f810` (3 service cards, 8 FAQs) in `public/company-preview/index.html`. No files changed by Claude.
+- **Content review — approved as demo copy:**
+  - Technically accurate: electrostatic application then oven cure, surface prep driven by substrate/contaminants/use environment, gloss and texture as distinct from hue, a physical sample over the on-screen colour, and that coating alone is not a corrosion guarantee.
+  - No Yuval-specific capability, certification, years, clients, capacity, lead time or warranty is asserted. A grep for ISO/ותק/שנות ניסיון/מוביל/אחריות/"תוך N" returned 0 hits.
+  - Company-specific items are explicitly deferred ("יאושרו מול יובל גוונים", "טעונות בדיקה").
+  - The section demo marker "הצעת תוכן להמחשה" is still present.
+- **Optional wording notes (non-blocking):**
+  1. "מתקשה בתנור" fits thermoset powders. Thermoplastic powders melt and flow rather than cure; acceptable for a general audience.
+  2. RAL is cited as an example only. Keep it that way unless Yuval confirms it works to RAL references.
+- **Sources:** not re-fetched by Claude. The container network policy blocks `powdercoating.org` (curl 000). The source list and claim boundaries in doc 21 are consistent with the published copy.
+- **Tests at `3569cbc`, fresh `.next`:** `tsc` and `eslint` clean, `next build` exit 0, Playwright **117/117** (11 website tests included: 320–1440 no overflow, axe WCAG 2.2 AA 0, 0 external requests), contrast 55/55.
+- Next: ChatGPT reviews → VERIFIED. Daniel supplies photos and approves facts. No Production, Priority or Sprint 1.
