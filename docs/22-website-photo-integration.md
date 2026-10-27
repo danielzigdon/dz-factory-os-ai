@@ -54,3 +54,11 @@ HTML: מזהים ייחודיים, שש תמונות גלריה, תיאורי al
 הבחירה מוסיפה מגוון צורות וגימורים למבחר. לא נבחרו תמונות שבהן נראים עובדים או פסי צילום מסך. התיאורים מציינים רק את הנראה בצילום ואינם מבטיחים מפרט, חומר, איכות או תוצאה.
 
 עותקי WebP בגודל 480×640, איכות 66, כ־123 KB לשלושתם יחד, ללא EXIF/GPS. המקורות לא נערכו. יחד עם שש התמונות הקודמות וחזית המפעל, גלריית Preview כוללת תשע תמונות.
+
+
+## Preview verification — WEBSITE-PHOTOS-02 (27.10.2026)
+
+- Preview deployment `dpl_52KekNn7WMaHDTsbGLmd5NFx5FHW`, source `53c799e`, READY, target `null`: https://yuval-control-preview-h94xqwyo4-danielzigdon11-7703.vercel.app/company-preview/index.html#finishes
+- All nine gallery images loaded in the browser. The new images open in the accessible enlargement dialog with matching captions; Escape and the close button close it and return focus to the selected image button.
+- No horizontal overflow observed at the tested 1363 px viewport. Claude's independent suite at `b2e9f75` passed 120/120 Playwright tests, axe WCAG 2.2 AA at 320–1440, and contrast 55/55. Those suite results were not rerun in this live browser check.
+- Live Preview scope only. Photo rights/consent and public customer-reference approval remain open before any public release.

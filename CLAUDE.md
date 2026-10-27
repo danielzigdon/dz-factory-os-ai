@@ -79,8 +79,8 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-PHOTOS-REVIEW-01 | Independently verify photo assets, viewer keyboard behavior and viewport suite | Claude | VERIFIED | Current website tests and photo interactions; no new claims or scope expansion |
 | WEBSITE-FACTS-REVIEW-01 | Independently review owner-supplied business facts, accuracy of copy, privacy exclusions and website tests | Claude | VERIFIED | Confirm only supplied claims appear, contact links work, no financial identifiers, and current Preview tests pass |
 | WEBSITE-FACADE-01 | Add Daniel-supplied factory exterior photograph to the protected website Preview | ChatGPT | VERIFIED | Crop phone screenshot borders and parked vehicles; preserve visible company sign; strip metadata; verify actual Preview; keep other images unchanged |
-| WEBSITE-PHOTOS-02 | Add a curated set of additional Daniel-supplied product and process photographs to the protected website Preview | ChatGPT | IN_PROGRESS | Three distinct photos, no identifiable workers or screenshot borders, optimized metadata-free assets, accessible captions, live Preview verification |
-| WEBSITE-PHOTOS-02-REVIEW | Independently review the additional photo assets and live gallery behavior | Claude | READY_FOR_REVIEW | Verify image/caption accuracy, asset metadata, dialog keyboard interaction, and no layout overflow; no Production |
+| WEBSITE-PHOTOS-02 | Add a curated set of additional Daniel-supplied product and process photographs to the protected website Preview | ChatGPT | VERIFIED | Three distinct photos, no identifiable workers or screenshot borders, optimized metadata-free assets, accessible captions, live Preview verification |
+| WEBSITE-PHOTOS-02-REVIEW | Independently review the additional photo assets and live gallery behavior | Claude | VERIFIED | Image/caption accuracy, metadata, dialog keyboard interaction, and viewport tests verified; live Preview checked by ChatGPT; no Production |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | VERIFIED | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
 ## Handoff log
@@ -332,3 +332,12 @@ Daniel finished supplying photographs and instructed their integration in the we
 - **Gallery and viewer:** covered by the website suite (all `assets/` images local, ≤ 200 KB, decode, with alt; viewer keyboard open, Esc/× close with focus return at 390/1440; no overflow 320–1440; axe WCAG 2.2 AA 0).
 - **Checks at `b2e9f75`, fresh `.next`:** `tsc` and `eslint` clean, `next build` exit 0, Playwright **120/120**, contrast 55/55.
 - Not verified by Claude: the live Vercel deployment (no `vercel.app` access), photo rights and consent, real devices.
+
+
+### 2026-10-27 — ChatGPT (WEBSITE-PHOTOS-02 complete)
+- Base `0659cf98ffcb8d7221bfb5fc6239284fd9b5eb98`; implementation `53c799edd5d7e9187b46316887fd6c3de1677c7c`; this handoff is documentation-only.
+- Preview deployment `dpl_52KekNn7WMaHDTsbGLmd5NFx5FHW`, source `53c799e`, READY, target `null`; URL: https://yuval-control-preview-h94xqwyo4-danielzigdon11-7703.vercel.app/company-preview/index.html#finishes
+- Live browser verification: nine gallery images decoded successfully, including all three new assets; image enlargement displayed its caption; Escape and the close button dismissed the dialog and returned focus to its trigger. Gallery screenshot inspected. Document width 1348 px against a 1363 px viewport; no horizontal overflow observed.
+- Accepted Claude's independent review at `0659cf9` of the committed assets and current site suite at `b2e9f75`: EXIF 0, no XMP/ICC, three images matched their captions; Playwright 120/120, WCAG 2.2 AA axe 0 at widths 320–1440, no overflow, TypeScript, ESLint, build, and contrast 55/55 passed. These suite results are Claude's, not re-run by ChatGPT.
+- Vercel project remains protected Preview only; no Production publish or protection change. Photo rights/consent and customer-reference approval remain public-release gates documented above.
+- Closed WEBSITE-PHOTOS-02 and WEBSITE-PHOTOS-02-REVIEW as VERIFIED for the protected Preview scope.
