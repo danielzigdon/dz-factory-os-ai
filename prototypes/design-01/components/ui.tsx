@@ -1,7 +1,7 @@
 "use client";
 import { AlertTriangle, CheckCircle2, Clock, Info, Lock, RefreshCw, ShieldAlert, X, type LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { fmtDateTime, isOverdue } from "@/lib/format";
 import { USERS } from "@/lib/fixtures";
 import { useStore, type ToastMsg } from "@/lib/store";
@@ -140,6 +140,7 @@ export function OwnerSelect({ value, onChange, id, label = "אחראי" }: { val
 export function ConfirmationDialog({ open, title, children, confirmLabel, onConfirm, onClose, confirmDisabled }: {
   open: boolean; title: string; children: ReactNode; confirmLabel: string; onConfirm: () => void; onClose: () => void; confirmDisabled?: boolean;
 }) {
+  const titleId = useId();
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const d = ref.current;
@@ -148,10 +149,10 @@ export function ConfirmationDialog({ open, title, children, confirmLabel, onConf
     if (!open && d.open) d.close();
   }, [open]);
   return (
-    <dialog ref={ref} onClose={onClose} aria-labelledby="dlg-title"
+    <dialog ref={ref} onClose={onClose} aria-labelledby={titleId}
       className="m-auto w-[min(92vw,480px)] rounded-panel border border-border bg-surface p-0 text-text-primary">
       <div className="flex items-center justify-between border-b border-border px-5 py-3">
-        <h2 id="dlg-title" className="text-lg font-semibold">{title}</h2>
+        <h2 id={titleId} className="text-lg font-semibold">{title}</h2>
         <button type="button" onClick={onClose} aria-label="סגירה" className="rounded-input p-2 hover:bg-surface-raised"><X aria-hidden size={18} /></button>
       </div>
       <div className="space-y-4 px-5 py-4">{children}</div>
