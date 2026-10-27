@@ -68,6 +68,7 @@ Write access must work for both agents for this protocol to function. This file 
 | QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | READY_FOR_REVIEW | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
 | SEC-01 | Upgrade Next.js 16.4.0 → 16.4.3 (critical advisories; `next build` now exits 1) and re-verify the prototype | Claude | VERIFIED | Build exits 0; npm audit has no critical/high; full Playwright + contrast pass; Preview redeploys READY |
 | WEB-FIX-01 | Fix WEBSITE-REVIEW-01 findings 1–3 (320px overflow, logo weight, Playwright coverage replacing mobile-preview.html) | Claude | READY_FOR_REVIEW | No overflow at 320–1440; logo ≤ 60 KB; website tests in the suite pass; axe 0; no content/claim changes |
+| A11Y-CAROUSEL-01 | WEBSITE-DESIGN-02 review: carousel dots fail WCAG 2.2 2.5.8 target size (8×8 px; axe `target-size` at 320–1440); enlarge hit area, keep visual; add carousel tests | Claude | IN_PROGRESS | axe 0 at 320–1440; dots ≥ 24×24 hit area; next/prev/dot/pause/keyboard/reduced-motion tested; no visual redesign |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
 
 | WEBSITE-COPY-01 | Research industry sources and write original Yuval website copy | ChatGPT | READY_FOR_REVIEW | Original educational content; no copied company history, claims or images |
