@@ -76,10 +76,10 @@ Write access must work for both agents for this protocol to function. This file 
 
 | WEBSITE-PHOTOS-01 | Integrate Daniel-supplied factory photographs into protected website Preview | ChatGPT | READY_FOR_REVIEW | Deduplicated optimized photos, accurate captions, no customer identities or operational records |
 
-| WEBSITE-PHOTOS-REVIEW-01 | Independently verify six photo assets, viewer keyboard behavior and viewport suite | Claude | READY_FOR_REVIEW | Current website tests and photo interactions; no new claims or scope expansion |
-| WEBSITE-FACTS-REVIEW-01 | Independently review owner-supplied business facts, accuracy of copy, privacy exclusions and website tests | Claude | READY_FOR_REVIEW | Confirm only supplied claims appear, contact links work, no financial identifiers, and current Preview tests pass |
-| WEBSITE-FACADE-01 | Add Daniel-supplied factory exterior photograph to the protected website Preview | ChatGPT | IN_PROGRESS | Crop phone screenshot borders and parked vehicles; preserve visible company sign; strip metadata; verify actual Preview; keep other images unchanged |
-| WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | READY_FOR_REVIEW | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
+| WEBSITE-PHOTOS-REVIEW-01 | Independently verify photo assets, viewer keyboard behavior and viewport suite | Claude | VERIFIED | Current website tests and photo interactions; no new claims or scope expansion |
+| WEBSITE-FACTS-REVIEW-01 | Independently review owner-supplied business facts, accuracy of copy, privacy exclusions and website tests | Claude | VERIFIED | Confirm only supplied claims appear, contact links work, no financial identifiers, and current Preview tests pass |
+| WEBSITE-FACADE-01 | Add Daniel-supplied factory exterior photograph to the protected website Preview | ChatGPT | VERIFIED | Crop phone screenshot borders and parked vehicles; preserve visible company sign; strip metadata; verify actual Preview; keep other images unchanged |
+| WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | VERIFIED | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
 ## Handoff log
 ### 2026-10-26 — ChatGPT
@@ -308,3 +308,11 @@ Daniel finished supplying photographs and instructed their integration in the we
   5. Plain `mailto:` addresses will be harvested by spam bots once public. Consider a contact form with server intake (finding 5 of WEBSITE-REVIEW-01).
 - **Tests:** same tree as WEBSITE-PHOTOS-REVIEW-01 (`1630e22`, no site change since): Playwright **120/120**, website axe WCAG 2.2 AA 0 at 320–1440, 0 external requests, contrast 55/55.
 - Next: ChatGPT/Daniel decide 1–2 before any public step. No Production, Priority or Sprint 1.
+
+
+### 2026-10-27 — ChatGPT (WEBSITE-FACADE-01 complete; independent reviews accepted)
+- Base `997c0019ceb3e49af8afd38a317f05cbf6558f0a`; this documentation commit records review evidence without changing website code.
+- Completed the exterior image integration already deployed from `065ae03`: source `IMG_2477.png`, crop removes phone screenshot borders and parked vehicles/plates while preserving the company sign; derivative is 805×360 WebP (~27 KB), no EXIF/GPS transfer. Browser screenshot verified the image rendered in the About section.
+- Live Preview checked: `dpl_E3e3ucNF13vTsjV5mgARCHdbEzwd`, READY, target null; URL `https://yuval-control-preview-fm7low6ld-danielzigdon11-7703.vercel.app/company-preview/index.html#about`. Rendered company facts, contacts, gallery, and demo-only form. Project remains `live:false`; SSO protection enabled for all deployments. No protection/config changes.
+- Accepted Claude's independent evidence at `1630e22`: Playwright 120/120, axe WCAG 2.2 AA 0 at 320–1440, 0 external requests, contrast 55/55. No re-run claimed by ChatGPT.
+- Closed WEBSITE-FACADE-01, WEBSITE-PHOTOS-REVIEW-01, WEBSITE-FACTS-REVIEW-01, and WEBSITE-FACTS-01 as VERIFIED for the protected Preview scope. Public release remains gated: written permission for named customer references or removal, clarify the wording implying Yuval's own track record, and confirm photo rights/consent. No Production, Priority, Sprint 1, or other-repository work.
