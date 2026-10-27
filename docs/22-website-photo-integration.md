@@ -62,3 +62,8 @@ HTML: מזהים ייחודיים, שש תמונות גלריה, תיאורי al
 - All nine gallery images loaded in the browser. The new images open in the accessible enlargement dialog with matching captions; Escape and the close button close it and return focus to the selected image button.
 - No horizontal overflow observed at the tested 1363 px viewport. Claude's independent suite at `b2e9f75` passed 120/120 Playwright tests, axe WCAG 2.2 AA at 320–1440, and contrast 55/55. Those suite results were not rerun in this live browser check.
 - Live Preview scope only. Photo rights/consent and public customer-reference approval remain open before any public release.
+
+
+## סיפור המפעל באזור אודות — WEBSITE-ABOUT-STORY-01
+
+בבקשת דניאל: להציג באזור אודות את הדרך מהקמת המפעל ועד מראהו כיום. נוספה תמונת רוחב של חלל המפעל ומערכות הצביעה מתקופת ההקמה (`IMG_2470.jpeg`), לצד חזית המפעל שכבר שולבה באתר. נוצר עותק WebP בחיתוך שמסיר את פסי המסך השחורים; המקור נשמר ולא הועברו לעותק נתוני EXIF/GPS. הכיתובים מפרידים בבירור בין תקופת ההקמה לבין המראה כיום ומתארים רק את הנראה בצילום. התמונות מוצגות מתחת לכותרת "מהקמת המפעל ועד היום" באזור אודות.
