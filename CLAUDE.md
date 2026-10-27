@@ -68,7 +68,7 @@ Write access must work for both agents for this protocol to function. This file 
 | QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | READY_FOR_REVIEW | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
 | SEC-01 | Upgrade Next.js 16.4.0 → 16.4.3 (critical advisories; `next build` now exits 1) and re-verify the prototype | Claude | VERIFIED | Build exits 0; npm audit has no critical/high; full Playwright + contrast pass; Preview redeploys READY |
 | WEB-FIX-01 | Fix WEBSITE-REVIEW-01 findings 1–3 (320px overflow, logo weight, Playwright coverage replacing mobile-preview.html) | Claude | READY_FOR_REVIEW | No overflow at 320–1440; logo ≤ 60 KB; website tests in the suite pass; axe 0; no content/claim changes |
-| A11Y-CAROUSEL-01 | WEBSITE-DESIGN-02 review: carousel dots fail WCAG 2.2 2.5.8 target size (8×8 px; axe `target-size` at 320–1440); enlarge hit area, keep visual; add carousel tests | Claude | IN_PROGRESS | axe 0 at 320–1440; dots ≥ 24×24 hit area; next/prev/dot/pause/keyboard/reduced-motion tested; no visual redesign |
+| A11Y-CAROUSEL-01 | WEBSITE-DESIGN-02 review: carousel dots fail WCAG 2.2 2.5.8 target size (8×8 px; axe `target-size` at 320–1440); enlarge hit area, keep visual; add carousel tests | Claude | READY_FOR_REVIEW | axe 0 at 320–1440; dots ≥ 24×24 hit area; next/prev/dot/pause/keyboard/reduced-motion tested; no visual redesign |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
 
 | WEBSITE-COPY-01 | Research industry sources and write original Yuval website copy | ChatGPT | READY_FOR_REVIEW | Original educational content; no copied company history, claims or images |
@@ -376,3 +376,16 @@ Daniel finished supplying photographs and instructed their integration in the we
 - Vercel Preview deployment `dpl_ETnSLmDh87rULFyUX4zm6mxstmay`, source `1ad6595`, READY, target `null`. Live page fetch returned HTTP 200. All nine referenced gallery/about WebP assets returned HTTP 200. Live HTML contains Hebrew title, carousel controls, selected palette tokens and reduced-motion CSS.
 - Limit: live markup/assets fetched successfully; no interactive browser/mobile viewport pass was run for this revision. Existing form remains a demo and cannot submit externally. No Production publish or protection change.
 - Next: independent review of visual direction and interactive/responsive behavior; public release still requires documented photo rights/consent and customer-reference approval.
+
+### 2026-10-27 — Claude (WEBSITE-DESIGN-02 review → A11Y-CAROUSEL-01)
+- Reviewed `1ad6595` on a fresh build. **Regression found:** the website suite failed at all 5 widths with axe `target-size` (WCAG 2.2 2.5.8, 4–5 nodes). Carousel dots were 8×8 px (20×8 when active).
+- **Second bug found while testing:** finger swipe never changed the slide. The handler relies on `pointerup`, but without `touch-action` the browser takes horizontal drags for panning and fires `pointercancel`. The test failed before the fix and passes after it.
+- Base `90252b2` → result `3375827`. Changed:
+  - `public/company-preview/index.html` (CSS only):
+    - Dots get a 24×24 transparent hit area, with the same visual drawn by `::before`. The mobile/active/reduced-motion rules moved to `::before`.
+    - `#hero-carousel{touch-action:pan-y}`.
+    - No palette, copy or JS change.
+  - `tests/website.spec.ts` (+6): target sizes at 320/390/1440 and on-screen; next/prev wrap, dots, live `#slide-status`, keyboard Enter; autoplay advances, the pause toggle (`aria-pressed`) stops it, reduced motion never autoplays (`page.clock`); CDP finger swipe.
+- Checks at `3375827`, fresh `.next`: `tsc` and `eslint` clean, build exit 0, Playwright **126/126**, carousel tests ×3 stable, contrast 55/55. axe WCAG 2.2 AA is 0 again at 320–1440.
+- Visual direction (palette and layout) not judged by Claude; that is Daniel's call. Not verified: real devices, Safari/Firefox, the live Vercel deployment.
+- WEBSITE-DESIGN-02 can move to VERIFIED together with this fix.
