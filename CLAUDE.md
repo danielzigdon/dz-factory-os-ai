@@ -82,6 +82,7 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-PHOTOS-02 | Add a curated set of additional Daniel-supplied product and process photographs to the protected website Preview | ChatGPT | VERIFIED | Three distinct photos, no identifiable workers or screenshot borders, optimized metadata-free assets, accessible captions, live Preview verification |
 | WEBSITE-PHOTOS-02-REVIEW | Independently review the additional photo assets and live gallery behavior | Claude | VERIFIED | Image/caption accuracy, metadata, dialog keyboard interaction, and viewport tests verified; live Preview checked by ChatGPT; no Production |
 | WEBSITE-ABOUT-STORY-01 | Add a photo-led factory-origin story to About | ChatGPT | READY_FOR_REVIEW | User-supplied setup and current-state photos, clear chronology, responsive accessible layout, protected Preview verified |
+| WEBSITE-DESIGN-02 | Apply Daniel-selected 1+2+6 direction to the protected company Preview: forest/graphite base, cobalt/orange accents, photo carousel | ChatGPT | IN_PROGRESS | Use supplied factory photos, accessible controls and reduced-motion support, responsive layout, Preview only |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | VERIFIED | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
 ## Handoff log
