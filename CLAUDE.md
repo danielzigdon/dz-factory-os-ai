@@ -357,3 +357,11 @@ Daniel finished supplying photographs and instructed their integration in the we
 - Live browser: both About images decoded (natural widths 709 and 805 px); story heading and captions rendered in Hebrew; document width 1348 px at a 1363 px viewport. Desktop view visually inspected. No direct mobile viewport QA or separate accessibility suite rerun for this addition.
 - Project inspection: `live:false`; SSO protection enabled for all deployments. No Production publish or protection change.
 - Next: Claude independent review of chronology/captions, image asset and responsive presentation. No public release; photo rights/consent and customer-reference approval remain separate gates.
+
+### 2026-10-27 — Claude (independent review of WEBSITE-ABOUT-STORY-01)
+- Base `a6fd4da` (includes `add44da`). No files changed by Claude.
+- `assets/factory-setup.webp`: 709×532, 32 KB, EXIF 0, no XMP or ICC. Visual: wide shot of the hall, ovens and equipment, with no identifiable people, plates or labels. The resolution is low but adequate for the 230–250 px display height.
+- Story text: chronology from the setup period to today's facade in Sderot, consistent with the doc 21 owner facts. No new claims.
+- Checks at `a6fd4da`, fresh `.next`: `next build` exit 0, Playwright **120/120** (website suite at 320–1440: no overflow, axe WCAG 2.2 AA 0, all `assets/` local, ≤ 200 KB, alt present).
+- Still open from WEBSITE-FACTS-REVIEW-01: the heading "ניסיון תעשייתי" is unchanged (finding 2), and the customer-name consent (finding 1). Both are for Daniel before any public release.
+- From Claude's side, WEBSITE-ABOUT-STORY-01 can move to VERIFIED.
