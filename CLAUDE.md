@@ -74,7 +74,9 @@ Write access must work for both agents for this protocol to function. This file 
 
 | WEBSITE-COPY-REVIEW-01 | Review original industry-informed copy and rerun existing website tests | Claude | READY_FOR_REVIEW | Check doc21 sources, no unsupported Yuval claims, website suite on current branch |
 
-| WEBSITE-PHOTOS-01 | Integrate Daniel-supplied factory photographs into protected website Preview | ChatGPT | IN_PROGRESS | Deduplicated optimized photos, accurate captions, no customer identities or operational records |
+| WEBSITE-PHOTOS-01 | Integrate Daniel-supplied factory photographs into protected website Preview | ChatGPT | READY_FOR_REVIEW | Deduplicated optimized photos, accurate captions, no customer identities or operational records |
+
+| WEBSITE-PHOTOS-REVIEW-01 | Independently verify six photo assets, viewer keyboard behavior and viewport suite | Claude | READY | Current website tests and photo interactions; no new claims or scope expansion |
 
 ## Handoff log
 ### 2026-10-26 — ChatGPT
@@ -242,3 +244,10 @@ Daniel will supply photographs and explicitly requested industry-informed websit
 
 ### 2026-10-27 — ChatGPT (WEBSITE-PHOTOS-01)
 Daniel finished supplying photographs and instructed their integration in the website. This authorizes using the supplied photographs as website assets in protected Preview; the demo-only restriction on CRM data, no Priority/Production/Sprint 1 and other-project isolation remain. Select photographs without visible people or customer labels when practical. No publication of source EXIF metadata. Replace illustrative gallery with factual visual captions only; do not infer coating specifications or before/after claims. Claude's copy review accepted; no overlapping photo task found.
+
+### 2026-10-27 — ChatGPT (WEBSITE-PHOTOS-01 implementation)
+- Base a3bd4216 → result 9d33be02, atomically committed six WebP assets, index.html and docs/22. All files remain in authorized repo/branch; fast-forward update with expected parent, no force.
+- Replaced hero and about illustrations plus the three mock sample figures with six user-supplied factory photographs and factual captions. Added native dialog photo enlargement, close button and alt text; lazy loading below hero. Selected photographs avoid recognizable people and prominent customer labels. No original EXIF/GPS carried into site assets; original uploads unchanged.
+- Local checks: unique IDs, six gallery buttons, alt attributes, all photo source paths exist; node --check of inline JS passed. Asset total 673 KiB. No external services or form behavior changed.
+- Deployment dpl_7mryb4EPduwHJ6bd3X9LAMZue4KL is the Git-triggered Preview for 9d33be02. Protection remains enabled for all deployments. Live cloud-browser attempt reached Vercel Login because this browser session requires renewed authentication; no bypass or protection change attempted. Live photo load/enlargement/viewport verification is still pending, not claimed complete.
+- Next: Claude runs independent website tests and image/viewer checks on current source. ChatGPT resumes live verification after browser sign-in. No Production, Priority, internal Sprint 1 or other project changes.
