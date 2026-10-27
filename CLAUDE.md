@@ -82,7 +82,7 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-PHOTOS-02 | Add a curated set of additional Daniel-supplied product and process photographs to the protected website Preview | ChatGPT | VERIFIED | Three distinct photos, no identifiable workers or screenshot borders, optimized metadata-free assets, accessible captions, live Preview verification |
 | WEBSITE-PHOTOS-02-REVIEW | Independently review the additional photo assets and live gallery behavior | Claude | VERIFIED | Image/caption accuracy, metadata, dialog keyboard interaction, and viewport tests verified; live Preview checked by ChatGPT; no Production |
 | WEBSITE-ABOUT-STORY-01 | Add a photo-led factory-origin story to About | ChatGPT | READY_FOR_REVIEW | User-supplied setup and current-state photos, clear chronology, responsive accessible layout, protected Preview verified |
-| WEBSITE-DESIGN-02 | Apply Daniel-selected 1+2+6 direction to the protected company Preview: forest/graphite base, cobalt/orange accents, photo carousel | ChatGPT | IN_PROGRESS | Use supplied factory photos, accessible controls and reduced-motion support, responsive layout, Preview only |
+| WEBSITE-DESIGN-02 | Apply Daniel-selected 1+2+6 direction to the protected company Preview: forest/graphite base, cobalt/orange accents, photo carousel | ChatGPT | READY_FOR_REVIEW | Use supplied factory photos, accessible controls and reduced-motion support, responsive layout, Preview only |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | VERIFIED | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
 ## Handoff log
@@ -366,3 +366,12 @@ Daniel finished supplying photographs and instructed their integration in the we
 - Checks at `a6fd4da`, fresh `.next`: `next build` exit 0, Playwright **120/120** (website suite at 320–1440: no overflow, axe WCAG 2.2 AA 0, all `assets/` local, ≤ 200 KB, alt present).
 - Still open from WEBSITE-FACTS-REVIEW-01: the heading "ניסיון תעשייתי" is unchanged (finding 2), and the customer-name consent (finding 1). Both are for Daniel before any public release.
 - From Claude's side, WEBSITE-ABOUT-STORY-01 can move to VERIFIED.
+
+
+### 2026-10-27 — ChatGPT (WEBSITE-DESIGN-02 implementation)
+- Base `0144fd0`; claim commit `2f9b72a` → implementation `1ad6595c61144f8cd3c9da511c33395cf38d75dc`. Changed: `prototypes/design-01/public/company-preview/index.html`.
+- Applied the selected forest/graphite brand base with cobalt and orange accents and a five-image factory-photo carousel. Added previous/next, slide selection, pause/resume, hover/focus and hidden-tab pausing, touch swipe, and reduced-motion handling.
+- Static checks: HTML parsed; carousel controls and five local photo references present; all referenced image paths exist; inline JavaScript passed `node --check`.
+- Vercel Preview deployment `dpl_ETnSLmDh87rULFyUX4zm6mxstmay`, source `1ad6595`, READY, target `null`. Live page fetch returned HTTP 200. All nine referenced gallery/about WebP assets returned HTTP 200. Live HTML contains Hebrew title, carousel controls, selected palette tokens and reduced-motion CSS.
+- Limit: live markup/assets fetched successfully; no interactive browser/mobile viewport pass was run for this revision. Existing form remains a demo and cannot submit externally. No Production publish or protection change.
+- Next: independent review of visual direction and interactive/responsive behavior; public release still requires documented photo rights/consent and customer-reference approval.
