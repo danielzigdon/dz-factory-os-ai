@@ -23,7 +23,30 @@
 .photo-modal{width:min(94vw,960px);padding:20px;background:#10272b;color:#fff;border:1px solid #617975;border-radius:16px;max-height:94vh}
 .photo-modal::backdrop{background:#071c1bef}.photo-modal img{display:block;max-width:100%;max-height:70vh;width:auto;height:auto;margin:14px auto;object-fit:contain}.photo-modal h2{font-size:21px;letter-spacing:0}.photo-modal .modal-close{color:white;float:left}.photo-modal p{font-size:12px;color:#c1d3cb;margin-bottom:0}
 @media(max-width:760px){.hero-photo>img{height:410px}.hero-photo figcaption{padding:12px 14px;font-size:11px}.hero-photo figcaption b{font-size:10px}.about-photo img{height:330px}.about-story-shot img{height:250px}.photo-button img{height:380px}.photo-modal{padding:16px}.photo-modal img{max-height:65vh}}
-.partner-note{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:28px;padding-top:22px;border-top:1px solid #b9c9b8}.partner-note p{margin:0!important}.partner-note b,.partner-note span{display:block}.partner-note b{font-size:14px}.partner-note span{font-size:13px;color:#516456;margin-top:6px}.business-contact{display:grid;gap:7px;margin-top:27px;padding:20px;border:1px solid #b9c9b8;border-radius:12px;max-width:420px;font-size:14px}.business-contact b{font-size:17px}.business-contact a{text-decoration:underline;text-underline-offset:3px;width:fit-content}.business-contact a:hover{color:#076b48}@media(max-width:640px){.partner-note{grid-template-columns:1fr;gap:14px}.business-contact{font-size:13px}}</style>
+.partner-note{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:28px;padding-top:22px;border-top:1px solid #b9c9b8}.partner-note p{margin:0!important}.partner-note b,.partner-note span{display:block}.partner-note b{font-size:14px}.partner-note span{font-size:13px;color:#516456;margin-top:6px}.business-contact{display:grid;gap:7px;margin-top:27px;padding:20px;border:1px solid #b9c9b8;border-radius:12px;max-width:420px;font-size:14px}.business-contact b{font-size:17px}.business-contact a{text-decoration:underline;text-underline-offset:3px;width:fit-content}.business-contact a:hover{color:#076b48}@media(max-width:640px){.partner-note{grid-template-columns:1fr;gap:14px}.business-contact{font-size:13px}}
+/* WEBSITE-DESIGN-02: forest/graphite editorial base, cobalt/orange accents, photo-led carousel. */
+:root{--blue:#2869a8;--orange:#ef7138}
+.hero .btn.green{background:var(--orange);color:#fff}
+.hero .btn.green:hover{background:#d85d28}
+.hero .eyebrow{color:#d8e8ef}
+.hero .eyebrow:before{background:var(--orange)}
+.links a:hover,.service a:hover{color:var(--blue)}
+.hero-photo{isolation:isolate;box-shadow:0 22px 55px #06171970}
+.hero-photo>img{transition:opacity .28s ease,transform .4s ease}
+.hero-photo.is-changing>img{opacity:.24;transform:scale(1.012)}
+.slide-controls{position:absolute;z-index:3;bottom:66px;inset-inline:14px;display:flex;align-items:center;gap:9px;direction:ltr}
+.slide-control{width:38px;height:38px;min-width:38px;min-height:38px;border:1px solid #ffffff82;border-radius:50%;background:#10272bd9;color:#fff;display:grid;place-items:center;font-size:21px;line-height:1;padding:0}
+.slide-control:hover{background:var(--orange);border-color:var(--orange)}
+.slide-dots{display:flex;align-items:center;gap:7px;margin-inline:auto}
+.slide-dot{width:9px;height:9px;min-width:9px;min-height:9px;padding:0;border:1px solid #fff;background:#ffffff55;border-radius:99px;transition:width .2s ease,background .2s ease}
+.slide-dot[aria-current=true]{width:25px;background:var(--orange);border-color:var(--orange)}
+.slide-toggle{min-height:38px;border:1px solid #ffffff82;border-radius:5px;background:#10272bd9;color:#fff;padding:5px 10px;font-size:11px;white-space:nowrap}
+.slide-toggle:hover{background:var(--blue)}
+.hero-photo figcaption{z-index:2}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:760px){.slide-controls{bottom:62px;inset-inline:9px;gap:6px}.slide-control{width:34px;height:34px;min-width:34px;min-height:34px;font-size:19px}.slide-toggle{font-size:10px;padding:4px 7px}.slide-dots{gap:5px}.slide-dot{width:8px;height:8px;min-width:8px;min-height:8px}.slide-dot[aria-current=true]{width:20px}}
+@media(prefers-reduced-motion:reduce){.hero-photo>img,.slide-dot{transition:none}}
+</style>
 </head>
 <body id="top">
 <a class="skip" href="#main">דילוג לתוכן</a>
@@ -37,7 +60,23 @@
 <main id="main">
 <section class="hero" aria-labelledby="hero-title"><div class="wrap hero-grid">
 <div class="hero-copy"><p class="eyebrow">YUVAL GVANIM · צבע שמתחיל בהבנה</p><h1 id="hero-title">צביעה מדויקת.<br>מתחילה <em>בפרטים.</em></h1><p>יובל גוונים היא מפעל לצביעה באבקה של ברזל, מתכות ואלומיניום. מהכנת המשטח ועד לאריזה — בוחנים כל חלק ומתאימים לו את דרך העבודה.</p><div class="hero-actions"><a class="btn green" href="#contact">נדבר על הפרויקט שלכם <span class="arrow" aria-hidden="true">←</span></a><a class="btn outline" href="#services">להכיר את השירותים</a></div><p class="hero-note">חברת בת של דידי פתרונות מתקדמים לתעשייה · איסוף ומשלוחים בכל הארץ</p></div>
-<figure class="hero-photo"><img src="assets/red-louvers.webp" alt="תריסי מתכת אדומים תלויים על מסוע בקו הצביעה" width="900" height="1600" fetchpriority="high" decoding="async"><figcaption><span>מבט מקרוב · יובל גוונים</span><b>צורה. צבע. גימור.</b></figcaption></figure>
+<figure class="hero-photo" id="hero-carousel" aria-label="תמונות ממפעל יובל גוונים">
+<img id="hero-slide-image" src="assets/red-louvers.webp" alt="תריסי מתכת אדומים תלויים על מסוע בקו הצביעה" width="900" height="1600" fetchpriority="high" decoding="async">
+<div class="slide-controls" role="group" aria-label="בקרי מצגת">
+<button class="slide-control" type="button" data-slide-prev aria-label="התמונה הקודמת" aria-controls="hero-slide-image">‹</button>
+<div class="slide-dots" role="group" aria-label="בחירת תמונה">
+<button class="slide-dot" type="button" data-slide-to="0" aria-label="תמונה 1 מתוך 5" aria-current="true"></button>
+<button class="slide-dot" type="button" data-slide-to="1" aria-label="תמונה 2 מתוך 5"></button>
+<button class="slide-dot" type="button" data-slide-to="2" aria-label="תמונה 3 מתוך 5"></button>
+<button class="slide-dot" type="button" data-slide-to="3" aria-label="תמונה 4 מתוך 5"></button>
+<button class="slide-dot" type="button" data-slide-to="4" aria-label="תמונה 5 מתוך 5"></button>
+</div>
+<button class="slide-control" type="button" data-slide-next aria-label="התמונה הבאה" aria-controls="hero-slide-image">›</button>
+<button class="slide-toggle" type="button" aria-pressed="false" aria-label="השהיית החלפת התמונות">השהיה</button>
+</div>
+<figcaption><span id="hero-caption">מבט מקרוב · תריסי מתכת אדומים בתהליך הצביעה</span><b id="hero-count">01 / 05</b></figcaption>
+<span class="sr-only" id="slide-status" role="status" aria-live="polite"></span>
+</figure>
 </div></section>
 <div class="strip"><div class="wrap"><span><i aria-hidden="true">↗</i>ברזל, מתכות ואלומיניום</span><span><i aria-hidden="true">◇</i>הכנה, ניקוי וצביעה</span><span><i aria-hidden="true">▧</i>בדיקה ואריזה מקצועית</span><span><i aria-hidden="true">↔</i>איסוף ומשלוחים בכל הארץ</span></div></div>
 <section class="section" id="services" aria-labelledby="services-title"><div class="wrap"><div class="section-head"><div><p class="eyebrow">השירותים שלנו</p><h2 id="services-title">מהחלק הגולמי.<br>עד למראה שאתם מחפשים.</h2></div><p>שירותי המפעל כוללים הכנת מתכות, צביעה באבקה, בדיקת גימור ואריזה. כל עבודה נבחנת לפי החלק והמפרט שסוכם.</p></div>
@@ -66,6 +105,67 @@ document.querySelectorAll('[data-modal]').forEach(b=>b.addEventListener('click',
 document.querySelectorAll('dialog').forEach(d=>d.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>d.close())));
 const viewer=document.getElementById('photo-viewer'),large=document.getElementById('photo-large'),photoTitle=document.getElementById('photo-title');
 document.querySelectorAll('[data-photo]').forEach(button=>button.addEventListener('click',()=>{large.src=button.querySelector('img').getAttribute('src');large.alt=button.querySelector('img').alt;photoTitle.textContent=button.dataset.caption;viewer.showModal();}));
+
+const carousel=document.getElementById('hero-carousel');
+if(carousel){
+ const image=document.getElementById('hero-slide-image');
+ const caption=document.getElementById('hero-caption');
+ const count=document.getElementById('hero-count');
+ const status=document.getElementById('slide-status');
+ const toggle=carousel.querySelector('.slide-toggle');
+ const dots=[...carousel.querySelectorAll('[data-slide-to]')];
+ const slides=[
+  {src:'assets/red-louvers.webp',alt:'תריסי מתכת אדומים תלויים על מסוע בקו הצביעה',caption:'מבט מקרוב · תריסי מתכת אדומים בתהליך הצביעה'},
+  {src:'assets/light-frames.webp',alt:'מסגרות צינוריות בגוון בהיר תלויות בקו הצביעה',caption:'קווים נקיים · מסגרות מתכת בגוון בהיר'},
+  {src:'assets/gray-panels.webp',alt:'לוחות מתכת אפורים תלויים במתקן צביעה',caption:'דיוק בגימור · לוחות מתכת בגוון אפור'},
+  {src:'assets/line-details.webp',alt:'חלקי מתכת דקורטיביים בהירים תלויים על קו הצביעה',caption:'תשומת לב גם לפרטים הקטנים'},
+  {src:'assets/long-parts-on-line.webp',alt:'חלקי מתכת מאורכים תלויים סמוך לתא הצביעה',caption:'מגוון חלקים · כל פריט לפי מפרט העבודה'}
+ ];
+ let index=0,timer=null,manualPause=false,hoverPause=false,focusPause=false,touchStart=null,changeToken=0;
+ const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+ function stop(){if(timer){clearTimeout(timer);timer=null;}}
+ function schedule(){
+  stop();
+  if(!manualPause&&!hoverPause&&!focusPause&&!document.hidden&&!reduceMotion.matches){
+   timer=setTimeout(()=>{showSlide(index+1,false);schedule();},6200);
+  }
+ }
+ function showSlide(next,announce=false){
+  index=(next+slides.length)%slides.length;
+  const slide=slides[index],token=++changeToken;
+  carousel.classList.add('is-changing');
+  window.setTimeout(()=>{
+   if(token!==changeToken)return;
+   image.src=slide.src;image.alt=slide.alt;caption.textContent=slide.caption;
+   count.textContent=String(index+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+   dots.forEach((dot,i)=>{if(i===index)dot.setAttribute('aria-current','true');else dot.removeAttribute('aria-current');});
+   carousel.classList.remove('is-changing');
+   if(announce)status.textContent='תמונה '+(index+1)+' מתוך '+slides.length+': '+slide.caption;
+   const preload=new Image();preload.src=slides[(index+1)%slides.length].src;
+  },90);
+ }
+ carousel.querySelector('[data-slide-prev]').addEventListener('click',()=>{showSlide(index-1,true);schedule();});
+ carousel.querySelector('[data-slide-next]').addEventListener('click',()=>{showSlide(index+1,true);schedule();});
+ dots.forEach((dot,i)=>dot.addEventListener('click',()=>{showSlide(i,true);schedule();}));
+ toggle.addEventListener('click',()=>{
+  manualPause=!manualPause;toggle.setAttribute('aria-pressed',String(manualPause));
+  toggle.textContent=manualPause?'הפעלה':'השהיה';
+  toggle.setAttribute('aria-label',manualPause?'הפעלת החלפת התמונות':'השהיית החלפת התמונות');schedule();
+ });
+ carousel.addEventListener('mouseenter',()=>{hoverPause=true;schedule();});
+ carousel.addEventListener('mouseleave',()=>{hoverPause=false;schedule();});
+ carousel.addEventListener('focusin',()=>{focusPause=true;schedule();});
+ carousel.addEventListener('focusout',e=>{if(!carousel.contains(e.relatedTarget)){focusPause=false;schedule();}});
+ carousel.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'&&!e.target.closest('button'))touchStart=e.clientX;});
+ carousel.addEventListener('pointerup',e=>{
+  if(touchStart===null)return;const delta=e.clientX-touchStart;touchStart=null;
+  if(Math.abs(delta)>55){showSlide(index+(delta<0?1:-1),true);schedule();}
+ });
+ document.addEventListener('visibilitychange',schedule);
+ if(reduceMotion.addEventListener)reduceMotion.addEventListener('change',schedule);
+ else if(reduceMotion.addListener)reduceMotion.addListener(schedule);
+ schedule();
+}
 const form=document.getElementById('quote-form'),result=document.getElementById('form-result');
 const rules=[{id:'customer-name',error:'name-error',check:v=>v.trim().length>=2,message:'יש להזין שם באורך שני תווים לפחות.'},{id:'reply',error:'reply-error',check:v=>{const s=v.trim();return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s)||/^\+?[\d\s()\-]{8,20}$/.test(s)&&s.replace(/\D/g,'').length>=8;},message:'יש להזין טלפון או אימייל בפורמט תקין.'},{id:'description',error:'description-error',check:v=>v.trim().length>=8,message:'יש לתאר את העבודה בשמונה תווים לפחות.'}];
 form.addEventListener('submit',e=>{e.preventDefault();result.textContent='';let first=null;for(const rule of rules){const el=document.getElementById(rule.id),error=document.getElementById(rule.error),ok=rule.check(el.value);el.setAttribute('aria-invalid',String(!ok));error.textContent=ok?'':rule.message;if(!ok&&!first)first=el;}if(first){first.focus();return;}result.textContent='פרטי הדוגמה תקינים. זו הדגמה בלבד — לא נשלחה פנייה לחברה ולא נשמר מידע.';result.focus();});
