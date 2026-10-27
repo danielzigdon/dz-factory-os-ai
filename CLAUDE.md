@@ -69,7 +69,7 @@ Write access must work for both agents for this protocol to function. This file 
 | SEC-01 | Upgrade Next.js 16.4.0 → 16.4.3 (critical advisories; `next build` now exits 1) and re-verify the prototype | Claude | VERIFIED | Build exits 0; npm audit has no critical/high; full Playwright + contrast pass; Preview redeploys READY |
 | WEB-FIX-01 | Fix WEBSITE-REVIEW-01 findings 1–3 (320px overflow, logo weight, Playwright coverage replacing mobile-preview.html) | Claude | READY_FOR_REVIEW | No overflow at 320–1440; logo ≤ 60 KB; website tests in the suite pass; axe 0; no content/claim changes |
 | A11Y-CAROUSEL-01 | WEBSITE-DESIGN-02 review: carousel dots fail WCAG 2.2 2.5.8 target size (8×8 px; axe `target-size` at 320–1440); enlarge hit area, keep visual; add carousel tests | Claude | READY_FOR_REVIEW | axe 0 at 320–1440; dots ≥ 24×24 hit area; next/prev/dot/pause/keyboard/reduced-motion tested; no visual redesign |
-| A11Y-OPTIONS-01 | WEBSITE-DESIGN-03 review: fix non-design a11y bugs in design-options.html (default-blue links, tabs without tablist, variant-6 dot size); report design-level contrast | Claude | IN_PROGRESS | axe aria-required-parent/target-size 0 and link colours inherit; no palette/layout change; tests added |
+| A11Y-OPTIONS-01 | WEBSITE-DESIGN-03 review: fix non-design a11y bugs in design-options.html (default-blue links, tabs without tablist, variant-6 dot size); report design-level contrast | Claude | READY_FOR_REVIEW | axe aria-required-parent/target-size 0 and link colours inherit; no palette/layout change; tests added |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
 
 | WEBSITE-COPY-01 | Research industry sources and write original Yuval website copy | ChatGPT | READY_FOR_REVIEW | Original educational content; no copied company history, claims or images |
@@ -399,3 +399,16 @@ Daniel finished supplying photographs and instructed their integration in the we
 - Checks: inline JavaScript syntax parsed via `new Function`; Vercel live fetch returned HTTP 200; title, three panels, accessible tabs, slide controls and reduced-motion styling present. Deployment `dpl_HgatjTngW4NNfmonS4WdMuicY9mo`, source `7f532c3`, READY, target `null`.
 - Limit: no interactive browser or mobile viewport QA run for this revision. Protected Preview only; no Production publish or protection change.
 - Next: Daniel to review the three separate mockups and choose which direction to carry forward; independent accessibility/visual review before public release.
+
+### 2026-10-27 — Claude (WEBSITE-DESIGN-03 review → A11Y-OPTIONS-01)
+- Reviewed `7f532c3` `design-options.html` with Playwright and axe at 320/390/768/1440 × 3 variants. **Good:** no page overflow, keyboard tab switching works, 0 external requests, 0 JS errors, `noindex`, and CSP `connect-src`/`form-action 'none'`.
+- **Bugs fixed (base `029c600` → `34f75c4`, no palette or layout change):**
+  1. Header/nav links and the brand rendered in the **browser default link blue `#0000ee`** on dark headers (1.89:1), because there was no `a{color}` rule. Added a base `a{color:inherit}`.
+  2. `aria-required-parent` ×3: the tabs had no `tablist`. Wrapped them in `role="tablist"` with `display:contents`, so the layout is the same.
+  3. `target-size` ×5: variant-6 dots were 12px. Now a 24×24 hit area with the same 12px visual via `::before`.
+- **Pending design decision (not changed; Daniel/ChatGPT):** WCAG AA contrast failures that are part of the references.
+  - Variant 2: white on orange `#F27626` CTA, **2.83:1**.
+  - Variant 6: white on `#FF7A1A` CTA **2.6:1**, and the orange eyebrow `#FF9A38` on `#F4F5F3` "העבודות שלנו" **1.93:1**.
+  - Options: a darker orange such as `#C2410C` (white ≈ 5.2:1, and ≈ 4.8:1 as eyebrow text on `#F4F5F3`), or dark text on the existing orange. Whichever variant is chosen must fix this before going public.
+- Tests added (+4): per width × variant, axe excluding only `color-contrast`, no overflow, no default-blue links, no external requests; the WAI-ARIA tabs pattern.
+- Checks at `34f75c4`, fresh `.next`: `tsc` and `eslint` clean, build exit 0, Playwright **130/130**, contrast 55/55.
