@@ -59,3 +59,11 @@
   - טופס: ולידציה, אין שליחה, והודעה שזו הדגמה.
   - חלון פרטיות ו-Esc.
   - כותרות הגנה ו-CSP.
+
+## Independent continuation check — 2026-10-27
+
+Protected READY Preview dpl_9orJ9GjufdyieorxLcdciAFc1AbU at source 2f18d078e5be24906cc61231cc24094ac2399b9f includes Claude's SEC/WEB fixes and ChatGPT's dialog fix. Website URL: https://yuval-control-preview-ghgm0iela-danielzigdon11-7703.vercel.app/company-preview/index.html
+
+Cloud-browser checks: company home renders; logo decoded at 96×125; no desktop overflow (clientWidth=scrollWidth=1348); robots noindex,nofollow; empty form shows three invalid fields and focuses name. CRM S01/S02/S03 rendered. Assignment dialog now has the correct accessible name, two mounted heading IDs are unique, assignment changes the demo row to Noa, and new-lead dialog has its own accessible name. Vercel project protection remains enabled for all deployments.
+
+New assertions were committed to tests/interactions.spec.ts, but were not run in ChatGPT's dependency-free local checkout; independent Claude execution requested in issue #1. Prior 117/117, contrast 55/55 and viewport/axe results are Claude's recorded results before this focused dialog fix. No Safari/Firefox, real-device, screen-reader or performance acceptance is implied. Docs18/19 now include the review gaps and content map. Public content approval and actual intake remain pending; no Production or Sprint 1.
