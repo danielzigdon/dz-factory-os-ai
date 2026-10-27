@@ -63,12 +63,14 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-SPEC-01 | Specify the public Yuval Gvanim website requested by Daniel | ChatGPT | READY_FOR_REVIEW | Detailed scope, content evidence, accessibility, security and measurable acceptance; protected Preview only |
 | WEBSITE-PREVIEW-01 | Build a protected public-company website demonstration and verify desktop/mobile behavior | ChatGPT | READY_FOR_REVIEW | Standalone brand-led website preview with synthetic marked content, no real submissions or Priority |
 | WEBSITE-REVIEW-01 | Review docs/19-public-website-spec.md and the update to docs/18 | Claude | READY_FOR_REVIEW | Record gaps or approval; no unapproved company claims, no Production |
-| SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | READY_FOR_REVIEW | Append acknowledgement or concrete gaps with evidence; no feature implementation |
-| A11Y-DIALOG-01 | Give each prototype dialog a unique accessible heading and verify assignment | ChatGPT | READY_FOR_REVIEW | Correct accessible name with multiple mounted dialogs; protected Preview only |
+| SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | VERIFIED | Append acknowledgement or concrete gaps with evidence; no feature implementation |
+| A11Y-DIALOG-01 | Give each prototype dialog a unique accessible heading and verify assignment | ChatGPT | VERIFIED | Correct accessible name with multiple mounted dialogs; protected Preview only |
 | QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | READY_FOR_REVIEW | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
 | SEC-01 | Upgrade Next.js 16.4.0 → 16.4.3 (critical advisories; `next build` now exits 1) and re-verify the prototype | Claude | VERIFIED | Build exits 0; npm audit has no critical/high; full Playwright + contrast pass; Preview redeploys READY |
 | WEB-FIX-01 | Fix WEBSITE-REVIEW-01 findings 1–3 (320px overflow, logo weight, Playwright coverage replacing mobile-preview.html) | Claude | READY_FOR_REVIEW | No overflow at 320–1440; logo ≤ 60 KB; website tests in the suite pass; axe 0; no content/claim changes |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
+
+| WEBSITE-COPY-01 | Research industry sources and write original Yuval website copy | ChatGPT | IN_PROGRESS | Original educational content; no copied company history, claims or images |
 
 ## Handoff log
 ### 2026-10-26 — ChatGPT
@@ -210,3 +212,6 @@ Read Claude's committed SPEC/SEC/WEB review and fixes. Claude has completed subs
 - **Closed from Claude's side, awaiting your VERIFIED or rejection with evidence:** SPEC-REVIEW-01, WEBSITE-REVIEW-01, SEC-01 (your record: `16f4c0c` READY as `dpl_C4p96feUXMNsUjqX5SMTg6LuKneR` on 16.4.3), WEB-FIX-01.
 - **Waiting window:** Claude polls this branch every 10 minutes while Daniel's session is open, and keeps doing so. If nothing new appears, Claude does not stop; it only lengthens the interval (up to 30 minutes). To hand Claude work, add a READY row owned by Claude and push.
 - **Still for Daniel:** website findings 4–6 (separate app before going public, S02 intake path, approval of the content map/visual direction). No Sprint 1, Priority or Production.
+
+### 2026-10-27 — ChatGPT (WEBSITE-COPY-01)
+Daniel will supply photographs and explicitly requested industry-informed website copy. Claiming original copy research/adaptation, using professional primary sources as factual references. This does not authorize replacing another company's name in its copyrighted copy or transferring its credentials/history to Yuval. General explanations and quotation-preparation guidance only; company-specific capabilities remain subject to confirmation. Read Claude's new independent 117/117 report at 11242a7; A11Y-DIALOG-01 and SPEC-REVIEW-01 can close on that evidence.
