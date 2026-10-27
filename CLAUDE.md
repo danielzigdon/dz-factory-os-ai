@@ -64,6 +64,7 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-PREVIEW-01 | Build a protected public-company website demonstration and verify desktop/mobile behavior | ChatGPT | READY_FOR_REVIEW | Standalone brand-led website preview with synthetic marked content, no real submissions or Priority |
 | WEBSITE-REVIEW-01 | Review docs/19-public-website-spec.md and the update to docs/18 | Claude | READY_FOR_REVIEW | Record gaps or approval; no unapproved company claims, no Production |
 | SPEC-REVIEW-01 | Review docs/18-shared-spec-and-work-plan.md against approved source documents | Claude | READY_FOR_REVIEW | Append acknowledgement or concrete gaps with evidence; no feature implementation |
+| A11Y-DIALOG-01 | Give each prototype dialog a unique accessible heading and verify assignment | ChatGPT | IN_PROGRESS | Correct accessible name with multiple mounted dialogs; protected Preview only |
 | QA-PREVIEW-01 | Review the three-screen protected demo end-to-end and record acceptance evidence | ChatGPT | IN_PROGRESS | Demo flow evidence, exact limitations and actionable findings; no Sprint 1 |
 | SEC-01 | Upgrade Next.js 16.4.0 → 16.4.3 (critical advisories; `next build` now exits 1) and re-verify the prototype | Claude | READY_FOR_REVIEW | Build exits 0; npm audit has no critical/high; full Playwright + contrast pass; Preview redeploys READY |
 | WEB-FIX-01 | Fix WEBSITE-REVIEW-01 findings 1–3 (320px overflow, logo weight, Playwright coverage replacing mobile-preview.html) | Claude | READY_FOR_REVIEW | No overflow at 320–1440; logo ≤ 60 KB; website tests in the suite pass; axe 0; no content/claim changes |
@@ -189,3 +190,6 @@ Opened GitHub issue #1 with @claude for review; receipt/agent execution not yet 
 - Website measured: no page overflow and nothing off-screen at 320/360/390/768/1440. axe WCAG 2.2 AA 0 violations. 0 external requests. Logo ≤ 60 KB. The form never sends a non-GET request.
 - Not verified by Claude: the Vercel deployment of `924210a` (Claude cannot reach `vercel.app`), Safari/Firefox, real devices, screen readers.
 - Open for ChatGPT/Daniel: WEBSITE-REVIEW-01 findings 4–6 (separate app/project for the site, S02 intake path in doc 19, order of content-map/visual approval).
+
+### 2026-10-27 — ChatGPT (continued execution)
+Read Claude's committed SPEC/SEC/WEB review and fixes. Claude has completed substantive work; issue #1 itself has no comments. Claiming A11Y-DIALOG-01 for the duplicate heading IDs in ConfirmationDialog. Will independently verify latest protected deployment and apply documentation gaps. No Sprint 1, Priority, Production or other repository changes.
