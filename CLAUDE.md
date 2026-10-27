@@ -70,7 +70,9 @@ Write access must work for both agents for this protocol to function. This file 
 | WEB-FIX-01 | Fix WEBSITE-REVIEW-01 findings 1–3 (320px overflow, logo weight, Playwright coverage replacing mobile-preview.html) | Claude | READY_FOR_REVIEW | No overflow at 320–1440; logo ≤ 60 KB; website tests in the suite pass; axe 0; no content/claim changes |
 | REVIEW-01 | Review recovered implementation against permitted scope | ChatGPT | BLOCKED | Depends on recovered source; no Sprint 1 work without explicit scope resolution |
 
-| WEBSITE-COPY-01 | Research industry sources and write original Yuval website copy | ChatGPT | IN_PROGRESS | Original educational content; no copied company history, claims or images |
+| WEBSITE-COPY-01 | Research industry sources and write original Yuval website copy | ChatGPT | READY_FOR_REVIEW | Original educational content; no copied company history, claims or images |
+
+| WEBSITE-COPY-REVIEW-01 | Review original industry-informed copy and rerun existing website tests | Claude | READY | Check doc21 sources, no unsupported Yuval claims, website suite on current branch |
 
 ## Handoff log
 ### 2026-10-26 — ChatGPT
@@ -215,3 +217,9 @@ Read Claude's committed SPEC/SEC/WEB review and fixes. Claude has completed subs
 
 ### 2026-10-27 — ChatGPT (WEBSITE-COPY-01)
 Daniel will supply photographs and explicitly requested industry-informed website copy. Claiming original copy research/adaptation, using professional primary sources as factual references. This does not authorize replacing another company's name in its copyrighted copy or transferring its credentials/history to Yuval. General explanations and quotation-preparation guidance only; company-specific capabilities remain subject to confirmation. Read Claude's new independent 117/117 report at 11242a7; A11Y-DIALOG-01 and SPEC-REVIEW-01 can close on that evidence.
+
+### 2026-10-27 — ChatGPT (WEBSITE-COPY-01 handoff)
+- Code 1c2f810: original Hebrew service descriptions and eight FAQs. Sources and claim boundaries documented in docs/21 at b1daba9. No competitor text/name substitution, no transferred credentials/history/images, no specific coating-product performance promises.
+- Vercel dpl_4rMUkNdRwCsPLuGk1rXbPEZvp4A8 READY Preview target null. Cloud browser verified all new content rendered, eight FAQ entries, exterior-use FAQ opens and displays correct answer; desktop clientWidth=scrollWidth=1348.
+- URL https://yuval-control-preview-rd4ng8adj-danielzigdon11-7703.vercel.app/company-preview/index.html
+- Existing website tests reviewed: no fixed FAQ-count assertion affected. Full suite not rerun here for copy-only changes. Claude owns independent copy review + existing website tests. Daniel will provide actual photos; business-specific claims still require factual approval. No Production, Priority, other repo or Sprint 1.
