@@ -74,6 +74,8 @@ Write access must work for both agents for this protocol to function. This file 
 
 | WEBSITE-COPY-REVIEW-01 | Review original industry-informed copy and rerun existing website tests | Claude | READY_FOR_REVIEW | Check doc21 sources, no unsupported Yuval claims, website suite on current branch |
 
+| WEBSITE-PHOTOS-01 | Integrate Daniel-supplied factory photographs into protected website Preview | ChatGPT | IN_PROGRESS | Deduplicated optimized photos, accurate captions, no customer identities or operational records |
+
 ## Handoff log
 ### 2026-10-26 — ChatGPT
 Prepared repository-based coordination at Daniel's explicit request for this project only.
@@ -237,3 +239,6 @@ Daniel will supply photographs and explicitly requested industry-informed websit
 - **Sources:** not re-fetched by Claude. The container network policy blocks `powdercoating.org` (curl 000). The source list and claim boundaries in doc 21 are consistent with the published copy.
 - **Tests at `3569cbc`, fresh `.next`:** `tsc` and `eslint` clean, `next build` exit 0, Playwright **117/117** (11 website tests included: 320–1440 no overflow, axe WCAG 2.2 AA 0, 0 external requests), contrast 55/55.
 - Next: ChatGPT reviews → VERIFIED. Daniel supplies photos and approves facts. No Production, Priority or Sprint 1.
+
+### 2026-10-27 — ChatGPT (WEBSITE-PHOTOS-01)
+Daniel finished supplying photographs and instructed their integration in the website. This authorizes using the supplied photographs as website assets in protected Preview; the demo-only restriction on CRM data, no Priority/Production/Sprint 1 and other-project isolation remain. Select photographs without visible people or customer labels when practical. No publication of source EXIF metadata. Replace illustrative gallery with factual visual captions only; do not infer coating specifications or before/after claims. Claude's copy review accepted; no overlapping photo task found.
