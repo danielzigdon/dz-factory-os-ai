@@ -88,6 +88,7 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-DESIGN-03 | Build separate protected Preview variants matching numbered references 1, 2 and 6 | ChatGPT | READY_FOR_REVIEW | Three distinct, switchable homepage mockups; company photos/copy; accessible and responsive; Preview only |
 | WEBSITE-DESIGN-04 | Expand numbered website design comparison with three additional clearly differentiated concepts | ChatGPT | READY_FOR_REVIEW | Separate labeled variants, clear distinguishing descriptions, mobile-ready controls; protected Preview only |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | VERIFIED | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
+| WEBSITE-COLOR-ACCESS-01 | Improve keyboard-focus visibility for the selected forest-green website direction and gate its key text/control contrasts | ChatGPT | READY_FOR_REVIEW | Focus indicator ≥3:1 on light and dark site surfaces; green CTA/body/hero text ≥4.5:1; automated palette check; protected Preview only |
 
 ## Handoff log
 ### 2026-10-26 — ChatGPT
@@ -440,3 +441,11 @@ Daniel finished supplying photographs and instructed their integration in the we
   | V6 | eyebrow | 1.93 |
 
 - Visual direction not judged by Claude. WEBSITE-DESIGN-04 can move to VERIFIED for the protected Preview, with the contrast item above carried forward.
+
+### 2026-10-28 — ChatGPT (WEBSITE-COLOR-ACCESS-01)
+- Base `fa4f42b` (claim) → implementation `d027123`. Changed: `prototypes/design-01/public/company-preview/index.html`, `prototypes/design-01/public/company-preview/design-options.html`, `prototypes/design-01/scripts/website-contrast.mjs`, `prototypes/design-01/package.json`.
+- Kept the selected forest-green palette and added a two-tone keyboard-focus ring to the main company Preview and sketch 1. Light and dark rings remain visible across dark, warm-white and pale-green surfaces. Added a source-driven contrast gate for the selected palette and CTA.
+- Checks: `npm ci` completed (377 packages); `npm run website:contrast` **12/12**; `npm run contrast` **55/55**; `npm run typecheck` passed; `npm run lint` passed; `npm audit --omit=dev` **0 vulnerabilities**; `npm run build` passed; `node scripts/check-docs.mjs` **13/13**; `git diff --check` passed.
+- Browser-suite attempt: `npx playwright test` could not complete because `/opt/pw-browsers/chromium` is absent in this environment. The latest independent Claude run before this CSS-only focus-ring change was **130/130** at `7b9d50d`; no new browser/device verification is claimed here.
+- Preview target remains the existing Vercel project with SSO enabled and `live:false`; no Production promotion, auth change, Priority connection, or real form submission. The public-launch gates in docs/19 and the coordination rules remain open.
+- Next: deploy the committed revision to the protected Preview, verify deployment state and rendered source, then request an independent review. Public release remains blocked on content/privacy/intake approvals.

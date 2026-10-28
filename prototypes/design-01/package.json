@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "contrast": "node scripts/contrast.mjs",
+    "website:contrast": "node scripts/website-contrast.mjs",
     "test:e2e": "playwright test",
     "screenshots": "playwright test tests/screenshots.spec.ts"
   },
