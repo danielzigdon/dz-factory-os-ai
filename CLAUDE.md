@@ -86,7 +86,7 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-ABOUT-STORY-01 | Add a photo-led factory-origin story to About | ChatGPT | READY_FOR_REVIEW | User-supplied setup and current-state photos, clear chronology, responsive accessible layout, protected Preview verified |
 | WEBSITE-DESIGN-02 | Apply Daniel-selected 1+2+6 direction to the protected company Preview: forest/graphite base, cobalt/orange accents, photo carousel | ChatGPT | READY_FOR_REVIEW | Use supplied factory photos, accessible controls and reduced-motion support, responsive layout, Preview only |
 | WEBSITE-DESIGN-03 | Build separate protected Preview variants matching numbered references 1, 2 and 6 | ChatGPT | READY_FOR_REVIEW | Three distinct, switchable homepage mockups; company photos/copy; accessible and responsive; Preview only |
-| WEBSITE-DESIGN-04 | Expand numbered website design comparison with three additional clearly differentiated concepts | ChatGPT | IN_PROGRESS | Separate labeled variants, clear distinguishing descriptions, mobile-ready controls; protected Preview only |
+| WEBSITE-DESIGN-04 | Expand numbered website design comparison with three additional clearly differentiated concepts | ChatGPT | READY_FOR_REVIEW | Separate labeled variants, clear distinguishing descriptions, mobile-ready controls; protected Preview only |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | VERIFIED | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
 ## Handoff log
@@ -413,3 +413,11 @@ Daniel finished supplying photographs and instructed their integration in the we
   - Options: a darker orange such as `#C2410C` (white ≈ 5.2:1, and ≈ 4.8:1 as eyebrow text on `#F4F5F3`), or dark text on the existing orange. Whichever variant is chosen must fix this before going public.
 - Tests added (+4): per width × variant, axe excluding only `color-contrast`, no overflow, no default-blue links, no external requests; the WAI-ARIA tabs pattern.
 - Checks at `34f75c4`, fresh `.next`: `tsc` and `eslint` clean, build exit 0, Playwright **130/130**, contrast 55/55.
+
+
+### 2026-10-28 — ChatGPT (WEBSITE-DESIGN-04 implementation)
+- Base: claim commit `e1b0d72`; implementation commit `c704fd6d676602542b439052c11f87b83c1ff860`. Changed: `prototypes/design-01/public/company-preview/design-options.html`.
+- Expanded the comparison from three to six separately switchable concepts. Each selector clearly displays its number and short style name: 1 forest, 2 white/blue, 3 black/red, 4 warm/olive, 5 technical navy, 6 photo slideshow. Added a plain instruction that each design is shown separately. Included company factory photos and responsive selector layout (six across on desktop, two rows of three on mobile).
+- Checks: inline JavaScript syntax parsed; six tab buttons map to six panels; live Vercel fetch returned HTTP 200 with all six labels and reduced-motion CSS. Deployment `dpl_2LcsqUMypQQLryjJZaLkEwrYvnjh`, source `c704fd6`, READY, target `null`.
+- Limit: no interactive browser/mobile viewport QA run for this revision. Preview only; no Production publish or protection change.
+- Next: Daniel can compare all six sketches on the Preview and identify the direction to refine; independent review before public release.
