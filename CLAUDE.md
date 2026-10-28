@@ -86,6 +86,7 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-ABOUT-STORY-01 | Add a photo-led factory-origin story to About | ChatGPT | READY_FOR_REVIEW | User-supplied setup and current-state photos, clear chronology, responsive accessible layout, protected Preview verified |
 | WEBSITE-DESIGN-02 | Apply Daniel-selected 1+2+6 direction to the protected company Preview: forest/graphite base, cobalt/orange accents, photo carousel | ChatGPT | READY_FOR_REVIEW | Use supplied factory photos, accessible controls and reduced-motion support, responsive layout, Preview only |
 | WEBSITE-DESIGN-03 | Build separate protected Preview variants matching numbered references 1, 2 and 6 | ChatGPT | READY_FOR_REVIEW | Three distinct, switchable homepage mockups; company photos/copy; accessible and responsive; Preview only |
+| WEBSITE-DESIGN-04 | Expand numbered website design comparison with three additional clearly differentiated concepts | ChatGPT | IN_PROGRESS | Separate labeled variants, clear distinguishing descriptions, mobile-ready controls; protected Preview only |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | VERIFIED | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 
 ## Handoff log
