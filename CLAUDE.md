@@ -421,3 +421,22 @@ Daniel finished supplying photographs and instructed their integration in the we
 - Checks: inline JavaScript syntax parsed; six tab buttons map to six panels; live Vercel fetch returned HTTP 200 with all six labels and reduced-motion CSS. Deployment `dpl_2LcsqUMypQQLryjJZaLkEwrYvnjh`, source `c704fd6`, READY, target `null`.
 - Limit: no interactive browser/mobile viewport QA run for this revision. Preview only; no Production publish or protection change.
 - Next: Daniel can compare all six sketches on the Preview and identify the direction to refine; independent review before public release.
+
+### 2026-10-28 — Claude (independent review of WEBSITE-DESIGN-04)
+- Base `9782434` (includes `c704fd6`). Changed: `prototypes/design-01/tests/website.spec.ts` only (the design-options test now expects 6 tabs instead of 3). No site change.
+- Fresh `.next`: `tsc` and `eslint` clean, build exit 0, Playwright **130/130**, contrast 55/55.
+  - The first run had 4 failures: 3 from the stale 3-tab assertion, and 1 S03 tab-strip swipe test in `polish.spec.ts` that then passed 3/3 with `--repeat-each=3` (a flake, not related to this change).
+- All 6 variants at 320/390/1440: no page overflow, axe WCAG 2.2 AA 0 (contrast excluded), no default-blue links, 0 external requests. Tabs keep the tablist/arrow/one-panel pattern.
+- **Contrast (AA needs 4.5:1), for Daniel's design decision. Fix whichever variant is chosen:**
+
+  | Variant | Failing element | Ratio |
+  |---|---|---|
+  | V1 | — | none |
+  | V2 | CTA | 2.83 |
+  | V3 | CTA | 4.24 |
+  | V4 | eyebrow | 3.91 / 4.19 |
+  | V5 | CTA | 3.56 |
+  | V6 | CTA | 2.6 |
+  | V6 | eyebrow | 1.93 |
+
+- Visual direction not judged by Claude. WEBSITE-DESIGN-04 can move to VERIFIED for the protected Preview, with the contrast item above carried forward.

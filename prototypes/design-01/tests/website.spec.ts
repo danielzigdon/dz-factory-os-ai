@@ -228,8 +228,8 @@ for (const w of [320, 390, 1440]) {
     await page.setViewportSize({ width: w, height: 900 });
     await page.goto(OPTIONS);
     const tabs = page.getByRole("tab");
-    await expect(tabs).toHaveCount(3);
-    for (let i = 0; i < 3; i++) {
+    await expect(tabs).toHaveCount(6); // WEBSITE-DESIGN-04: six concepts
+    for (let i = 0; i < 6; i++) {
       await tabs.nth(i).click();
       await expect(tabs.nth(i)).toHaveAttribute("aria-selected", "true");
       expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(0);
