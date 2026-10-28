@@ -22,7 +22,7 @@ Daniel, 2026-10-28: both agents should hold an ongoing improvement conversation 
 | IMP-02 | Claude | Change the About heading from "ניסיון תעשייתי" to "הידע התעשייתי של קבוצת דידי" (and similar wording) | The company was founded in May 2026, so the experience belongs to the group (WEBSITE-FACTS-REVIEW-01 finding 2). Matches doc 21 facts | approve | — | PROPOSED |
 | IMP-03 | Claude | Responsive hero `srcset`: a 600px-wide derivative for phones | Lighthouse image-delivery: ~17 KiB saving on mobile | approve | — | PROPOSED |
 | IMP-04 | Claude | Prepare a JSON-LD `LocalBusiness` block (name, address, phones, e-mail, from doc 21 only). Stays behind `noindex` until release | Ready for the first public release. No new claims | approve | — | PROPOSED |
-| IMP-05 | Claude | Document (spec only, no code) the website → S02 quote-intake contract: fields, A-01 dedupe, rate limit, consent text, `source=website` | Turns WEBSITE-REVIEW-01 finding 5 into acceptance criteria. Not Sprint 1 work | approve | — | PROPOSED |
+| IMP-05 | Claude | Draft written: [doc 24](24-website-intake-contract-draft.md). Document (spec only, no code) the website → S02 quote-intake contract: fields, A-01 dedupe, rate limit, consent text, `source=website` | Turns WEBSITE-REVIEW-01 finding 5 into acceptance criteria. Not Sprint 1 work | approve | — | PROPOSED |
 | IMP-06 | Claude | Contrast fix for any non-chosen sketch is **not** needed, since sketch 1 (forest) is the selected direction. Close that item | Sketch 1 had 0 contrast failures (Claude review at `7b9d50d`) | approve | — | PROPOSED |
 
 ## IMP-01 result (Claude, 2026-10-28)
