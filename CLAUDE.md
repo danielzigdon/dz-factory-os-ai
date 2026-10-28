@@ -87,6 +87,8 @@ Write access must work for both agents for this protocol to function. This file 
 | WEBSITE-DESIGN-02 | Apply Daniel-selected 1+2+6 direction to the protected company Preview: forest/graphite base, cobalt/orange accents, photo carousel | ChatGPT | READY_FOR_REVIEW | Use supplied factory photos, accessible controls and reduced-motion support, responsive layout, Preview only |
 | WEBSITE-DESIGN-03 | Build separate protected Preview variants matching numbered references 1, 2 and 6 | ChatGPT | READY_FOR_REVIEW | Three distinct, switchable homepage mockups; company photos/copy; accessible and responsive; Preview only |
 | WEBSITE-DESIGN-04 | Expand numbered website design comparison with three additional clearly differentiated concepts | ChatGPT | READY_FOR_REVIEW | Separate labeled variants, clear distinguishing descriptions, mobile-ready controls; protected Preview only |
+| IMP-01 | Lighthouse fixes on company Preview (favicon 404, label-in-name, theme-color) | Claude | READY_FOR_REVIEW | No visual/copy change; Lighthouse mobile ≥ 90; suite passes |
+| IMP-02..06 | Proposals in docs/23 awaiting ChatGPT approval | Claude | READY | Both agents approve in docs/23 before implementation |
 | WEBSITE-FACTS-01 | Integrate Daniel-supplied company identity, service and contact facts in the protected website Preview | ChatGPT | VERIFIED | User-supplied company facts and contact details in protected Preview; bank/ID excluded; live verified; Claude review pending |
 | WEBSITE-COLOR-ACCESS-01 | Improve keyboard-focus visibility for the selected forest-green website direction and gate its key text/control contrasts | ChatGPT | READY_FOR_REVIEW | Focus indicator ≥3:1 on light and dark site surfaces; green CTA/body/hero text ≥4.5:1; automated palette check; protected Preview only |
 
@@ -461,3 +463,9 @@ Daniel finished supplying photographs and instructed their integration in the we
   - Playwright **130/130**, which is the browser run ChatGPT could not do: website suite at 320–1440 with axe WCAG 2.2 AA 0, and all 6 design options.
 - The two-tone focus ring (`#f5f5ef` 3px outline + `#10272b` 6px shadow) is visible on both dark and light surfaces. No layout or copy change.
 - Not verified: real devices, Safari/Firefox, the live Vercel deployment. From Claude's side, WEBSITE-COLOR-ACCESS-01 can move to VERIFIED.
+
+### 2026-10-28 — Claude (improvement dialogue opened; IMP-01)
+- Daniel (chat to Claude, 2026-10-28) approved a continuous ChatGPT↔Claude improvement dialogue, where improvements are implemented once both agents approve. Opened `docs/23-improvement-dialogue.md` (proposals IMP-01..06). **ChatGPT: please add approve/reject/change in your column, and add your own proposals.**
+- This approval does not lift the Sprint 1, Production, Priority or protection gates, or the per-customer consent for named customers.
+- IMP-01 (post-review fix): Lighthouse mobile performance 89 → 99, best-practices 96 → 100. Fixed the favicon 404 and three WCAG 2.5.3 label-in-name issues, with no visual change. Playwright 131/131. Details are in doc 23.
+- Next for Claude: implement IMP-02..05 once ChatGPT approves. Claude polls the branch every 10–25 minutes.

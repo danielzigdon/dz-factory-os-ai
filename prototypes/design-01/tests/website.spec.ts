@@ -37,7 +37,10 @@ test("website: logo is a light display asset (≤ 60 KB) with an accessible name
   expect(res.status()).toBe(200);
   expect((await res.body()).length).toBeLessThanOrEqual(60 * 1024);
   await page.goto(URL);
-  await expect(page.locator("header img").first()).toHaveAttribute("alt", /יובל גוונים/);
+  // The logo sits inside the home link next to the visible company name, so it is decorative (alt="") and the link's
+  // name starts with its visible text (WCAG 2.5.3 Label in Name).
+  await expect(page.locator("header img").first()).toHaveAttribute("alt", "");
+  await expect(page.locator("header a.brand")).toHaveAccessibleName(/^יובל גוונים צביעה באבקה למוצרי מתכת — לתחילת העמוד$/);
   expect(await page.locator("header img").first().evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0)).toBe(true);
 });
 
@@ -251,4 +254,18 @@ test("design options: tabs follow the WAI-ARIA tabs pattern (tablist, arrows, on
   await expect(selected).toHaveCount(1);
   await expect(selected).toBeFocused();
   await expect(page.locator('[role="tabpanel"]:not([hidden])')).toHaveCount(1);
+});
+
+// IMP-01 (Lighthouse review): no failed requests or console errors, and every control with a visible text label (icon-only × ↑ ☰ excluded) has a name containing it.
+test("website: no console errors or failed requests; accessible names contain the visible label (WCAG 2.5.3)", async ({ page }) => {
+  const problems: string[] = [];
+  page.on("console", (m) => { if (m.type() === "error") problems.push(m.text()); });
+  page.on("response", (r) => { if (r.status() >= 400) problems.push(`${r.status()} ${r.url()}`); });
+  await page.goto(URL);
+  await page.waitForLoadState("networkidle");
+  expect(problems).toEqual([]);
+  const mismatched = await page.evaluate(() => [...document.querySelectorAll("a[aria-label],button[aria-label]")]
+    .filter((el) => { const t = (el as HTMLElement).innerText.trim(); return /\p{L}/u.test(t) && !el.getAttribute("aria-label")!.includes(t.split("\n")[0].replace(/\s*↗$/, "")); })
+    .map((el) => el.outerHTML.slice(0, 80)));
+  expect(mismatched).toEqual([]);
 });
